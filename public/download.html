@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Get SealTrust - Food Delivery Verification</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #06060f;
+      --glass: rgba(255,255,255,0.05);
+      --glass-border: rgba(255,255,255,0.08);
+      --text: #f0f0f5;
+      --text-dim: #55556a;
+      --text-sec: #8a8a9a;
+      --gold: #f5c542;
+      --gold-dim: rgba(245,197,66,0.12);
+      --emerald: #34d399;
+      --emerald-dim: rgba(52,211,153,0.12);
+      --blue: #60a5fa;
+      --blue-dim: rgba(96,165,250,0.12);
+      --violet: #a78bfa;
+      --rose: #fb7185;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Inter', -apple-system, sans-serif;
+      background: var(--bg); color: var(--text);
+      min-height: 100vh; overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+    .font-display { font-family: 'Space Grotesk', sans-serif; }
+    .text-gradient {
+      background: linear-gradient(135deg, var(--gold) 0%, #fde68a 50%, var(--gold) 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-size: 200% auto; animation: shimmer 3s ease infinite;
+    }
+    @keyframes shimmer { 0%{background-position:0% 50%} 50%{background-position:100% 50%} 100%{background-position:0% 50%} }
+    .glass {
+      background: var(--glass); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--glass-border); border-radius: 16px;
+    }
+    .orb {
+      position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.35;
+      animation: float 20s ease-in-out infinite; pointer-events: none;
+    }
+    @keyframes float {
+      0%,100%{transform:translate(0,0)} 25%{transform:translate(30px,-30px)} 50%{transform:translate(-20px,20px)} 75%{transform:translate(20px,10px)}
+    }
+    .fade-up { animation: fadeUp 0.6s cubic-bezier(0.16,1,0.3,1) both; }
+    .d1 { animation-delay: 0.1s; } .d2 { animation-delay: 0.2s; } .d3 { animation-delay: 0.3s; } .d4 { animation-delay: 0.4s; } .d5 { animation-delay: 0.5s; }
+    @keyframes fadeUp { from{opacity:0;transform:translateY(24px)} to{opacity:1;transform:translateY(0)} }
+
+    .container { max-width: 480px; margin: 0 auto; padding: 0 24px; position: relative; }
+
+    /* Seal context banner */
+    .seal-banner {
+      padding: 18px 22px; border-radius: 12px; display: flex; align-items: center; gap: 16px;
+      background: rgba(245,197,66,0.06); border: 1px solid rgba(245,197,66,0.12);
+    }
+    .seal-banner .icon-wrap {
+      width: 44px; height: 44px; border-radius: 12px; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+    }
+
+    /* Store buttons */
+    .store-btn {
+      display: flex; align-items: center; gap: 14px; padding: 16px 20px;
+      border-radius: 14px; cursor: pointer; transition: all 0.3s;
+      text-decoration: none; color: var(--text); position: relative; overflow: hidden;
+    }
+    .store-btn::before {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(180deg, rgba(255,255,255,0.08) 0%, transparent 100%);
+      pointer-events: none;
+    }
+    .store-btn-apple { background: linear-gradient(135deg, #1a1a2e, #2d2d44); border: 1px solid rgba(255,255,255,0.12); }
+    .store-btn-google { background: linear-gradient(135deg, #1a2e1a, #2d442d); border: 1px solid rgba(52,211,153,0.15); }
+    .store-btn:hover { transform: translateY(-2px); box-shadow: 0 12px 40px -8px rgba(0,0,0,0.5); }
+    .store-btn .store-icon { font-size: 28px; width: 36px; text-align: center; }
+    .store-btn .store-label { font-size: 11px; color: var(--text-dim); font-weight: 500; }
+    .store-btn .store-name { font-size: 17px; font-weight: 700; margin-top: 1px; }
+
+    /* Earning card */
+    .earn-card {
+      padding: 24px; border-radius: 16px; text-align: center;
+      background: linear-gradient(135deg, rgba(52,211,153,0.08), rgba(96,165,250,0.05));
+      border: 1px solid rgba(52,211,153,0.12);
+    }
+
+    /* Steps */
+    .step-row {
+      display: flex; align-items: center; gap: 14px; padding: 16px 0;
+    }
+    .step-num {
+      width: 34px; height: 34px; border-radius: 10px; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 700; font-size: 14px;
+    }
+
+    /* Trust badges */
+    .trust-row { display: flex; gap: 16px; flex-wrap: wrap; justify-content: center; }
+    .trust-badge {
+      display: flex; align-items: center; gap: 6px; padding: 8px 14px;
+      border-radius: 10px; font-size: 12px; font-weight: 500;
+      background: var(--glass); border: 1px solid var(--glass-border); color: var(--text-sec);
+    }
+
+    /* Demo link */
+    .demo-link {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 12px 24px; border-radius: 12px;
+      background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);
+      color: var(--gold); font-weight: 600; font-size: 14px;
+      text-decoration: none; transition: all 0.3s;
+    }
+    .demo-link:hover { background: rgba(245,197,66,0.08); border-color: rgba(245,197,66,0.2); }
+
+    @media (max-width: 500px) {
+      .container { padding: 0 16px; }
+      h1 { font-size: 48px !important; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Background orbs -->
+  <div class="orb" style="width:400px;height:400px;background:radial-gradient(circle,rgba(245,197,66,0.15),transparent);top:-100px;left:-100px;"></div>
+  <div class="orb" style="width:350px;height:350px;background:radial-gradient(circle,rgba(96,165,250,0.1),transparent);bottom:100px;right:-80px;animation-delay:-10s;"></div>
+  <div class="orb" style="width:250px;height:250px;background:radial-gradient(circle,rgba(52,211,153,0.08),transparent);top:40%;left:50%;animation-delay:-5s;"></div>
+
+  <div class="container" style="padding-top:60px; padding-bottom:80px;">
+
+    <!-- Logo -->
+    <div class="fade-up" style="text-align:center; margin-bottom:48px;">
+      <div style="display:inline-flex;align-items:center;gap:8px;padding:6px 16px;border-radius:20px;background:var(--gold-dim);margin-bottom:24px;">
+        <i class="fas fa-shield-halved" style="color:var(--gold);font-size:12px;"></i>
+        <span style="font-size:11px;font-weight:600;color:var(--gold);letter-spacing:0.08em;">VERIFIED DELIVERY</span>
+      </div>
+      <h1 class="font-display" style="font-size:56px;font-weight:700;line-height:1;letter-spacing:-0.02em;">
+        Seal<span class="text-gradient">Trust</span>
+      </h1>
+    </div>
+
+    <!-- Seal context banner (shown when arriving from a QR scan) -->
+    <div id="seal-context" class="fade-up d1" style="margin-bottom:32px; display:none;">
+      <div class="seal-banner">
+        <div class="icon-wrap" style="background:var(--gold-dim);">
+          <i class="fas fa-qrcode" style="font-size:20px;color:var(--gold);"></i>
+        </div>
+        <div>
+          <div style="font-weight:600;font-size:14px;" id="context-title">Seal Scanned</div>
+          <div style="font-size:12px;color:var(--text-dim);margin-top:2px;" id="context-detail">Install the app to verify this delivery</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Earn money callout -->
+    <div class="fade-up d1 earn-card" style="margin-bottom:36px;">
+      <div style="margin-bottom:14px;">
+        <i class="fas fa-coins" style="font-size:28px;color:var(--gold);"></i>
+      </div>
+      <div class="font-display" style="font-size:22px;font-weight:700;margin-bottom:10px;">
+        Earn money on every delivery
+      </div>
+      <div style="color:var(--text-dim);font-size:14px;line-height:1.7;max-width:340px;margin:0 auto;">
+        Drivers earn <span style="color:var(--emerald);font-weight:700;">$0.10</span> and customers earn <span style="color:var(--blue);font-weight:700;">$0.05</span> for each verified delivery. It adds up fast.
+      </div>
+    </div>
+
+    <!-- App Store Buttons -->
+    <div class="fade-up d2" style="display:flex;flex-direction:column;gap:14px;margin-bottom:44px;">
+      <a href="#" class="store-btn store-btn-apple" onclick="return false;">
+        <i class="fab fa-apple store-icon"></i>
+        <div>
+          <div class="store-label">Download on the</div>
+          <div class="store-name font-display">App Store</div>
+        </div>
+        <i class="fas fa-arrow-right" style="margin-left:auto;color:var(--text-dim);font-size:14px;"></i>
+      </a>
+      <a href="#" class="store-btn store-btn-google" onclick="return false;">
+        <i class="fab fa-google-play store-icon" style="color:var(--emerald);"></i>
+        <div>
+          <div class="store-label">Get it on</div>
+          <div class="store-name font-display">Google Play</div>
+        </div>
+        <i class="fas fa-arrow-right" style="margin-left:auto;color:var(--text-dim);font-size:14px;"></i>
+      </a>
+    </div>
+
+    <!-- How it works -->
+    <div class="fade-up d3" style="margin-bottom:44px;">
+      <h3 class="font-display" style="font-size:18px;font-weight:700;margin-bottom:20px;">How it works</h3>
+
+      <div class="glass" style="padding:8px 20px;">
+        <div class="step-row" style="border-bottom:1px solid rgba(255,255,255,0.04);">
+          <div class="step-num" style="background:var(--gold-dim);color:var(--gold);">1</div>
+          <div>
+            <div style="font-weight:600;font-size:14px;margin-bottom:5px;">Download the free app</div>
+            <div style="font-size:12px;color:var(--text-dim);line-height:1.6;">Available for iOS and Android. Setup takes 30 seconds.</div>
+          </div>
+        </div>
+        <div class="step-row" style="border-bottom:1px solid rgba(255,255,255,0.04);">
+          <div class="step-num" style="background:var(--emerald-dim);color:var(--emerald);">2</div>
+          <div>
+            <div style="font-weight:600;font-size:14px;margin-bottom:5px;">Scan seals on pickups &amp; deliveries</div>
+            <div style="font-size:12px;color:var(--text-dim);line-height:1.6;">Use your phone camera to scan the QR code on the tamper-evident seal.</div>
+          </div>
+        </div>
+        <div class="step-row" style="border-bottom:1px solid rgba(255,255,255,0.04);">
+          <div class="step-num" style="background:var(--blue-dim);color:var(--blue);">3</div>
+          <div>
+            <div style="font-weight:600;font-size:14px;margin-bottom:5px;">Verify the seal is intact</div>
+            <div style="font-size:12px;color:var(--text-dim);line-height:1.6;">Confirm the seal hasn't been tampered with. Customers know their food is safe.</div>
+          </div>
+        </div>
+        <div class="step-row">
+          <div class="step-num" style="background:rgba(167,139,250,0.12);color:var(--violet);">4</div>
+          <div>
+            <div style="font-weight:600;font-size:14px;margin-bottom:5px;">Get paid instantly</div>
+            <div style="font-size:12px;color:var(--text-dim);line-height:1.6;">Rewards are credited to your balance immediately. Cash out anytime.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Stats -->
+    <div class="fade-up d4" style="margin-bottom:44px;">
+      <div class="glass" style="padding:28px 24px;display:grid;grid-template-columns:repeat(3,1fr);gap:16px;text-align:center;">
+        <div>
+          <div class="font-display" style="font-size:24px;font-weight:700;color:var(--emerald);">50K+</div>
+          <div style="font-size:11px;color:var(--text-dim);font-weight:500;margin-top:6px;">Deliveries Verified</div>
+        </div>
+        <div>
+          <div class="font-display" style="font-size:24px;font-weight:700;color:var(--gold);">200+</div>
+          <div style="font-size:11px;color:var(--text-dim);font-weight:500;margin-top:6px;">Partner Restaurants</div>
+        </div>
+        <div>
+          <div class="font-display" style="font-size:24px;font-weight:700;color:var(--blue);">4.9</div>
+          <div style="font-size:11px;color:var(--text-dim);font-weight:500;margin-top:6px;">App Store Rating</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Trust badges -->
+    <div class="fade-up d4" style="margin-bottom:48px;">
+      <div class="trust-row">
+        <div class="trust-badge"><i class="fas fa-lock" style="color:var(--emerald);"></i> End-to-end encrypted</div>
+        <div class="trust-badge"><i class="fas fa-shield-halved" style="color:var(--blue);"></i> SOC 2 compliant</div>
+        <div class="trust-badge"><i class="fas fa-bolt" style="color:var(--gold);"></i> Instant verification</div>
+      </div>
+    </div>
+
+    <!-- Testimonial -->
+    <div class="fade-up d5 glass" style="padding:28px;margin-bottom:44px;position:relative;">
+      <div style="position:absolute;top:16px;right:20px;font-size:32px;color:rgba(245,197,66,0.15);">
+        <i class="fas fa-quote-right"></i>
+      </div>
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;">
+        <div style="width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,var(--emerald-dim),var(--blue-dim));display:flex;align-items:center;justify-content:center;">
+          <i class="fas fa-user" style="font-size:14px;color:var(--emerald);"></i>
+        </div>
+        <div>
+          <div style="font-weight:600;font-size:13px;">Marcus J.</div>
+          <div style="font-size:11px;color:var(--text-dim);">Delivery Driver, Austin TX</div>
+        </div>
+      </div>
+      <p style="font-size:14px;color:var(--text-sec);line-height:1.7;font-style:italic;">
+        "I've made over $180 just from scanning seals. Takes two seconds per delivery and the money adds up every week. Best part is customers trust me more now."
+      </p>
+    </div>
+
+    <!-- Try the demo -->
+    <div class="fade-up d5" style="text-align:center;margin-bottom:20px;">
+      <p style="font-size:13px;color:var(--text-dim);margin-bottom:14px;">Want to explore the platform first?</p>
+      <a href="/" class="demo-link">
+        <i class="fas fa-play-circle"></i> Try the live demo
+      </a>
+    </div>
+
+    <!-- Footer -->
+    <div style="text-align:center;padding-top:32px;border-top:1px solid rgba(255,255,255,0.04);">
+      <span style="font-size:11px;color:var(--text-dim);">&copy; 2026 SealTrust Inc. &mdash; Food Delivery Verification Platform</span>
+    </div>
+  </div>
+
+  <script>
+    // Parse URL params to show seal context
+    const params = new URLSearchParams(window.location.search);
+    const serial = params.get('serial');
+    const restaurant = params.get('restaurant');
+    const action = params.get('action');
+
+    if (serial) {
+      const ctx = document.getElementById('seal-context');
+      const title = document.getElementById('context-title');
+      const detail = document.getElementById('context-detail');
+      ctx.style.display = 'block';
+
+      if (action === 'verify') {
+        title.textContent = 'Seal ready to verify';
+        detail.innerHTML = 'From <strong style="color:#f0f0f5">' + (restaurant || 'a partner restaurant') + '</strong> \u00b7 Seal: <code style="background:rgba(255,255,255,0.06);padding:2px 6px;border-radius:4px;font-size:11px;color:#f5c542;">' + serial + '</code>';
+      } else if (action === 'activate') {
+        title.textContent = 'Seal ready to activate';
+        detail.innerHTML = 'From <strong style="color:#f0f0f5">' + (restaurant || 'a partner restaurant') + '</strong> \u00b7 Seal: <code style="background:rgba(255,255,255,0.06);padding:2px 6px;border-radius:4px;font-size:11px;color:#f5c542;">' + serial + '</code>';
+      } else {
+        title.textContent = 'Seal scanned';
+        detail.innerHTML = 'Install the app to verify seal <code style="background:rgba(255,255,255,0.06);padding:2px 6px;border-radius:4px;font-size:11px;color:#f5c542;">' + serial + '</code>';
+      }
+    }
+  </script>
+</body>
+</html>
