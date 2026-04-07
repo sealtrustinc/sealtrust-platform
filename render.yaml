@@ -1,0 +1,22 @@
+# Render Blueprint — deploy via https://dashboard.render.com
+# Connect your GitHub repo and Render auto-detects this file.
+
+services:
+  - type: web
+    name: sealtrust-platform
+    runtime: python
+    buildCommand: echo "No build needed — pure Python stdlib"
+    startCommand: python server.py
+    envVars:
+      - key: PORT
+        value: 10000
+      - key: DATABASE_PATH
+        value: /data/sealtrust.db
+      - key: PYTHON_VERSION
+        value: 3.11.9
+    disk:
+      name: sealtrust-data
+      mountPath: /data
+      sizeGB: 1
+    healthCheckPath: /api/restaurants
+    autoDeploy: true
