@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>SealTrust — Tamper-Proof Food Delivery Verification</title>
+<meta name="description" content="SealTrust uses cryptographic tamper-evident seals to guarantee every food delivery arrives untouched. Trusted by 200+ restaurants.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+--bg:#050508;--bg2:#0a0a12;--surface:rgba(255,255,255,.03);--surface2:rgba(255,255,255,.05);
+--border:rgba(255,255,255,.06);--border2:rgba(255,255,255,.1);
+--text:#f4f4f8;--text2:#9d9db5;--text3:#5a5a72;
+--gold:#dbb668;--gold2:#f5d88a;--gold-dim:rgba(219,182,104,.08);--gold-glow:rgba(219,182,104,.15);
+--emerald:#4ade80;--emerald-dim:rgba(74,222,128,.07);
+--blue:#7dd3fc;--blue-dim:rgba(125,211,252,.07);
+--violet:#c4b5fd;--violet-dim:rgba(196,181,253,.07);
+--serif:'Playfair Display',Georgia,serif;--sans:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;
+--ease:cubic-bezier(.16,1,.3,1);
+}
+html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+body{font-family:var(--sans);background:var(--bg);color:var(--text);overflow-x:hidden;line-height:1.6}
+
+/* ── Utility ───────────────────── */
+.container{max-width:1200px;margin:0 auto;padding:0 32px}
+.serif{font-family:var(--serif)}
+.gold{color:var(--gold2)}
+.text2{color:var(--text2)}
+.text3{color:var(--text3)}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}
+
+/* ── Animated background ───────── */
+.bg-grid{position:fixed;inset:0;z-index:0;pointer-events:none;
+background-image:linear-gradient(rgba(255,255,255,.02) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.02) 1px,transparent 1px);
+background-size:72px 72px;mask-image:radial-gradient(ellipse 60% 50% at 50% 0%,#000 30%,transparent 100%)}
+.orb{position:fixed;border-radius:50%;filter:blur(120px);pointer-events:none;z-index:0}
+.orb-1{width:600px;height:600px;top:-200px;left:-100px;background:rgba(219,182,104,.06);animation:drift1 25s ease-in-out infinite}
+.orb-2{width:500px;height:500px;bottom:-200px;right:-100px;background:rgba(74,222,128,.04);animation:drift2 30s ease-in-out infinite}
+.orb-3{width:400px;height:400px;top:40%;left:50%;background:rgba(125,211,252,.03);animation:drift3 20s ease-in-out infinite}
+@keyframes drift1{0%,100%{transform:translate(0,0)}50%{transform:translate(80px,60px)}}
+@keyframes drift2{0%,100%{transform:translate(0,0)}50%{transform:translate(-60px,-80px)}}
+@keyframes drift3{0%,100%{transform:translate(0,0)}33%{transform:translate(40px,-40px)}66%{transform:translate(-40px,30px)}}
+
+/* ── Nav ───────────────────────── */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:20px 0;transition:all .4s}
+nav.scrolled{background:rgba(5,5,8,.85);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border-bottom:1px solid var(--border);padding:14px 0}
+.nav-inner{display:flex;align-items:center;justify-content:space-between}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--text)}
+.logo-icon{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,var(--gold),#b8860d);display:flex;align-items:center;justify-content:center;font-size:16px;color:#1a1500;box-shadow:0 4px 20px rgba(219,182,104,.25)}
+.logo-text{font-family:var(--serif);font-size:20px;font-weight:600;letter-spacing:-.01em}
+.nav-links{display:flex;gap:8px;align-items:center}
+.nav-links a{color:var(--text2);text-decoration:none;font-size:13px;font-weight:500;padding:8px 16px;border-radius:8px;transition:all .25s}
+.nav-links a:hover{color:var(--text);background:var(--surface2)}
+.nav-cta{background:linear-gradient(135deg,var(--gold),#c9a84c)!important;color:#1a1500!important;font-weight:600!important;box-shadow:0 4px 24px rgba(219,182,104,.2)}
+.nav-cta:hover{box-shadow:0 8px 32px rgba(219,182,104,.35)!important;transform:translateY(-1px)}
+.mobile-toggle{display:none;background:none;border:none;color:var(--text);font-size:22px;cursor:pointer}
+
+/* ── Hero ──────────────────────── */
+.hero{position:relative;z-index:1;min-height:100vh;display:flex;align-items:center;padding:140px 0 100px}
+.hero-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;padding:6px 16px 6px 8px;border-radius:24px;background:var(--gold-dim);border:1px solid rgba(219,182,104,.12);font-size:12px;color:var(--gold2);font-weight:500;margin-bottom:28px}
+.hero-badge .dot{width:6px;height:6px;border-radius:50%;background:var(--gold);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+.hero h1{font-family:var(--serif);font-size:clamp(40px,5vw,64px);font-weight:700;line-height:1.08;letter-spacing:-.03em;margin-bottom:24px}
+.hero h1 em{font-style:italic;color:var(--gold2)}
+.hero-sub{font-size:17px;color:var(--text2);line-height:1.7;max-width:480px;margin-bottom:40px}
+.hero-actions{display:flex;gap:14px;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:10px;padding:14px 28px;border-radius:12px;font-size:14px;font-weight:600;cursor:pointer;border:none;transition:all .35s var(--ease);text-decoration:none;position:relative;overflow:hidden}
+.btn::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(255,255,255,.12),transparent);pointer-events:none}
+.btn-primary{background:linear-gradient(135deg,var(--gold),#c9a84c);color:#1a1500;box-shadow:0 8px 32px rgba(219,182,104,.2)}
+.btn-primary:hover{box-shadow:0 12px 48px rgba(219,182,104,.35);transform:translateY(-2px)}
+.btn-ghost{background:var(--surface2);color:var(--text);border:1px solid var(--border2)}
+.btn-ghost:hover{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.18);transform:translateY(-2px)}
+.hero-visual{position:relative;display:flex;justify-content:center;align-items:center}
+.hero-phone{width:280px;height:560px;border-radius:40px;background:linear-gradient(165deg,#111118 0%,#0d0d15 100%);border:1px solid rgba(255,255,255,.08);box-shadow:0 40px 100px -20px rgba(0,0,0,.6),0 0 80px rgba(219,182,104,.06);position:relative;overflow:hidden}
+.phone-notch{position:absolute;top:0;left:50%;transform:translateX(-50%);width:120px;height:28px;background:var(--bg);border-radius:0 0 18px 18px}
+.phone-screen{padding:48px 20px 20px;height:100%}
+.phone-header{text-align:center;margin-bottom:24px}
+.phone-header .shield{font-size:36px;color:var(--gold);margin-bottom:8px}
+.phone-header h3{font-size:15px;font-weight:600}
+.phone-header p{font-size:11px;color:var(--text3);margin-top:4px}
+.phone-seal-card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);border-radius:16px;padding:18px;margin-bottom:14px}
+.seal-status{display:flex;align-items:center;gap:8px;margin-bottom:12px}
+.seal-check{width:28px;height:28px;border-radius:50%;background:var(--emerald-dim);display:flex;align-items:center;justify-content:center;color:var(--emerald);font-size:12px}
+.seal-info h4{font-size:13px;font-weight:600}
+.seal-info p{font-size:10px;color:var(--text3)}
+.seal-details{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.seal-detail{background:rgba(255,255,255,.03);border-radius:8px;padding:8px 10px}
+.seal-detail label{font-size:9px;color:var(--text3);text-transform:uppercase;letter-spacing:.08em}
+.seal-detail span{display:block;font-size:11px;font-weight:600;margin-top:2px}
+.phone-reward{background:linear-gradient(135deg,var(--gold-dim),rgba(219,182,104,.04));border:1px solid rgba(219,182,104,.1);border-radius:12px;padding:14px;text-align:center}
+.phone-reward .amount{font-family:var(--serif);font-size:28px;font-weight:700;color:var(--gold2)}
+.phone-reward p{font-size:10px;color:var(--text3);margin-top:2px}
+.hero-float{position:absolute;animation:floatCard 6s ease-in-out infinite}
+.float-1{top:40px;right:-20px;animation-delay:0s}
+.float-2{bottom:80px;left:-30px;animation-delay:2s}
+@keyframes floatCard{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+.float-card{padding:12px 16px;border-radius:12px;background:rgba(10,10,18,.9);backdrop-filter:blur(20px);border:1px solid var(--border2);box-shadow:0 16px 48px rgba(0,0,0,.4);white-space:nowrap;font-size:12px;font-weight:500;display:flex;align-items:center;gap:8px}
+.float-card i{font-size:14px}
+
+/* ── Stats bar ─────────────────── */
+.stats-bar{position:relative;z-index:1;padding:48px 0;border-top:1px solid var(--border);border-bottom:1px solid var(--border);background:var(--surface)}
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:32px;text-align:center}
+.stat-num{font-family:var(--serif);font-size:36px;font-weight:700;letter-spacing:-.02em}
+.stat-label{font-size:12px;color:var(--text3);font-weight:500;margin-top:4px;text-transform:uppercase;letter-spacing:.1em}
+
+/* ── Section ───────────────────── */
+section{position:relative;z-index:1;padding:120px 0}
+.section-label{display:inline-flex;align-items:center;gap:8px;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.14em;color:var(--gold);margin-bottom:16px}
+.section-label::before{content:'';width:20px;height:1px;background:var(--gold)}
+.section-title{font-family:var(--serif);font-size:clamp(32px,3.5vw,48px);font-weight:700;line-height:1.12;letter-spacing:-.025em;margin-bottom:20px}
+.section-sub{font-size:16px;color:var(--text2);line-height:1.7;max-width:560px}
+
+/* ── How it works ──────────────── */
+.steps-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;margin-top:64px}
+.step-card{padding:36px 28px;border-radius:20px;background:var(--surface);border:1px solid var(--border);transition:all .4s var(--ease);position:relative}
+.step-card:hover{background:var(--surface2);border-color:var(--border2);transform:translateY(-4px);box-shadow:0 24px 64px -16px rgba(0,0,0,.4)}
+.step-num{font-family:var(--serif);font-size:48px;font-weight:700;color:rgba(255,255,255,.04);position:absolute;top:16px;right:20px}
+.step-icon{width:48px;height:48px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:20px}
+.step-card h3{font-size:16px;font-weight:700;margin-bottom:8px}
+.step-card p{font-size:13px;color:var(--text2);line-height:1.7}
+
+/* ── Features ──────────────────── */
+.features-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:64px}
+.feature{display:flex;gap:20px;padding:32px;border-radius:20px;background:var(--surface);border:1px solid var(--border);transition:all .4s var(--ease)}
+.feature:hover{background:var(--surface2);border-color:var(--border2);transform:translateY(-3px)}
+.feature-icon{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.feature h3{font-size:15px;font-weight:700;margin-bottom:6px}
+.feature p{font-size:13px;color:var(--text2);line-height:1.7}
+
+/* ── Testimonials ──────────────── */
+.testimonials-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:64px}
+.testimonial{padding:32px;border-radius:20px;background:var(--surface);border:1px solid var(--border);transition:all .4s var(--ease)}
+.testimonial:hover{border-color:var(--border2)}
+.test-header{display:flex;align-items:center;gap:14px;margin-bottom:16px}
+.test-avatar{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700}
+.test-name{font-size:14px;font-weight:600}
+.test-role{font-size:11px;color:var(--text3)}
+.test-stars{color:var(--gold);font-size:12px;margin-bottom:12px;letter-spacing:2px}
+.testimonial blockquote{font-size:14px;color:var(--text2);line-height:1.7;font-style:italic}
+
+/* ── CTA ───────────────────────── */
+.cta-section{text-align:center}
+.cta-box{padding:80px 60px;border-radius:28px;background:linear-gradient(165deg,rgba(219,182,104,.06) 0%,rgba(219,182,104,.02) 50%,var(--surface) 100%);border:1px solid rgba(219,182,104,.1);position:relative;overflow:hidden}
+.cta-box::before{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:radial-gradient(ellipse at center,rgba(219,182,104,.04) 0%,transparent 60%);pointer-events:none}
+.cta-box h2{font-family:var(--serif);font-size:clamp(28px,3vw,42px);font-weight:700;line-height:1.15;margin-bottom:16px;position:relative}
+.cta-box p{font-size:16px;color:var(--text2);margin-bottom:36px;max-width:480px;margin-left:auto;margin-right:auto;position:relative}
+.cta-actions{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;position:relative}
+
+/* ── Footer ────────────────────── */
+footer{position:relative;z-index:1;border-top:1px solid var(--border);padding:64px 0 40px}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:48px;margin-bottom:48px}
+.footer-brand p{font-size:13px;color:var(--text3);line-height:1.7;margin-top:14px;max-width:280px}
+.footer-col h4{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.12em;color:var(--text3);margin-bottom:16px}
+.footer-col a{display:block;font-size:13px;color:var(--text2);text-decoration:none;padding:4px 0;transition:color .2s}
+.footer-col a:hover{color:var(--text)}
+.footer-bottom{display:flex;justify-content:space-between;align-items:center;padding-top:32px;border-top:1px solid var(--border)}
+.footer-bottom span{font-size:12px;color:var(--text3)}
+.footer-social{display:flex;gap:16px}
+.footer-social a{color:var(--text3);font-size:16px;transition:color .2s}
+.footer-social a:hover{color:var(--gold)}
+
+/* ── Animations ────────────────── */
+.reveal{opacity:0;transform:translateY(32px);transition:opacity .8s var(--ease),transform .8s var(--ease)}
+.reveal.visible{opacity:1;transform:translateY(0)}
+.reveal-d1{transition-delay:.1s}.reveal-d2{transition-delay:.2s}.reveal-d3{transition-delay:.3s}.reveal-d4{transition-delay:.4s}
+
+/* ── Responsive ────────────────── */
+@media(max-width:1024px){
+.hero-grid{grid-template-columns:1fr;text-align:center;gap:48px}
+.hero-sub{margin-left:auto;margin-right:auto}
+.hero-actions{justify-content:center}
+.hero-visual{order:-1}
+.steps-grid{grid-template-columns:1fr 1fr}
+.features-grid{grid-template-columns:1fr}
+.testimonials-grid{grid-template-columns:1fr}
+.stats-grid{grid-template-columns:repeat(2,1fr);gap:24px}
+.footer-grid{grid-template-columns:1fr 1fr;gap:32px}
+}
+@media(max-width:640px){
+.container{padding:0 20px}
+.nav-links{display:none}
+.mobile-toggle{display:block}
+.steps-grid{grid-template-columns:1fr}
+.stats-grid{grid-template-columns:1fr 1fr}
+.hero-phone{width:240px;height:480px}
+.cta-box{padding:48px 28px}
+.footer-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- Background -->
+<div class="bg-grid"></div>
+<div class="orb orb-1"></div>
+<div class="orb orb-2"></div>
+<div class="orb orb-3"></div>
+
+<!-- Nav -->
+<nav id="nav">
+<div class="container nav-inner">
+  <a href="/" class="logo">
+    <div class="logo-icon"><i class="fas fa-shield-halved"></i></div>
+    <span class="logo-text serif">SealTrust</span>
+  </a>
+  <div class="nav-links">
+    <a href="#how">How It Works</a>
+    <a href="#features">Features</a>
+    <a href="#testimonials">Reviews</a>
+    <a href="/download" class="nav-cta" style="border-radius:8px">Get the App</a>
+  </div>
+  <button class="mobile-toggle" onclick="document.querySelector('.nav-links').style.display=document.querySelector('.nav-links').style.display==='flex'?'none':'flex'" aria-label="Menu"><i class="fas fa-bars"></i></button>
+</div>
+</nav>
+
+<!-- Hero -->
+<section class="hero">
+<div class="container hero-grid">
+  <div>
+    <div class="hero-badge"><span class="dot"></span> Trusted by 200+ restaurants nationwide</div>
+    <h1 class="serif">Every delivery,<br><em>verified &amp; sealed.</em></h1>
+    <p class="hero-sub">SealTrust uses cryptographic tamper-evident seals so customers know their food was never touched. Restaurants build trust. Drivers earn rewards. Everyone wins.</p>
+    <div class="hero-actions">
+      <a href="/download" class="btn btn-primary"><i class="fas fa-arrow-down"></i> Download Free App</a>
+      <a href="#how" class="btn btn-ghost"><i class="fas fa-play-circle"></i> See How It Works</a>
+    </div>
+  </div>
+  <div class="hero-visual">
+    <div class="hero-phone">
+      <div class="phone-notch"></div>
+      <div class="phone-screen">
+        <div class="phone-header">
+          <div class="shield"><i class="fas fa-shield-halved"></i></div>
+          <h3>Seal Verified</h3>
+          <p class="text3">Just now &middot; Austin, TX</p>
+        </div>
+        <div class="phone-seal-card">
+          <div class="seal-status">
+            <div class="seal-check"><i class="fas fa-check"></i></div>
+            <div class="seal-info"><h4>Bella Napoli Pizza</h4><p>Seal intact &middot; Untampered</p></div>
+          </div>
+          <div class="seal-details">
+            <div class="seal-detail"><label>Seal ID</label><span style="color:var(--gold)">ST-BEL-7A2F</span></div>
+            <div class="seal-detail"><label>Sealed</label><span>2 min ago</span></div>
+            <div class="seal-detail"><label>Driver</label><span>Marcus J.</span></div>
+            <div class="seal-detail"><label>Status</label><span style="color:var(--emerald)">Intact</span></div>
+          </div>
+        </div>
+        <div class="phone-reward">
+          <div class="amount">+$0.05</div>
+          <p>Verification reward credited</p>
+        </div>
+      </div>
+    </div>
+    <div class="hero-float float-1">
+      <div class="float-card"><i class="fas fa-lock" style="color:var(--emerald)"></i> End-to-end encrypted</div>
+    </div>
+    <div class="hero-float float-2">
+      <div class="float-card"><i class="fas fa-bolt" style="color:var(--gold)"></i> Verified in &lt;2 seconds</div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- Stats -->
+<div class="stats-bar">
+<div class="container stats-grid">
+  <div class="reveal"><div class="stat-num gold">50K+</div><div class="stat-label">Deliveries Verified</div></div>
+  <div class="reveal reveal-d1"><div class="stat-num" style="color:var(--emerald)">200+</div><div class="stat-label">Partner Restaurants</div></div>
+  <div class="reveal reveal-d2"><div class="stat-num" style="color:var(--blue)">99.7%</div><div class="stat-label">Seal Integrity Rate</div></div>
+  <div class="reveal reveal-d3"><div class="stat-num" style="color:var(--violet)">&lt;2s</div><div class="stat-label">Avg. Verification</div></div>
+</div>
+</div>
+
+<!-- How It Works -->
+<section id="how">
+<div class="container">
+  <div class="section-label reveal">How It Works</div>
+  <h2 class="section-title reveal">Four steps to<br>total food safety.</h2>
+  <p class="section-sub reveal">From kitchen to doorstep, SealTrust creates an unbroken chain of verification that protects everyone in the delivery process.</p>
+  <div class="steps-grid">
+    <div class="step-card reveal">
+      <div class="step-num serif">01</div>
+      <div class="step-icon" style="background:var(--gold-dim);color:var(--gold)"><i class="fas fa-utensils"></i></div>
+      <h3>Restaurant Seals Order</h3>
+      <p>Kitchen staff applies a tamper-evident seal with a unique QR code to each order before handoff.</p>
+    </div>
+    <div class="step-card reveal reveal-d1">
+      <div class="step-num serif">02</div>
+      <div class="step-icon" style="background:var(--emerald-dim);color:var(--emerald)"><i class="fas fa-qrcode"></i></div>
+      <h3>Driver Scans at Pickup</h3>
+      <p>Delivery driver scans the seal with the free SealTrust app, cryptographically logging the pickup.</p>
+    </div>
+    <div class="step-card reveal reveal-d2">
+      <div class="step-num serif">03</div>
+      <div class="step-icon" style="background:var(--blue-dim);color:var(--blue)"><i class="fas fa-shield-halved"></i></div>
+      <h3>Seal Stays Intact</h3>
+      <p>The tamper-evident seal protects the order throughout the entire delivery journey.</p>
+    </div>
+    <div class="step-card reveal reveal-d3">
+      <div class="step-num serif">04</div>
+      <div class="step-icon" style="background:var(--violet-dim);color:var(--violet)"><i class="fas fa-check-double"></i></div>
+      <h3>Customer Verifies</h3>
+      <p>Customer scans or checks the seal on arrival. Intact seal means untouched food. Peace of mind, delivered.</p>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- Features -->
+<section id="features" style="background:var(--bg2)">
+<div class="container">
+  <div class="section-label reveal">Platform Features</div>
+  <h2 class="section-title reveal">Built for trust,<br>designed for scale.</h2>
+  <p class="section-sub reveal">Everything restaurants, drivers, and customers need in one elegant platform.</p>
+  <div class="features-grid">
+    <div class="feature reveal">
+      <div class="feature-icon" style="background:var(--gold-dim);color:var(--gold)"><i class="fas fa-fingerprint"></i></div>
+      <div><h3>Cryptographic Seal IDs</h3><p>Each seal has a unique, cryptographically generated identifier that cannot be duplicated or forged.</p></div>
+    </div>
+    <div class="feature reveal reveal-d1">
+      <div class="feature-icon" style="background:var(--emerald-dim);color:var(--emerald)"><i class="fas fa-chart-line"></i></div>
+      <div><h3>Real-Time Dashboard</h3><p>Live analytics for restaurants showing seal usage, verification rates, and customer satisfaction scores.</p></div>
+    </div>
+    <div class="feature reveal reveal-d2">
+      <div class="feature-icon" style="background:var(--blue-dim);color:var(--blue)"><i class="fas fa-coins"></i></div>
+      <div><h3>Driver Rewards</h3><p>Drivers earn $0.05 for every verified delivery. It adds up fast and incentivizes proper handling.</p></div>
+    </div>
+    <div class="feature reveal reveal-d3">
+      <div class="feature-icon" style="background:var(--violet-dim);color:var(--violet)"><i class="fas fa-bell"></i></div>
+      <div><h3>Tamper Alerts</h3><p>Instant notifications if a seal is broken or tampered with before delivery, protecting customers and restaurants.</p></div>
+    </div>
+    <div class="feature reveal">
+      <div class="feature-icon" style="background:rgba(251,113,133,.08);color:#fb7185"><i class="fas fa-mobile-screen-button"></i></div>
+      <div><h3>One-Tap Verification</h3><p>Customers verify their delivery with a single scan. No accounts, no passwords, no friction.</p></div>
+    </div>
+    <div class="feature reveal reveal-d1">
+      <div class="feature-icon" style="background:rgba(248,113,46,.08);color:#f8712e"><i class="fas fa-truck-fast"></i></div>
+      <div><h3>Works With All Platforms</h3><p>Compatible with DoorDash, Uber Eats, Grubhub, and direct restaurant delivery operations.</p></div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- Testimonials -->
+<section id="testimonials">
+<div class="container">
+  <div class="section-label reveal">Testimonials</div>
+  <h2 class="section-title reveal">Loved by restaurants<br>and drivers alike.</h2>
+  <div class="testimonials-grid">
+    <div class="testimonial reveal">
+      <div class="test-header">
+        <div class="test-avatar" style="background:var(--gold-dim);color:var(--gold)">M</div>
+        <div><div class="test-name">Marcus Johnson</div><div class="test-role">Delivery Driver, Austin TX</div></div>
+      </div>
+      <div class="test-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+      <blockquote>&ldquo;Made over $180 just from scanning seals. Takes two seconds per delivery and the money adds up every week. Customers trust me more now.&rdquo;</blockquote>
+    </div>
+    <div class="testimonial reveal reveal-d1">
+      <div class="test-header">
+        <div class="test-avatar" style="background:var(--emerald-dim);color:var(--emerald)">S</div>
+        <div><div class="test-name">Sofia Ramirez</div><div class="test-role">Owner, Casa de Sabor</div></div>
+      </div>
+      <div class="test-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+      <blockquote>&ldquo;Tamper complaints dropped to zero after we started using SealTrust. Our customers feel confident ordering delivery now, and our reviews reflect it.&rdquo;</blockquote>
+    </div>
+    <div class="testimonial reveal reveal-d2">
+      <div class="test-header">
+        <div class="test-avatar" style="background:var(--blue-dim);color:var(--blue)">J</div>
+        <div><div class="test-name">James Chen</div><div class="test-role">Customer, San Francisco</div></div>
+      </div>
+      <div class="test-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+      <blockquote>&ldquo;I love knowing my food hasn't been touched. The seal gives me peace of mind every single time. Every delivery app should require this.&rdquo;</blockquote>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section" style="background:var(--bg2)">
+<div class="container">
+  <div class="cta-box reveal">
+    <div class="section-label" style="justify-content:center">Get Started Today</div>
+    <h2 class="serif" style="font-size:clamp(28px,3vw,42px);line-height:1.15;margin-bottom:16px">Ready to seal every delivery?</h2>
+    <p>Join 200+ restaurants already building customer trust with tamper-proof verification. Free for drivers. Simple setup for restaurants.</p>
+    <div class="cta-actions">
+      <a href="/download" class="btn btn-primary" style="padding:16px 36px;font-size:15px"><i class="fab fa-apple"></i> Download for iOS</a>
+      <a href="/download" class="btn btn-primary" style="padding:16px 36px;font-size:15px;background:linear-gradient(135deg,var(--emerald),#059669)"><i class="fab fa-google-play"></i> Download for Android</a>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- Footer -->
+<footer>
+<div class="container">
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <a href="/" class="logo">
+        <div class="logo-icon"><i class="fas fa-shield-halved"></i></div>
+        <span class="logo-text serif">SealTrust</span>
+      </a>
+      <p>Tamper-proof food delivery verification. Protecting every meal from kitchen to doorstep.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Product</h4>
+      <a href="#how">How It Works</a>
+      <a href="#features">Features</a>
+      <a href="/download">Download App</a>
+      <a href="#features">Pricing</a>
+    </div>
+    <div class="footer-col">
+      <h4>Company</h4>
+      <a href="#">About</a>
+      <a href="#">Blog</a>
+      <a href="#">Careers</a>
+      <a href="mailto:contact@sealtrust.ai">Contact</a>
+    </div>
+    <div class="footer-col">
+      <h4>Legal</h4>
+      <a href="#">Privacy Policy</a>
+      <a href="#">Terms of Service</a>
+      <a href="#">Security</a>
+      <a href="#">Compliance</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>&copy; 2026 SealTrust Inc. All rights reserved.</span>
+    <div class="footer-social">
+      <a href="#" aria-label="Twitter"><i class="fab fa-x-twitter"></i></a>
+      <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+      <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+    </div>
+  </div>
+</div>
+</footer>
+
+<script>
+// Nav scroll effect
+const nav=document.getElementById('nav');
+window.addEventListener('scroll',()=>{nav.classList.toggle('scrolled',window.scrollY>60)});
+
+// Reveal on scroll
+const reveals=document.querySelectorAll('.reveal');
+const observer=new IntersectionObserver((entries)=>{
+entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');observer.unobserve(e.target)}})
+},{threshold:0.15,rootMargin:'0px 0px -40px 0px'});
+reveals.forEach(el=>observer.observe(el));
+
+// Smooth scroll for anchor links
+document.querySelectorAll('a[href^="#"]').forEach(a=>{
+a.addEventListener('click',e=>{
+e.preventDefault();
+const t=document.querySelector(a.getAttribute('href'));
+if(t)t.scrollIntoView({behavior:'smooth',block:'start'});
+});
+});
+</script>
+</body>
+</html>
