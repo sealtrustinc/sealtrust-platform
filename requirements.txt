@@ -1,0 +1,6 @@
+# SealTrust Platform - Zero external dependencies
+# Uses only Python standard library:
+#   http.server, sqlite3, json, uuid, hashlib, base64, os, datetime, urllib
+#
+# This file exists for deployment platforms that expect it.
+# No packages need to be installed.
