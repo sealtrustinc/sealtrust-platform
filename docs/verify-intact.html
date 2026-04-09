@@ -3,691 +3,393 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SealTrust — Seal Verified</title>
+<title>SealTrust — Verified</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
   :root {
-    --bg: #06060B;
-    --bg2: #0C0C14;
-    --card: #10101A;
-    --card2: #161622;
-    --border: #1E1E2E;
-    --gold: #DBB668;
-    --gold-light: #E8CD8A;
-    --gold-dim: #8A7340;
-    --green: #4ADE80;
-    --green-dark: #166534;
-    --green-glow: rgba(74, 222, 128, 0.15);
-    --white: #F2F2F2;
-    --gray: #A0A0B0;
-    --muted: #555566;
-    --mcd-red: #DA291C;
-    --mcd-yellow: #FFC72C;
+    --bg: #FAFAFA;
+    --white: #FFFFFF;
+    --black: #1D1D1F;
+    --gray-1: #86868B;
+    --gray-2: #D2D2D7;
+    --gray-3: #F5F5F7;
+    --green: #34C759;
+    --green-bg: #F0FFF4;
+    --green-border: #D1FAE5;
+    --gold: #B8860B;
   }
 
   body {
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
     background: var(--bg);
-    color: var(--white);
+    color: var(--black);
     min-height: 100vh;
-    overflow-x: hidden;
-  }
-
-  .bg-gradient {
-    position: fixed;
-    top: 0; left: 0; right: 0; bottom: 0;
-    background:
-      radial-gradient(ellipse at 20% 0%, rgba(74, 222, 128, 0.06) 0%, transparent 50%),
-      radial-gradient(ellipse at 80% 100%, rgba(219, 182, 104, 0.04) 0%, transparent 50%);
-    z-index: 0;
+    -webkit-font-smoothing: antialiased;
   }
 
   .container {
-    position: relative;
-    z-index: 1;
-    max-width: 480px;
+    max-width: 420px;
     margin: 0 auto;
-    padding: 0 20px 40px;
-  }
-
-  .top-bar {
-    height: 3px;
-    background: linear-gradient(90deg, var(--gold) 0%, var(--gold) 50%, var(--green) 50%, var(--green) 100%);
-    position: fixed;
-    top: 0; left: 0; right: 0;
-    z-index: 100;
+    padding: 0 24px 48px;
   }
 
   .header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 24px 0 16px;
+    padding: 20px 0;
   }
 
   .logo {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-
-  .logo-icon {
-    width: 32px; height: 32px;
-    background: var(--gold);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 900;
-    font-size: 16px;
-    color: var(--bg);
-  }
-
-  .logo-text {
-    font-size: 18px;
-    font-weight: 700;
-    letter-spacing: -0.5px;
-  }
-
-  .logo-text span { color: var(--gold); }
-
-  .header-badge {
-    font-size: 10px;
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
-    color: var(--muted);
+    font-size: 15px;
     font-weight: 600;
+    color: var(--black);
+    letter-spacing: -0.3px;
+  }
+
+  .logo span { color: var(--gold); }
+
+  .header-tag {
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--green);
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
   }
 
   .hero {
     text-align: center;
-    padding: 20px 0 24px;
+    padding: 32px 0 28px;
   }
 
-  .verified-icon {
-    width: 90px; height: 90px;
+  .check-icon {
+    width: 64px;
+    height: 64px;
     border-radius: 50%;
-    background: var(--green-glow);
-    border: 2px solid var(--green);
+    background: var(--green);
     display: flex;
     align-items: center;
     justify-content: center;
-    margin: 0 auto 18px;
-    animation: pulse-green 2s ease-in-out infinite;
+    margin: 0 auto 20px;
   }
 
-  @keyframes pulse-green {
-    0%, 100% { box-shadow: 0 0 0 0 rgba(74, 222, 128, 0.3); }
-    50% { box-shadow: 0 0 0 14px rgba(74, 222, 128, 0); }
-  }
-
-  .verified-icon svg {
-    width: 44px; height: 44px;
-    color: var(--green);
+  .check-icon svg {
+    width: 32px;
+    height: 32px;
+    color: white;
   }
 
   .hero h1 {
-    font-size: 26px;
-    font-weight: 800;
-    color: var(--green);
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--black);
     letter-spacing: -0.5px;
-    margin-bottom: 6px;
+    margin-bottom: 8px;
   }
 
   .hero p {
-    font-size: 13px;
-    color: var(--gray);
+    font-size: 15px;
+    color: var(--gray-1);
     line-height: 1.5;
+    font-weight: 400;
   }
 
-  .seal-card {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 14px;
-    padding: 20px;
-    margin-bottom: 14px;
-  }
-
-  .seal-id-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 14px;
-    padding-bottom: 14px;
-    border-bottom: 1px solid var(--border);
-  }
-
-  .seal-id-label {
-    font-size: 10px;
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
-    color: var(--muted);
-    font-weight: 600;
-  }
-
-  .seal-id-value {
-    font-size: 14px;
-    font-weight: 700;
-    color: var(--gold);
-    font-family: 'SF Mono', 'Fira Code', monospace;
-    letter-spacing: 0.5px;
-  }
-
-  .seal-status {
+  .status-pill {
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    background: rgba(74, 222, 128, 0.1);
-    border: 1px solid rgba(74, 222, 128, 0.3);
+    background: var(--green-bg);
+    border: 1px solid var(--green-border);
     border-radius: 100px;
-    padding: 5px 14px;
-    font-size: 12px;
-    font-weight: 700;
-    color: var(--green);
-    text-transform: uppercase;
-    letter-spacing: 1px;
+    padding: 8px 16px;
+    margin: 16px auto 0;
   }
 
-  .seal-status-dot {
-    width: 7px; height: 7px;
+  .status-dot {
+    width: 6px;
+    height: 6px;
     background: var(--green);
     border-radius: 50%;
-    animation: blink 1.5s ease-in-out infinite;
   }
 
-  @keyframes blink {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.3; }
-  }
-
-  .info-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-  }
-
-  .info-item {
-    background: var(--bg2);
-    border-radius: 10px;
-    padding: 14px;
-  }
-
-  .info-item.full { grid-column: 1 / -1; }
-
-  .info-label {
-    font-size: 9px;
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
-    color: var(--muted);
-    font-weight: 600;
-    margin-bottom: 5px;
-  }
-
-  .info-value {
+  .status-text {
     font-size: 13px;
     font-weight: 600;
-    color: var(--white);
-    line-height: 1.4;
+    color: #166534;
   }
 
-  .info-value.gold { color: var(--gold); }
-
-  .timeline-card {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 14px;
-    padding: 20px;
-    margin-bottom: 14px;
+  .card {
+    background: var(--white);
+    border-radius: 16px;
+    padding: 24px;
+    margin-bottom: 12px;
+    border: 1px solid rgba(0,0,0,0.04);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
   }
 
-  .timeline-title {
+  .card-label {
     font-size: 11px;
+    font-weight: 600;
+    color: var(--gray-1);
+    letter-spacing: 0.8px;
     text-transform: uppercase;
-    letter-spacing: 1.5px;
-    color: var(--gold);
-    font-weight: 700;
-    margin-bottom: 18px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
+    margin-bottom: 16px;
   }
 
-  .timeline-title::before {
-    content: '';
-    display: block;
-    width: 3px; height: 14px;
-    background: var(--gold);
-    border-radius: 2px;
+  .detail-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--gray-3);
+  }
+
+  .detail-row:last-child { border-bottom: none; }
+  .detail-row:first-of-type { padding-top: 0; }
+
+  .detail-key {
+    font-size: 14px;
+    color: var(--gray-1);
+    font-weight: 400;
+    flex-shrink: 0;
+  }
+
+  .detail-value {
+    font-size: 14px;
+    color: var(--black);
+    font-weight: 500;
+    text-align: right;
+    max-width: 60%;
+  }
+
+  .detail-value.mono {
+    font-family: 'SF Mono', 'Fira Code', 'Courier New', monospace;
+    font-size: 13px;
+    font-weight: 500;
   }
 
   .timeline {
     position: relative;
-    padding-left: 28px;
+    padding-left: 24px;
   }
 
   .timeline::before {
     content: '';
     position: absolute;
-    left: 8px;
-    top: 4px;
-    bottom: 4px;
-    width: 2px;
-    background: linear-gradient(to bottom, var(--green), var(--green) 90%, var(--green));
-    border-radius: 1px;
+    left: 5px;
+    top: 6px;
+    bottom: 6px;
+    width: 1.5px;
+    background: var(--green);
+    opacity: 0.3;
   }
 
-  .timeline-step {
+  .t-step {
     position: relative;
-    padding-bottom: 22px;
+    padding-bottom: 20px;
   }
 
-  .timeline-step:last-child { padding-bottom: 0; }
+  .t-step:last-child { padding-bottom: 0; }
 
-  .timeline-dot {
+  .t-dot {
     position: absolute;
-    left: -24px;
-    top: 2px;
-    width: 18px; height: 18px;
+    left: -21px;
+    top: 5px;
+    width: 12px;
+    height: 12px;
     border-radius: 50%;
-    background: var(--bg);
-    border: 2px solid var(--green);
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    background: var(--green);
   }
 
-  .timeline-dot svg {
-    width: 10px; height: 10px;
-    color: var(--green);
-  }
-
-  .timeline-step-header {
+  .t-header {
     display: flex;
-    align-items: baseline;
     justify-content: space-between;
-    margin-bottom: 3px;
+    align-items: baseline;
+    margin-bottom: 4px;
   }
 
-  .timeline-step-title {
+  .t-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--black);
+  }
+
+  .t-time {
+    font-size: 12px;
+    color: var(--gray-1);
+    font-family: 'SF Mono', 'Fira Code', 'Courier New', monospace;
+  }
+
+  .t-detail {
     font-size: 13px;
-    font-weight: 700;
-    color: var(--white);
-  }
-
-  .timeline-step-time {
-    font-size: 11px;
-    color: var(--muted);
-    font-family: 'SF Mono', 'Fira Code', monospace;
-  }
-
-  .timeline-step-detail {
-    font-size: 11px;
-    color: var(--gray);
+    color: var(--gray-1);
     line-height: 1.5;
   }
 
-  .timeline-step-detail .loc {
-    color: var(--gold-light);
-    font-weight: 500;
-  }
-
-  .timeline-step-badge {
-    display: inline-block;
-    font-size: 9px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    padding: 2px 8px;
-    border-radius: 4px;
-    margin-top: 5px;
-  }
-
-  .badge-green {
-    background: rgba(74, 222, 128, 0.12);
-    color: var(--green);
-    border: 1px solid rgba(74, 222, 128, 0.25);
-  }
-
-  .proof-card {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 14px;
-    padding: 20px;
-    margin-bottom: 14px;
-  }
-
-  .proof-title {
-    font-size: 11px;
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
-    color: var(--gold);
-    font-weight: 700;
-    margin-bottom: 14px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-
-  .proof-title::before {
-    content: '';
-    display: block;
-    width: 3px; height: 14px;
-    background: var(--gold);
-    border-radius: 2px;
-  }
-
-  .proof-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 0;
-    border-bottom: 1px solid var(--border);
-  }
-
-  .proof-row:last-child { border-bottom: none; }
-
-  .proof-key {
-    font-size: 11px;
-    color: var(--muted);
-    font-weight: 500;
-  }
-
-  .proof-value {
-    font-size: 11px;
-    color: var(--white);
-    font-family: 'SF Mono', 'Fira Code', monospace;
-    font-weight: 500;
-  }
-
-  .proof-value.green { color: var(--green); }
-
-  .trust-footer {
+  .footer {
     text-align: center;
-    padding: 20px 0 10px;
+    padding: 24px 0 0;
   }
 
-  .trust-badges {
-    display: flex;
-    justify-content: center;
-    gap: 16px;
-    margin-bottom: 14px;
-    flex-wrap: wrap;
+  .footer p {
+    font-size: 12px;
+    color: var(--gray-1);
   }
 
-  .trust-badge {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    font-size: 10px;
-    color: var(--muted);
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-  }
-
-  .trust-badge svg {
-    width: 14px; height: 14px;
-    color: var(--green);
-  }
-
-  .powered-by {
-    font-size: 10px;
-    color: var(--muted);
-    letter-spacing: 0.5px;
-  }
-
-  .powered-by a {
+  .footer a {
     color: var(--gold);
     text-decoration: none;
-    font-weight: 600;
+    font-weight: 500;
   }
 
-  .delivery-bar {
-    background: linear-gradient(135deg, var(--green-dark), #0D3320);
-    border: 1px solid rgba(74, 222, 128, 0.25);
-    border-radius: 14px;
-    padding: 16px 20px;
-    margin-bottom: 14px;
-    display: flex;
-    align-items: center;
-    gap: 14px;
-  }
-
-  .delivery-bar-icon {
-    width: 44px; height: 44px;
-    background: rgba(74, 222, 128, 0.15);
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-  }
-
-  .delivery-bar-icon svg {
-    width: 24px; height: 24px;
-    color: var(--green);
-  }
-
-  .delivery-bar-text h3 {
-    font-size: 14px;
-    font-weight: 700;
-    color: var(--green);
-    margin-bottom: 2px;
-  }
-
-  .delivery-bar-text p {
-    font-size: 11px;
-    color: rgba(74, 222, 128, 0.7);
-    line-height: 1.4;
-  }
-
-  .fade-up {
+  .fade-in {
     opacity: 0;
-    transform: translateY(16px);
-    animation: fadeUp 0.5s ease forwards;
+    transform: translateY(8px);
+    animation: fadeIn 0.4s ease forwards;
   }
 
-  @keyframes fadeUp {
+  @keyframes fadeIn {
     to { opacity: 1; transform: translateY(0); }
   }
 
-  .fade-up:nth-child(1) { animation-delay: 0.05s; }
-  .fade-up:nth-child(2) { animation-delay: 0.15s; }
-  .fade-up:nth-child(3) { animation-delay: 0.25s; }
-  .fade-up:nth-child(4) { animation-delay: 0.35s; }
-  .fade-up:nth-child(5) { animation-delay: 0.45s; }
-  .fade-up:nth-child(6) { animation-delay: 0.55s; }
-  .fade-up:nth-child(7) { animation-delay: 0.65s; }
+  .fade-in:nth-child(1) { animation-delay: 0s; }
+  .fade-in:nth-child(2) { animation-delay: 0.08s; }
+  .fade-in:nth-child(3) { animation-delay: 0.16s; }
+  .fade-in:nth-child(4) { animation-delay: 0.24s; }
+  .fade-in:nth-child(5) { animation-delay: 0.32s; }
+  .fade-in:nth-child(6) { animation-delay: 0.4s; }
+  .fade-in:nth-child(7) { animation-delay: 0.48s; }
 </style>
 </head>
 <body>
-<div class="bg-gradient"></div>
-<div class="top-bar"></div>
 
 <div class="container">
 
-  <div class="header fade-up">
-    <div class="logo">
-      <div class="logo-icon">S</div>
-      <div class="logo-text">Seal<span>Trust</span></div>
-    </div>
-    <div class="header-badge">Verified</div>
+  <div class="header fade-in">
+    <div class="logo">Seal<span>Trust</span></div>
+    <div class="header-tag">Verified</div>
   </div>
 
-  <div class="hero fade-up">
-    <div class="verified-icon">
+  <div class="hero fade-in">
+    <div class="check-icon">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
         <polyline points="20 6 9 17 4 12"></polyline>
       </svg>
     </div>
     <h1>Seal Verified</h1>
-    <p>This order's tamper seal is intact and verified<br>on the SealTrust blockchain.</p>
-  </div>
-
-  <div class="delivery-bar fade-up">
-    <div class="delivery-bar-icon">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M12 22s-8-4.5-8-11.8A8 8 0 0 1 12 2a8 8 0 0 1 8 8.2c0 7.3-8 11.8-8 11.8z"/>
-        <circle cx="12" cy="10" r="3"/>
-      </svg>
-    </div>
-    <div class="delivery-bar-text">
-      <h3>Delivery Complete &amp; Verified</h3>
-      <p>Order traveled 3.2 miles in 14 min 37 sec. No deviations detected. Seal intact at all checkpoints.</p>
+    <p>Your order arrived untampered.<br>Verified on the blockchain.</p>
+    <div class="status-pill">
+      <div class="status-dot"></div>
+      <div class="status-text">All checkpoints passed</div>
     </div>
   </div>
 
-  <div class="seal-card fade-up">
-    <div class="seal-id-row">
-      <div>
-        <div class="seal-id-label">Seal ID</div>
-        <div class="seal-id-value">ST-MCD-2026-0408-00001</div>
-      </div>
-      <div class="seal-status">
-        <div class="seal-status-dot"></div>
-        Intact
-      </div>
+  <div class="card fade-in">
+    <div class="card-label">Order Details</div>
+    <div class="detail-row">
+      <div class="detail-key">Seal ID</div>
+      <div class="detail-value mono">ST-MCD-2026-0408-00001</div>
     </div>
-    <div class="info-grid">
-      <div class="info-item">
-        <div class="info-label">Order</div>
-        <div class="info-value">MCD-ORD-7824931</div>
-      </div>
-      <div class="info-item">
-        <div class="info-label">Platform</div>
-        <div class="info-value">DoorDash</div>
-      </div>
-      <div class="info-item full">
-        <div class="info-label">Restaurant</div>
-        <div class="info-value">McDonald's #12847 — 1820 W Sunset Blvd, Los Angeles, CA</div>
-      </div>
-      <div class="info-item">
-        <div class="info-label">Items</div>
-        <div class="info-value">Big Mac Meal, 10pc McNuggets, Large Fries, 2x McFlurry</div>
-      </div>
-      <div class="info-item">
-        <div class="info-label">Order Total</div>
-        <div class="info-value gold">$34.87</div>
-      </div>
+    <div class="detail-row">
+      <div class="detail-key">Order</div>
+      <div class="detail-value">MCD-ORD-7824931</div>
+    </div>
+    <div class="detail-row">
+      <div class="detail-key">Restaurant</div>
+      <div class="detail-value">McDonald's #12847</div>
+    </div>
+    <div class="detail-row">
+      <div class="detail-key">Platform</div>
+      <div class="detail-value">DoorDash</div>
+    </div>
+    <div class="detail-row">
+      <div class="detail-key">Items</div>
+      <div class="detail-value">Big Mac Meal, 10pc McNuggets, Large Fries, 2x McFlurry</div>
+    </div>
+    <div class="detail-row">
+      <div class="detail-key">Total</div>
+      <div class="detail-value">$34.87</div>
     </div>
   </div>
 
-  <div class="timeline-card fade-up">
-    <div class="timeline-title">Chain of Custody</div>
+  <div class="card fade-in">
+    <div class="card-label">Chain of Custody</div>
     <div class="timeline">
 
-      <div class="timeline-step">
-        <div class="timeline-dot">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="20 6 9 17 4 12"></polyline>
-          </svg>
+      <div class="t-step">
+        <div class="t-dot"></div>
+        <div class="t-header">
+          <div class="t-title">Sealed at store</div>
+          <div class="t-time">12:34 PM</div>
         </div>
-        <div class="timeline-step-header">
-          <div class="timeline-step-title">Checkpoint 1 — Sealed at Store</div>
-          <div class="timeline-step-time">12:34:17 PM</div>
-        </div>
-        <div class="timeline-step-detail">
-          Seal applied by <strong>Crew: Maria G.</strong><br>
-          <span class="loc">McDonald's #12847 — 34.0901° N, 118.2686° W</span>
-        </div>
-        <div class="timeline-step-badge badge-green">Seal Applied — Integrity Confirmed</div>
+        <div class="t-detail">Crew: Maria G. — McDonald's #12847</div>
       </div>
 
-      <div class="timeline-step">
-        <div class="timeline-dot">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="20 6 9 17 4 12"></polyline>
-          </svg>
+      <div class="t-step">
+        <div class="t-dot"></div>
+        <div class="t-header">
+          <div class="t-title">Driver pickup</div>
+          <div class="t-time">12:36 PM</div>
         </div>
-        <div class="timeline-step-header">
-          <div class="timeline-step-title">Checkpoint 2 — Driver Pickup</div>
-          <div class="timeline-step-time">12:36:42 PM</div>
-        </div>
-        <div class="timeline-step-detail">
-          Scanned by <strong>Driver: James R. (DD-4821)</strong><br>
-          <span class="loc">McDonald's #12847 — 34.0901° N, 118.2686° W</span>
-        </div>
-        <div class="timeline-step-badge badge-green">Seal Intact — Custody Transferred to Driver</div>
+        <div class="t-detail">Driver: James R. (DD-4821) — Seal intact</div>
       </div>
 
-      <div class="timeline-step">
-        <div class="timeline-dot">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="20 6 9 17 4 12"></polyline>
-          </svg>
+      <div class="t-step">
+        <div class="t-dot"></div>
+        <div class="t-header">
+          <div class="t-title">Delivered</div>
+          <div class="t-time">12:51 PM</div>
         </div>
-        <div class="timeline-step-header">
-          <div class="timeline-step-title">Checkpoint 3 — Delivered</div>
-          <div class="timeline-step-time">12:51:19 PM</div>
-        </div>
-        <div class="timeline-step-detail">
-          Received by <strong>Customer: Adam B.</strong><br>
-          <span class="loc">Delivery address — 34.0522° N, 118.2437° W</span>
-        </div>
-        <div class="timeline-step-badge badge-green">Seal Intact — Delivery Verified</div>
+        <div class="t-detail">Received by Adam B. — Seal intact</div>
       </div>
 
     </div>
   </div>
 
-  <div class="proof-card fade-up">
-    <div class="proof-title">Blockchain Record</div>
-    <div class="proof-row">
-      <div class="proof-key">Transaction Hash</div>
-      <div class="proof-value">0x7f3a...e92d</div>
+  <div class="card fade-in">
+    <div class="card-label">Delivery</div>
+    <div class="detail-row">
+      <div class="detail-key">Distance</div>
+      <div class="detail-value">3.2 miles</div>
     </div>
-    <div class="proof-row">
-      <div class="proof-key">Block Number</div>
-      <div class="proof-value">#18,429,307</div>
+    <div class="detail-row">
+      <div class="detail-key">Transit time</div>
+      <div class="detail-value">14 min 37 sec</div>
     </div>
-    <div class="proof-row">
-      <div class="proof-key">Network</div>
-      <div class="proof-value">SealTrust Private Chain</div>
-    </div>
-    <div class="proof-row">
-      <div class="proof-key">Confirmations</div>
-      <div class="proof-value green">247 (Finalized)</div>
-    </div>
-    <div class="proof-row">
-      <div class="proof-key">Integrity Hash</div>
-      <div class="proof-value">SHA-256: 9c1b...4f08</div>
-    </div>
-    <div class="proof-row">
-      <div class="proof-key">Seal NFC UID</div>
-      <div class="proof-value">04:A3:7B:2E:F1:89:01</div>
+    <div class="detail-row">
+      <div class="detail-key">Route deviations</div>
+      <div class="detail-value" style="color: var(--green);">None</div>
     </div>
   </div>
 
-  <div class="trust-footer fade-up">
-    <div class="trust-badges">
-      <div class="trust-badge">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-        </svg>
-        Blockchain Verified
-      </div>
-      <div class="trust-badge">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
-          <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
-        </svg>
-        Tamper-Evident
-      </div>
-      <div class="trust-badge">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
-        </svg>
-        Patent Pending
-      </div>
+  <div class="card fade-in">
+    <div class="card-label">Blockchain Record</div>
+    <div class="detail-row">
+      <div class="detail-key">Tx hash</div>
+      <div class="detail-value mono">0x7f3a...e92d</div>
     </div>
-    <div class="powered-by">
-      Powered by <a href="https://sealtrust.ai">SealTrust</a> — Blockchain-Verified Delivery
+    <div class="detail-row">
+      <div class="detail-key">Block</div>
+      <div class="detail-value mono">#18,429,307</div>
     </div>
+    <div class="detail-row">
+      <div class="detail-key">Network</div>
+      <div class="detail-value">SealTrust Chain</div>
+    </div>
+    <div class="detail-row">
+      <div class="detail-key">Confirmations</div>
+      <div class="detail-value" style="color: var(--green);">247</div>
+    </div>
+  </div>
+
+  <div class="footer fade-in">
+    <p>Powered by <a href="https://sealtrust.ai">SealTrust</a></p>
   </div>
 
 </div>
+
 </body>
 </html>
