@@ -3,475 +3,286 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SealTrust — SEAL TAMPERED</title>
+<title>SealTrust — Alert</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
   :root {
-    --bg: #06060B;
-    --bg2: #0C0C14;
-    --card: #10101A;
-    --card2: #161622;
-    --border: #1E1E2E;
-    --gold: #DBB668;
-    --gold-light: #E8CD8A;
-    --green: #4ADE80;
-    --green-dark: #166534;
-    --red: #EF4444;
-    --red-dark: #7F1D1D;
-    --red-glow: rgba(239, 68, 68, 0.15);
-    --red-dim: rgba(239, 68, 68, 0.08);
-    --orange: #FB923C;
-    --white: #F2F2F2;
-    --gray: #A0A0B0;
-    --muted: #555566;
-    --mcd-red: #DA291C;
+    --bg: #FAFAFA;
+    --white: #FFFFFF;
+    --black: #1D1D1F;
+    --gray-1: #86868B;
+    --gray-2: #D2D2D7;
+    --gray-3: #F5F5F7;
+    --red: #FF3B30;
+    --red-bg: #FFF5F5;
+    --red-border: #FECACA;
+    --green: #34C759;
+    --green-bg: #F0FFF4;
+    --orange: #FF9500;
+    --gold: #B8860B;
   }
 
   body {
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
     background: var(--bg);
-    color: var(--white);
+    color: var(--black);
     min-height: 100vh;
-    overflow-x: hidden;
-  }
-
-  .bg-gradient {
-    position: fixed;
-    top: 0; left: 0; right: 0; bottom: 0;
-    background:
-      radial-gradient(ellipse at 20% 0%, rgba(239, 68, 68, 0.08) 0%, transparent 50%),
-      radial-gradient(ellipse at 80% 100%, rgba(239, 68, 68, 0.04) 0%, transparent 50%);
-    z-index: 0;
+    -webkit-font-smoothing: antialiased;
   }
 
   .container {
-    position: relative;
-    z-index: 1;
-    max-width: 480px;
+    max-width: 420px;
     margin: 0 auto;
-    padding: 0 20px 40px;
-  }
-
-  .top-bar {
-    height: 3px;
-    background: linear-gradient(90deg, var(--red) 0%, var(--red) 50%, var(--orange) 50%, var(--orange) 100%);
-    position: fixed;
-    top: 0; left: 0; right: 0;
-    z-index: 100;
-    animation: bar-flash 1.5s ease-in-out 3;
-  }
-
-  @keyframes bar-flash {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.5; }
+    padding: 0 24px 48px;
   }
 
   .header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 24px 0 16px;
+    padding: 20px 0;
   }
 
   .logo {
-    display: flex;
-    align-items: center;
-    gap: 10px;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--black);
+    letter-spacing: -0.3px;
   }
 
-  .logo-icon {
-    width: 32px; height: 32px;
-    background: var(--gold);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 900;
-    font-size: 16px;
-    color: var(--bg);
-  }
+  .logo span { color: var(--gold); }
 
-  .logo-text {
-    font-size: 18px;
-    font-weight: 700;
-    letter-spacing: -0.5px;
-  }
-
-  .logo-text span { color: var(--gold); }
-
-  .header-badge {
-    font-size: 10px;
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
+  .header-tag {
+    font-size: 11px;
+    font-weight: 600;
     color: var(--red);
-    font-weight: 700;
-    background: var(--red-dim);
-    padding: 4px 10px;
-    border-radius: 4px;
-    border: 1px solid rgba(239, 68, 68, 0.25);
-    animation: badge-pulse 2s ease-in-out infinite;
-  }
-
-  @keyframes badge-pulse {
-    0%, 100% { border-color: rgba(239, 68, 68, 0.25); }
-    50% { border-color: rgba(239, 68, 68, 0.6); }
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
   }
 
   .hero {
     text-align: center;
-    padding: 20px 0 24px;
+    padding: 32px 0 28px;
   }
 
-  .tampered-icon {
-    width: 90px; height: 90px;
+  .alert-icon {
+    width: 64px;
+    height: 64px;
     border-radius: 50%;
-    background: var(--red-glow);
-    border: 2px solid var(--red);
+    background: var(--red);
     display: flex;
     align-items: center;
     justify-content: center;
-    margin: 0 auto 18px;
-    animation: pulse-red 1.2s ease-in-out infinite;
+    margin: 0 auto 20px;
   }
 
-  @keyframes pulse-red {
-    0%, 100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4); }
-    50% { box-shadow: 0 0 0 16px rgba(239, 68, 68, 0); }
-  }
-
-  .tampered-icon svg {
-    width: 44px; height: 44px;
-    color: var(--red);
+  .alert-icon svg {
+    width: 32px;
+    height: 32px;
+    color: white;
   }
 
   .hero h1 {
-    font-size: 26px;
-    font-weight: 800;
-    color: var(--red);
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--black);
     letter-spacing: -0.5px;
-    margin-bottom: 6px;
+    margin-bottom: 8px;
   }
 
   .hero p {
-    font-size: 13px;
-    color: var(--gray);
+    font-size: 15px;
+    color: var(--gray-1);
     line-height: 1.5;
+    font-weight: 400;
   }
 
-  .alert-bar {
-    background: linear-gradient(135deg, var(--red-dark), #3D0A0A);
-    border: 1px solid rgba(239, 68, 68, 0.35);
-    border-radius: 14px;
-    padding: 16px 20px;
-    margin-bottom: 14px;
-    display: flex;
-    align-items: center;
-    gap: 14px;
-  }
-
-  .alert-bar-icon {
-    width: 44px; height: 44px;
-    background: rgba(239, 68, 68, 0.2);
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-  }
-
-  .alert-bar-icon svg {
-    width: 24px; height: 24px;
-    color: var(--red);
-  }
-
-  .alert-bar-text h3 {
-    font-size: 14px;
-    font-weight: 700;
-    color: var(--red);
-    margin-bottom: 2px;
-  }
-
-  .alert-bar-text p {
-    font-size: 11px;
-    color: rgba(239, 68, 68, 0.75);
-    line-height: 1.4;
-  }
-
-  .seal-card {
-    background: var(--card);
-    border: 1px solid rgba(239, 68, 68, 0.2);
-    border-radius: 14px;
-    padding: 20px;
-    margin-bottom: 14px;
-  }
-
-  .seal-id-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 14px;
-    padding-bottom: 14px;
-    border-bottom: 1px solid var(--border);
-  }
-
-  .seal-id-label {
-    font-size: 10px;
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
-    color: var(--muted);
-    font-weight: 600;
-  }
-
-  .seal-id-value {
-    font-size: 14px;
-    font-weight: 700;
-    color: var(--gold);
-    font-family: 'SF Mono', 'Fira Code', monospace;
-    letter-spacing: 0.5px;
-  }
-
-  .seal-status-bad {
+  .status-pill {
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    background: rgba(239, 68, 68, 0.12);
-    border: 1px solid rgba(239, 68, 68, 0.35);
+    background: var(--red-bg);
+    border: 1px solid var(--red-border);
     border-radius: 100px;
-    padding: 5px 14px;
-    font-size: 12px;
-    font-weight: 700;
-    color: var(--red);
-    text-transform: uppercase;
-    letter-spacing: 1px;
+    padding: 8px 16px;
+    margin: 16px auto 0;
   }
 
-  .seal-status-dot-red {
-    width: 7px; height: 7px;
+  .status-dot {
+    width: 6px;
+    height: 6px;
     background: var(--red);
     border-radius: 50%;
-    animation: blink-fast 0.8s ease-in-out infinite;
+    animation: blink 1s ease-in-out infinite;
   }
 
-  @keyframes blink-fast {
+  @keyframes blink {
     0%, 100% { opacity: 1; }
-    50% { opacity: 0.2; }
+    50% { opacity: 0.3; }
   }
 
-  .info-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-  }
-
-  .info-item {
-    background: var(--bg2);
-    border-radius: 10px;
-    padding: 14px;
-  }
-
-  .info-item.full { grid-column: 1 / -1; }
-
-  .info-label {
-    font-size: 9px;
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
-    color: var(--muted);
-    font-weight: 600;
-    margin-bottom: 5px;
-  }
-
-  .info-value {
+  .status-text {
     font-size: 13px;
     font-weight: 600;
-    color: var(--white);
-    line-height: 1.4;
+    color: #991B1B;
   }
 
-  .info-value.gold { color: var(--gold); }
-  .info-value.red { color: var(--red); }
-
-  .timeline-card {
-    background: var(--card);
-    border: 1px solid rgba(239, 68, 68, 0.2);
-    border-radius: 14px;
-    padding: 20px;
-    margin-bottom: 14px;
+  .alert-banner {
+    background: var(--red-bg);
+    border: 1px solid var(--red-border);
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 12px;
   }
 
-  .timeline-title {
+  .alert-banner p {
+    font-size: 14px;
+    color: #991B1B;
+    line-height: 1.5;
+    font-weight: 500;
+  }
+
+  .card {
+    background: var(--white);
+    border-radius: 16px;
+    padding: 24px;
+    margin-bottom: 12px;
+    border: 1px solid rgba(0,0,0,0.04);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+  }
+
+  .card-label {
     font-size: 11px;
+    font-weight: 600;
+    color: var(--gray-1);
+    letter-spacing: 0.8px;
     text-transform: uppercase;
-    letter-spacing: 1.5px;
-    color: var(--red);
-    font-weight: 700;
-    margin-bottom: 18px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
+    margin-bottom: 16px;
   }
 
-  .timeline-title::before {
-    content: '';
-    display: block;
-    width: 3px; height: 14px;
-    background: var(--red);
-    border-radius: 2px;
+  .card-label.red { color: var(--red); }
+
+  .detail-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--gray-3);
   }
+
+  .detail-row:last-child { border-bottom: none; }
+  .detail-row:first-of-type { padding-top: 0; }
+
+  .detail-key {
+    font-size: 14px;
+    color: var(--gray-1);
+    font-weight: 400;
+    flex-shrink: 0;
+  }
+
+  .detail-value {
+    font-size: 14px;
+    color: var(--black);
+    font-weight: 500;
+    text-align: right;
+    max-width: 60%;
+  }
+
+  .detail-value.mono {
+    font-family: 'SF Mono', 'Fira Code', 'Courier New', monospace;
+    font-size: 13px;
+    font-weight: 500;
+  }
+
+  .detail-value.red { color: var(--red); font-weight: 600; }
+  .detail-value.green { color: var(--green); }
 
   .timeline {
     position: relative;
-    padding-left: 28px;
+    padding-left: 24px;
   }
 
   .timeline::before {
     content: '';
     position: absolute;
-    left: 8px;
-    top: 4px;
-    bottom: 4px;
-    width: 2px;
-    background: linear-gradient(to bottom, var(--green) 0%, var(--green) 40%, var(--red) 55%, var(--red) 100%);
-    border-radius: 1px;
+    left: 5px;
+    top: 6px;
+    bottom: 6px;
+    width: 1.5px;
+    background: linear-gradient(to bottom, var(--green) 0%, var(--green) 35%, var(--red) 55%, var(--red) 100%);
+    opacity: 0.4;
   }
 
-  .timeline-step {
+  .t-step {
     position: relative;
-    padding-bottom: 22px;
+    padding-bottom: 20px;
   }
 
-  .timeline-step:last-child { padding-bottom: 0; }
+  .t-step:last-child { padding-bottom: 0; }
 
-  .timeline-dot {
+  .t-dot {
     position: absolute;
-    left: -24px;
-    top: 2px;
-    width: 18px; height: 18px;
+    left: -21px;
+    top: 5px;
+    width: 12px;
+    height: 12px;
     border-radius: 50%;
-    background: var(--bg);
-    display: flex;
-    align-items: center;
-    justify-content: center;
   }
 
-  .timeline-dot.good { border: 2px solid var(--green); }
-  .timeline-dot.bad { border: 2px solid var(--red); animation: dot-flash 1s ease-in-out infinite; }
+  .t-dot.ok { background: var(--green); }
+  .t-dot.bad { background: var(--red); }
 
-  @keyframes dot-flash {
-    0%, 100% { border-color: var(--red); background: var(--bg); }
-    50% { border-color: var(--red); background: rgba(239, 68, 68, 0.15); }
-  }
-
-  .timeline-dot svg.green { width: 10px; height: 10px; color: var(--green); }
-  .timeline-dot svg.red { width: 10px; height: 10px; color: var(--red); }
-
-  .timeline-step-header {
+  .t-header {
     display: flex;
-    align-items: baseline;
     justify-content: space-between;
-    margin-bottom: 3px;
+    align-items: baseline;
+    margin-bottom: 4px;
   }
 
-  .timeline-step-title {
+  .t-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--black);
+  }
+
+  .t-title.red { color: var(--red); }
+
+  .t-time {
+    font-size: 12px;
+    color: var(--gray-1);
+    font-family: 'SF Mono', 'Fira Code', 'Courier New', monospace;
+  }
+
+  .t-detail {
     font-size: 13px;
-    font-weight: 700;
-    color: var(--white);
-  }
-
-  .timeline-step-time {
-    font-size: 11px;
-    color: var(--muted);
-    font-family: 'SF Mono', 'Fira Code', monospace;
-  }
-
-  .timeline-step-detail {
-    font-size: 11px;
-    color: var(--gray);
+    color: var(--gray-1);
     line-height: 1.5;
   }
 
-  .timeline-step-detail .loc { color: var(--gold-light); font-weight: 500; }
-  .timeline-step-detail .danger { color: var(--red); font-weight: 600; }
-
-  .timeline-step-badge {
-    display: inline-block;
-    font-size: 9px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    padding: 2px 8px;
-    border-radius: 4px;
-    margin-top: 5px;
-  }
-
-  .badge-green {
-    background: rgba(74, 222, 128, 0.12);
-    color: var(--green);
-    border: 1px solid rgba(74, 222, 128, 0.25);
-  }
-
-  .badge-red {
-    background: rgba(239, 68, 68, 0.12);
+  .t-detail .flag {
     color: var(--red);
-    border: 1px solid rgba(239, 68, 68, 0.3);
-    animation: badge-flash 1.5s ease-in-out 3;
+    font-weight: 500;
   }
 
-  @keyframes badge-flash {
-    0%, 100% { background: rgba(239, 68, 68, 0.12); }
-    50% { background: rgba(239, 68, 68, 0.25); }
-  }
-
-  .badge-orange {
-    background: rgba(251, 146, 60, 0.12);
-    color: var(--orange);
-    border: 1px solid rgba(251, 146, 60, 0.3);
-  }
-
-  .anomaly-card {
-    background: linear-gradient(135deg, #1A0808, #200D0D);
-    border: 1px solid rgba(239, 68, 68, 0.25);
-    border-radius: 14px;
-    padding: 20px;
-    margin-bottom: 14px;
-  }
-
-  .anomaly-title {
-    font-size: 11px;
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
-    color: var(--red);
-    font-weight: 700;
-    margin-bottom: 14px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-
-  .anomaly-title::before {
-    content: '';
-    display: block;
-    width: 3px; height: 14px;
-    background: var(--red);
-    border-radius: 2px;
-  }
-
-  .anomaly-item {
+  .action-item {
     display: flex;
     align-items: flex-start;
-    gap: 10px;
+    gap: 12px;
     padding: 10px 0;
-    border-bottom: 1px solid rgba(239, 68, 68, 0.1);
+    border-bottom: 1px solid var(--gray-3);
   }
 
-  .anomaly-item:last-child { border-bottom: none; }
+  .action-item:last-child { border-bottom: none; }
+  .action-item:first-child { padding-top: 0; }
 
-  .anomaly-bullet {
-    width: 20px; height: 20px;
+  .action-check {
+    width: 20px;
+    height: 20px;
     border-radius: 50%;
-    background: rgba(239, 68, 68, 0.15);
+    background: var(--green-bg);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -479,480 +290,219 @@
     margin-top: 1px;
   }
 
-  .anomaly-bullet svg {
-    width: 11px; height: 11px;
-    color: var(--red);
-  }
-
-  .anomaly-text {
-    font-size: 12px;
-    color: var(--gray);
-    line-height: 1.5;
-  }
-
-  .anomaly-text strong { color: var(--red); font-weight: 700; }
-
-  .action-card {
-    background: var(--card);
-    border: 1px solid rgba(251, 146, 60, 0.2);
-    border-radius: 14px;
-    padding: 20px;
-    margin-bottom: 14px;
-  }
-
-  .action-title {
-    font-size: 11px;
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
-    color: var(--orange);
-    font-weight: 700;
-    margin-bottom: 14px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-
-  .action-title::before {
-    content: '';
-    display: block;
-    width: 3px; height: 14px;
-    background: var(--orange);
-    border-radius: 2px;
-  }
-
-  .action-item {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 8px 0;
-  }
-
-  .action-check {
-    width: 18px; height: 18px;
-    border-radius: 50%;
-    background: rgba(74, 222, 128, 0.12);
-    border: 1px solid rgba(74, 222, 128, 0.3);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-  }
-
   .action-check svg {
-    width: 10px; height: 10px;
+    width: 11px;
+    height: 11px;
     color: var(--green);
   }
 
   .action-text {
-    font-size: 12px;
-    color: var(--gray);
-    line-height: 1.4;
+    font-size: 14px;
+    color: var(--black);
+    line-height: 1.5;
+    font-weight: 400;
   }
 
-  .action-text strong { color: var(--white); }
+  .action-text strong { font-weight: 600; }
 
-  .proof-card {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 14px;
-    padding: 20px;
-    margin-bottom: 14px;
-  }
-
-  .proof-title {
-    font-size: 11px;
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
-    color: var(--gold);
-    font-weight: 700;
-    margin-bottom: 14px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-
-  .proof-title::before {
-    content: '';
-    display: block;
-    width: 3px; height: 14px;
-    background: var(--gold);
-    border-radius: 2px;
-  }
-
-  .proof-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 0;
-    border-bottom: 1px solid var(--border);
-  }
-
-  .proof-row:last-child { border-bottom: none; }
-
-  .proof-key {
-    font-size: 11px;
-    color: var(--muted);
-    font-weight: 500;
-  }
-
-  .proof-value {
-    font-size: 11px;
-    color: var(--white);
-    font-family: 'SF Mono', 'Fira Code', monospace;
-    font-weight: 500;
-  }
-
-  .proof-value.red { color: var(--red); }
-  .proof-value.green { color: var(--green); }
-
-  .trust-footer {
+  .footer {
     text-align: center;
-    padding: 20px 0 10px;
+    padding: 24px 0 0;
   }
 
-  .trust-badges {
-    display: flex;
-    justify-content: center;
-    gap: 16px;
-    margin-bottom: 14px;
-    flex-wrap: wrap;
+  .footer p {
+    font-size: 12px;
+    color: var(--gray-1);
   }
 
-  .trust-badge {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    font-size: 10px;
-    color: var(--muted);
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-  }
-
-  .trust-badge svg {
-    width: 14px; height: 14px;
-    color: var(--red);
-  }
-
-  .powered-by {
-    font-size: 10px;
-    color: var(--muted);
-    letter-spacing: 0.5px;
-  }
-
-  .powered-by a {
+  .footer a {
     color: var(--gold);
     text-decoration: none;
-    font-weight: 600;
+    font-weight: 500;
   }
 
-  .fade-up {
+  .fade-in {
     opacity: 0;
-    transform: translateY(16px);
-    animation: fadeUp 0.5s ease forwards;
+    transform: translateY(8px);
+    animation: fadeIn 0.4s ease forwards;
   }
 
-  @keyframes fadeUp {
+  @keyframes fadeIn {
     to { opacity: 1; transform: translateY(0); }
   }
 
-  .fade-up:nth-child(1) { animation-delay: 0.05s; }
-  .fade-up:nth-child(2) { animation-delay: 0.15s; }
-  .fade-up:nth-child(3) { animation-delay: 0.25s; }
-  .fade-up:nth-child(4) { animation-delay: 0.35s; }
-  .fade-up:nth-child(5) { animation-delay: 0.45s; }
-  .fade-up:nth-child(6) { animation-delay: 0.55s; }
-  .fade-up:nth-child(7) { animation-delay: 0.65s; }
-  .fade-up:nth-child(8) { animation-delay: 0.75s; }
-  .fade-up:nth-child(9) { animation-delay: 0.85s; }
+  .fade-in:nth-child(1) { animation-delay: 0s; }
+  .fade-in:nth-child(2) { animation-delay: 0.08s; }
+  .fade-in:nth-child(3) { animation-delay: 0.16s; }
+  .fade-in:nth-child(4) { animation-delay: 0.24s; }
+  .fade-in:nth-child(5) { animation-delay: 0.32s; }
+  .fade-in:nth-child(6) { animation-delay: 0.4s; }
+  .fade-in:nth-child(7) { animation-delay: 0.48s; }
+  .fade-in:nth-child(8) { animation-delay: 0.56s; }
+  .fade-in:nth-child(9) { animation-delay: 0.64s; }
 </style>
 </head>
 <body>
-<div class="bg-gradient"></div>
-<div class="top-bar"></div>
 
 <div class="container">
 
-  <div class="header fade-up">
-    <div class="logo">
-      <div class="logo-icon">S</div>
-      <div class="logo-text">Seal<span>Trust</span></div>
-    </div>
-    <div class="header-badge">ALERT</div>
+  <div class="header fade-in">
+    <div class="logo">Seal<span>Trust</span></div>
+    <div class="header-tag">Alert</div>
   </div>
 
-  <div class="hero fade-up">
-    <div class="tampered-icon">
+  <div class="hero fade-in">
+    <div class="alert-icon">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
         <line x1="18" y1="6" x2="6" y2="18"></line>
         <line x1="6" y1="6" x2="18" y2="18"></line>
       </svg>
     </div>
     <h1>Seal Tampered</h1>
-    <p>This order's tamper seal was broken in transit.<br>Tampering detected between pickup and delivery.</p>
-  </div>
-
-  <div class="alert-bar fade-up">
-    <div class="alert-bar-icon">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
-        <line x1="12" y1="9" x2="12" y2="13"/>
-        <line x1="12" y1="17" x2="12.01" y2="17"/>
-      </svg>
-    </div>
-    <div class="alert-bar-text">
-      <h3>Driver Tampering Detected</h3>
-      <p>GPS shows unauthorized 7-min stop. Seal integrity lost between Checkpoint 2 and delivery. Driver flagged.</p>
+    <p>This order's seal was broken in transit.<br>We've already taken care of it.</p>
+    <div class="status-pill">
+      <div class="status-dot"></div>
+      <div class="status-text">Tampering detected</div>
     </div>
   </div>
 
-  <div class="seal-card fade-up">
-    <div class="seal-id-row">
-      <div>
-        <div class="seal-id-label">Seal ID</div>
-        <div class="seal-id-value">ST-MCD-2026-0408-00002</div>
-      </div>
-      <div class="seal-status-bad">
-        <div class="seal-status-dot-red"></div>
-        Tampered
-      </div>
+  <div class="alert-banner fade-in">
+    <p>GPS anomaly detected — driver made an unauthorized 7-minute stop off-route. Seal integrity was lost between pickup and delivery.</p>
+  </div>
+
+  <div class="card fade-in">
+    <div class="card-label">Order Details</div>
+    <div class="detail-row">
+      <div class="detail-key">Seal ID</div>
+      <div class="detail-value mono">ST-MCD-2026-0408-00002</div>
     </div>
-    <div class="info-grid">
-      <div class="info-item">
-        <div class="info-label">Order</div>
-        <div class="info-value">MCD-ORD-7824932</div>
-      </div>
-      <div class="info-item">
-        <div class="info-label">Platform</div>
-        <div class="info-value">Uber Eats</div>
-      </div>
-      <div class="info-item full">
-        <div class="info-label">Restaurant</div>
-        <div class="info-value">McDonald's #12847 — 1820 W Sunset Blvd, Los Angeles, CA</div>
-      </div>
-      <div class="info-item">
-        <div class="info-label">Items</div>
-        <div class="info-value">Quarter Pounder Meal, Large Fries, Lg Coke, Apple Pie</div>
-      </div>
-      <div class="info-item">
-        <div class="info-label">Flagged Party</div>
-        <div class="info-value red">Driver: Kevin T. (UE-7193)</div>
-      </div>
+    <div class="detail-row">
+      <div class="detail-key">Order</div>
+      <div class="detail-value">MCD-ORD-7824932</div>
+    </div>
+    <div class="detail-row">
+      <div class="detail-key">Restaurant</div>
+      <div class="detail-value">McDonald's #12847</div>
+    </div>
+    <div class="detail-row">
+      <div class="detail-key">Platform</div>
+      <div class="detail-value">Uber Eats</div>
+    </div>
+    <div class="detail-row">
+      <div class="detail-key">Flagged</div>
+      <div class="detail-value red">Driver: Kevin T.</div>
     </div>
   </div>
 
-  <div class="timeline-card fade-up">
-    <div class="timeline-title">Chain of Custody — Breach Detected</div>
+  <div class="card fade-in">
+    <div class="card-label red">Chain of Custody</div>
     <div class="timeline">
 
-      <div class="timeline-step">
-        <div class="timeline-dot good">
-          <svg class="green" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="20 6 9 17 4 12"></polyline>
-          </svg>
+      <div class="t-step">
+        <div class="t-dot ok"></div>
+        <div class="t-header">
+          <div class="t-title">Sealed at store</div>
+          <div class="t-time">1:12 PM</div>
         </div>
-        <div class="timeline-step-header">
-          <div class="timeline-step-title">Checkpoint 1 — Sealed at Store</div>
-          <div class="timeline-step-time">1:12:08 PM</div>
-        </div>
-        <div class="timeline-step-detail">
-          Seal applied by <strong>Crew: David M.</strong><br>
-          <span class="loc">McDonald's #12847 — 34.0901° N, 118.2686° W</span>
-        </div>
-        <div class="timeline-step-badge badge-green">Seal Applied — Integrity Confirmed</div>
+        <div class="t-detail">Crew: David M. — McDonald's #12847</div>
       </div>
 
-      <div class="timeline-step">
-        <div class="timeline-dot good">
-          <svg class="green" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="20 6 9 17 4 12"></polyline>
-          </svg>
+      <div class="t-step">
+        <div class="t-dot ok"></div>
+        <div class="t-header">
+          <div class="t-title">Driver pickup</div>
+          <div class="t-time">1:15 PM</div>
         </div>
-        <div class="timeline-step-header">
-          <div class="timeline-step-title">Checkpoint 2 — Driver Pickup</div>
-          <div class="timeline-step-time">1:15:33 PM</div>
-        </div>
-        <div class="timeline-step-detail">
-          Scanned by <strong>Driver: Kevin T. (UE-7193)</strong><br>
-          <span class="loc">McDonald's #12847 — 34.0901° N, 118.2686° W</span>
-        </div>
-        <div class="timeline-step-badge badge-green">Seal Intact — Custody Transferred to Driver</div>
+        <div class="t-detail">Driver: Kevin T. (UE-7193) — Seal intact</div>
       </div>
 
-      <div class="timeline-step">
-        <div class="timeline-dot bad">
-          <svg class="red" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-            <line x1="18" y1="6" x2="6" y2="18"></line>
-            <line x1="6" y1="6" x2="18" y2="18"></line>
-          </svg>
+      <div class="t-step">
+        <div class="t-dot bad"></div>
+        <div class="t-header">
+          <div class="t-title red">Unauthorized stop</div>
+          <div class="t-time">1:23 PM</div>
         </div>
-        <div class="timeline-step-header">
-          <div class="timeline-step-title">ANOMALY — Unauthorized Stop</div>
-          <div class="timeline-step-time">1:23:41 PM</div>
-        </div>
-        <div class="timeline-step-detail">
-          <span class="danger">Driver GPS: stationary for 7 min 12 sec at 34.0677° N, 118.2553° W — a parking lot 1.3 miles off route.</span><br>
-          Expected transit time: 12 min. Actual: 22 min.
-        </div>
-        <div class="timeline-step-badge badge-red">Route Deviation — Tampering Window Identified</div>
+        <div class="t-detail"><span class="flag">Stationary 7 min at parking lot, 1.3 mi off route.</span> Expected transit: 12 min. Actual: 22 min.</div>
       </div>
 
-      <div class="timeline-step">
-        <div class="timeline-dot bad">
-          <svg class="red" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-            <line x1="18" y1="6" x2="6" y2="18"></line>
-            <line x1="6" y1="6" x2="18" y2="18"></line>
-          </svg>
+      <div class="t-step">
+        <div class="t-dot bad"></div>
+        <div class="t-header">
+          <div class="t-title red">Delivered — seal broken</div>
+          <div class="t-time">1:37 PM</div>
         </div>
-        <div class="timeline-step-header">
-          <div class="timeline-step-title">Checkpoint 3 — Delivered (Seal Broken)</div>
-          <div class="timeline-step-time">1:37:20 PM</div>
-        </div>
-        <div class="timeline-step-detail">
-          Customer reported seal broken upon receipt.<br>
-          <span class="danger">Seal NFC integrity check: FAILED. Physical tear pattern detected.</span>
-        </div>
-        <div class="timeline-step-badge badge-red">Seal Compromised — Driver Flagged</div>
+        <div class="t-detail"><span class="flag">NFC integrity check failed.</span> Physical tear pattern detected on seal.</div>
       </div>
 
     </div>
   </div>
 
-  <div class="anomaly-card fade-up">
-    <div class="anomaly-title">AI Anomaly Detection</div>
-    <div class="anomaly-item">
-      <div class="anomaly-bullet">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+  <div class="card fade-in">
+    <div class="card-label">What We Did</div>
+
+    <div class="action-item">
+      <div class="action-check">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="20 6 9 17 4 12"></polyline>
         </svg>
       </div>
-      <div class="anomaly-text"><strong>Route deviation:</strong> Driver stopped at 34.0677° N, 118.2553° W for 7 min 12 sec — a parking lot not on the delivery route.</div>
+      <div class="action-text"><strong>Refunded $18.43</strong> in 47 seconds</div>
     </div>
-    <div class="anomaly-item">
-      <div class="anomaly-bullet">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+
+    <div class="action-item">
+      <div class="action-check">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="20 6 9 17 4 12"></polyline>
         </svg>
       </div>
-      <div class="anomaly-text"><strong>Transit time anomaly:</strong> Expected 12 min, actual 22 min. +83% deviation exceeds threshold.</div>
+      <div class="action-text"><strong>Replacement order</strong> already on its way</div>
     </div>
-    <div class="anomaly-item">
-      <div class="anomaly-bullet">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+
+    <div class="action-item">
+      <div class="action-check">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="20 6 9 17 4 12"></polyline>
         </svg>
       </div>
-      <div class="anomaly-text"><strong>Seal integrity:</strong> NFC chip reports physical break at 1:23 PM — matches the unauthorized stop window exactly.</div>
+      <div class="action-text"><strong>Driver suspended</strong> — 3rd incident</div>
     </div>
-    <div class="anomaly-item">
-      <div class="anomaly-bullet">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+
+    <div class="action-item">
+      <div class="action-check">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="20 6 9 17 4 12"></polyline>
         </svg>
       </div>
-      <div class="anomaly-text"><strong>Driver history:</strong> Kevin T. has 2 prior seal incidents in 45 days. This is <strong>offense #3 — suspension threshold reached.</strong></div>
+      <div class="action-text"><strong>Evidence sealed</strong> on blockchain</div>
+    </div>
+
+  </div>
+
+  <div class="card fade-in">
+    <div class="card-label">Blockchain Record</div>
+    <div class="detail-row">
+      <div class="detail-key">Tx hash</div>
+      <div class="detail-value mono">0x2e8b...a41f</div>
+    </div>
+    <div class="detail-row">
+      <div class="detail-key">Incident</div>
+      <div class="detail-value red">Driver tamper</div>
+    </div>
+    <div class="detail-row">
+      <div class="detail-key">Confidence</div>
+      <div class="detail-value red">97.3%</div>
+    </div>
+    <div class="detail-row">
+      <div class="detail-key">Resolution</div>
+      <div class="detail-value green">47 seconds</div>
     </div>
   </div>
 
-  <div class="action-card fade-up">
-    <div class="action-title">Automated Actions Taken</div>
-    <div class="action-item">
-      <div class="action-check">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-          <polyline points="20 6 9 17 4 12"></polyline>
-        </svg>
-      </div>
-      <div class="action-text"><strong>Customer refunded $18.43</strong> — processed in 47 seconds</div>
-    </div>
-    <div class="action-item">
-      <div class="action-check">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-          <polyline points="20 6 9 17 4 12"></polyline>
-        </svg>
-      </div>
-      <div class="action-text"><strong>Replacement order dispatched</strong> — new seal assigned ST-MCD-2026-0408-00002R</div>
-    </div>
-    <div class="action-item">
-      <div class="action-check">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-          <polyline points="20 6 9 17 4 12"></polyline>
-        </svg>
-      </div>
-      <div class="action-text"><strong>Driver Kevin T. suspended 48 hours</strong> — 3rd offense, pending investigation</div>
-    </div>
-    <div class="action-item">
-      <div class="action-check">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-          <polyline points="20 6 9 17 4 12"></polyline>
-        </svg>
-      </div>
-      <div class="action-text"><strong>Uber Eats notified</strong> — incident report filed with platform</div>
-    </div>
-    <div class="action-item">
-      <div class="action-check">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-          <polyline points="20 6 9 17 4 12"></polyline>
-        </svg>
-      </div>
-      <div class="action-text"><strong>Full incident record sealed on blockchain</strong> — immutable evidence preserved</div>
-    </div>
-  </div>
-
-  <div class="proof-card fade-up">
-    <div class="proof-title">Blockchain Record</div>
-    <div class="proof-row">
-      <div class="proof-key">Transaction Hash</div>
-      <div class="proof-value">0x2e8b...a41f</div>
-    </div>
-    <div class="proof-row">
-      <div class="proof-key">Block Number</div>
-      <div class="proof-value">#18,429,412</div>
-    </div>
-    <div class="proof-row">
-      <div class="proof-key">Incident Type</div>
-      <div class="proof-value red">DRIVER TAMPER</div>
-    </div>
-    <div class="proof-row">
-      <div class="proof-key">Confidence Score</div>
-      <div class="proof-value red">97.3% — High</div>
-    </div>
-    <div class="proof-row">
-      <div class="proof-key">Resolution Time</div>
-      <div class="proof-value green">47 seconds</div>
-    </div>
-    <div class="proof-row">
-      <div class="proof-key">Evidence Hash</div>
-      <div class="proof-value">SHA-256: 3d7c...b912</div>
-    </div>
-  </div>
-
-  <div class="trust-footer fade-up">
-    <div class="trust-badges">
-      <div class="trust-badge">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-        </svg>
-        Blockchain Verified
-      </div>
-      <div class="trust-badge">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
-          <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
-        </svg>
-        Tamper Detected
-      </div>
-      <div class="trust-badge">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
-        </svg>
-        AI Analyzed
-      </div>
-    </div>
-    <div class="powered-by">
-      Powered by <a href="https://sealtrust.ai">SealTrust</a> — Blockchain-Verified Delivery
-    </div>
+  <div class="footer fade-in">
+    <p>Powered by <a href="https://sealtrust.ai">SealTrust</a></p>
   </div>
 
 </div>
+
 </body>
 </html>
