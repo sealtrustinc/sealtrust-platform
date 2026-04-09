@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SealTrust — Verified</title>
+<title>SealTrust â Verified</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
@@ -36,6 +36,7 @@
     padding: 0 24px 48px;
   }
 
+  /* Header */
   .header {
     display: flex;
     align-items: center;
@@ -60,6 +61,7 @@
     text-transform: uppercase;
   }
 
+  /* Hero */
   .hero {
     text-align: center;
     padding: 32px 0 28px;
@@ -97,6 +99,7 @@
     font-weight: 400;
   }
 
+  /* Status pill */
   .status-pill {
     display: inline-flex;
     align-items: center;
@@ -121,6 +124,7 @@
     color: #166534;
   }
 
+  /* Card */
   .card {
     background: var(--white);
     border-radius: 16px;
@@ -139,6 +143,7 @@
     margin-bottom: 16px;
   }
 
+  /* Detail rows */
   .detail-row {
     display: flex;
     justify-content: space-between;
@@ -171,6 +176,7 @@
     font-weight: 500;
   }
 
+  /* Timeline */
   .timeline {
     position: relative;
     padding-left: 24px;
@@ -229,6 +235,15 @@
     line-height: 1.5;
   }
 
+  /* Divider */
+  .divider {
+    height: 1px;
+    background: var(--gray-2);
+    opacity: 0.5;
+    margin: 4px 0;
+  }
+
+  /* Footer */
   .footer {
     text-align: center;
     padding: 24px 0 0;
@@ -245,6 +260,88 @@
     font-weight: 500;
   }
 
+  /* CTA Section */
+  .cta-section {
+    text-align: center;
+    padding: 8px 0 4px;
+  }
+
+  .confirm-btn {
+    width: 100%;
+    padding: 16px;
+    border: none;
+    border-radius: 14px;
+    background: var(--green);
+    color: white;
+    font-family: 'Inter', sans-serif;
+    font-size: 17px;
+    font-weight: 600;
+    letter-spacing: -0.2px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .confirm-btn:active { transform: scale(0.98); }
+
+  .confirm-btn.confirmed {
+    background: #166534;
+    pointer-events: none;
+  }
+
+  .reward-toast {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 14px;
+    padding: 12px 20px;
+    background: linear-gradient(135deg, #FFF9E6 0%, #FFF3CC 100%);
+    border: 1px solid #F5D670;
+    border-radius: 12px;
+    animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+  }
+
+  .reward-toast.show { display: flex; }
+
+  .reward-pts {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--gold);
+  }
+
+  .reward-label {
+    font-size: 14px;
+    color: #92700C;
+    font-weight: 500;
+  }
+
+  @keyframes popIn {
+    0% { opacity: 0; transform: scale(0.8); }
+    100% { opacity: 1; transform: scale(1); }
+  }
+
+  .app-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 16px;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--gold);
+    text-decoration: none;
+    transition: opacity 0.2s;
+  }
+
+  .app-link:hover { opacity: 0.7; }
+
+  .app-link svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  /* Animations */
   .fade-in {
     opacity: 0;
     transform: translateY(8px);
@@ -325,7 +422,7 @@
           <div class="t-title">Sealed at store</div>
           <div class="t-time">12:34 PM</div>
         </div>
-        <div class="t-detail">Crew: Maria G. — McDonald's #12847</div>
+        <div class="t-detail">Crew: Maria G. â McDonald's #12847</div>
       </div>
 
       <div class="t-step">
@@ -334,7 +431,7 @@
           <div class="t-title">Driver pickup</div>
           <div class="t-time">12:36 PM</div>
         </div>
-        <div class="t-detail">Driver: James R. (DD-4821) — Seal intact</div>
+        <div class="t-detail">Driver: James R. (DD-4821) â Seal intact</div>
       </div>
 
       <div class="t-step">
@@ -343,7 +440,7 @@
           <div class="t-title">Delivered</div>
           <div class="t-time">12:51 PM</div>
         </div>
-        <div class="t-detail">Received by Adam B. — Seal intact</div>
+        <div class="t-detail">Received by Adam B. â Seal intact</div>
       </div>
 
     </div>
@@ -385,11 +482,38 @@
     </div>
   </div>
 
+  <div class="cta-section fade-in">
+    <button class="confirm-btn" id="confirmBtn" onclick="confirmDelivery()">
+      Confirm Delivery
+    </button>
+    <div class="reward-toast" id="rewardToast">
+      <span class="reward-pts">+50 pts</span>
+      <span class="reward-label">Reward earned!</span>
+    </div>
+    <a href="#" class="app-link" onclick="return false;">
+      Download app to collect rewards
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="7" y1="17" x2="17" y2="7"></line>
+        <polyline points="7 7 17 7 17 17"></polyline>
+      </svg>
+    </a>
+  </div>
+
   <div class="footer fade-in">
     <p>Powered by <a href="https://sealtrust.ai">SealTrust</a></p>
   </div>
 
 </div>
+
+<script>
+function confirmDelivery() {
+  const btn = document.getElementById('confirmBtn');
+  const toast = document.getElementById('rewardToast');
+  btn.textContent = 'Delivery Confirmed \u2713';
+  btn.classList.add('confirmed');
+  toast.classList.add('show');
+}
+</script>
 
 </body>
 </html>
