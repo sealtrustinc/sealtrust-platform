@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SealTrust — Alert</title>
+<title>SealTrust â Alert</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
@@ -321,6 +321,87 @@
     font-weight: 500;
   }
 
+  /* CTA Section */
+  .cta-section {
+    text-align: center;
+    padding: 8px 0 4px;
+  }
+
+  .confirm-btn {
+    width: 100%;
+    padding: 16px;
+    border: none;
+    border-radius: 14px;
+    background: var(--red);
+    color: white;
+    font-family: 'Inter', sans-serif;
+    font-size: 17px;
+    font-weight: 600;
+    letter-spacing: -0.2px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .confirm-btn:active { transform: scale(0.98); }
+
+  .confirm-btn.confirmed {
+    background: #166534;
+    pointer-events: none;
+  }
+
+  .reward-toast {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 14px;
+    padding: 12px 20px;
+    background: linear-gradient(135deg, #FFF9E6 0%, #FFF3CC 100%);
+    border: 1px solid #F5D670;
+    border-radius: 12px;
+    animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+  }
+
+  .reward-toast.show { display: flex; }
+
+  .reward-pts {
+    font-size: 20px;
+    font-weight: 700;
+    color: #B8860B;
+  }
+
+  .reward-label {
+    font-size: 14px;
+    color: #92700C;
+    font-weight: 500;
+  }
+
+  @keyframes popIn {
+    0% { opacity: 0; transform: scale(0.8); }
+    100% { opacity: 1; transform: scale(1); }
+  }
+
+  .app-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 16px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #B8860B;
+    text-decoration: none;
+    transition: opacity 0.2s;
+  }
+
+  .app-link:hover { opacity: 0.7; }
+
+  .app-link svg {
+    width: 16px;
+    height: 16px;
+  }
+
   .fade-in {
     opacity: 0;
     transform: translateY(8px);
@@ -367,7 +448,7 @@
   </div>
 
   <div class="alert-banner fade-in">
-    <p>GPS anomaly detected — driver made an unauthorized 7-minute stop off-route. Seal integrity was lost between pickup and delivery.</p>
+    <p>GPS anomaly detected â driver made an unauthorized 7-minute stop off-route. Seal integrity was lost between pickup and delivery.</p>
   </div>
 
   <div class="card fade-in">
@@ -404,7 +485,7 @@
           <div class="t-title">Sealed at store</div>
           <div class="t-time">1:12 PM</div>
         </div>
-        <div class="t-detail">Crew: David M. — McDonald's #12847</div>
+        <div class="t-detail">Crew: David M. â McDonald's #12847</div>
       </div>
 
       <div class="t-step">
@@ -413,7 +494,7 @@
           <div class="t-title">Driver pickup</div>
           <div class="t-time">1:15 PM</div>
         </div>
-        <div class="t-detail">Driver: Kevin T. (UE-7193) — Seal intact</div>
+        <div class="t-detail">Driver: Kevin T. (UE-7193) â Seal intact</div>
       </div>
 
       <div class="t-step">
@@ -428,7 +509,7 @@
       <div class="t-step">
         <div class="t-dot bad"></div>
         <div class="t-header">
-          <div class="t-title red">Delivered — seal broken</div>
+          <div class="t-title red">Delivered â seal broken</div>
           <div class="t-time">1:37 PM</div>
         </div>
         <div class="t-detail"><span class="flag">NFC integrity check failed.</span> Physical tear pattern detected on seal.</div>
@@ -464,7 +545,7 @@
           <polyline points="20 6 9 17 4 12"></polyline>
         </svg>
       </div>
-      <div class="action-text"><strong>Driver suspended</strong> — 3rd incident</div>
+      <div class="action-text"><strong>Driver suspended</strong> â 3rd incident</div>
     </div>
 
     <div class="action-item">
@@ -498,11 +579,38 @@
     </div>
   </div>
 
+  <div class="cta-section fade-in">
+    <button class="confirm-btn" id="confirmBtn" onclick="confirmReport()">
+      Confirm Report &amp; Earn Rewards
+    </button>
+    <div class="reward-toast" id="rewardToast">
+      <span class="reward-pts">+75 pts</span>
+      <span class="reward-label">Thanks for reporting!</span>
+    </div>
+    <a href="#" class="app-link" onclick="return false;">
+      Download app to collect rewards
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="7" y1="17" x2="17" y2="7"></line>
+        <polyline points="7 7 17 7 17 17"></polyline>
+      </svg>
+    </a>
+  </div>
+
   <div class="footer fade-in">
     <p>Powered by <a href="https://sealtrust.ai">SealTrust</a></p>
   </div>
 
 </div>
+
+<script>
+function confirmReport() {
+  const btn = document.getElementById('confirmBtn');
+  const toast = document.getElementById('rewardToast');
+  btn.textContent = 'Report Confirmed \u2713';
+  btn.classList.add('confirmed');
+  toast.classList.add('show');
+}
+</script>
 
 </body>
 </html>
