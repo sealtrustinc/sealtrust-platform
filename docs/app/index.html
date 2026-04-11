@@ -39,6 +39,13 @@ html,body{height:100%;background:var(--bg);font-family:'Inter',-apple-system,Bli
 .hero-pts .unit{font-family:'Inter',sans-serif;font-size:20px;font-weight:500;color:var(--text2);letter-spacing:0;margin-left:4px;vertical-align:middle}
 .hero-sub{font-size:13px;color:var(--text3);margin-top:8px}
 
+/* Points Animation */
+.pts-pop{position:absolute;font-family:'Playfair Display',serif;font-size:28px;font-weight:700;color:var(--emerald);pointer-events:none;z-index:200;animation:ptsPop 1.2s cubic-bezier(.16,1,.3,1) forwards}
+@keyframes ptsPop{0%{opacity:1;transform:translateY(0) scale(1)}50%{opacity:1;transform:translateY(-40px) scale(1.2)}100%{opacity:0;transform:translateY(-80px) scale(.8)}}
+
+.pts-deduct{color:var(--red);animation:ptsDeduct 1.2s cubic-bezier(.16,1,.3,1) forwards}
+@keyframes ptsDeduct{0%{opacity:1;transform:translateY(0) scale(1)}50%{opacity:1;transform:translateY(-40px) scale(1.2)}100%{opacity:0;transform:translateY(-80px) scale(.8)}}
+
 /* Progress */
 .progress-card{margin:0 20px 20px;background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:18px 20px}
 .prog-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
@@ -77,12 +84,16 @@ html,body{height:100%;background:var(--bg);font-family:'Inter',-apple-system,Bli
 .hi:active{background:var(--surface2)}
 .hi-icon{width:40px;height:40px;border-radius:12px;background:var(--surface2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .hi-icon svg{width:18px;height:18px;stroke:var(--text2);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.hi-icon.redeemed{background:rgba(219,182,104,.08);border-color:rgba(219,182,104,.15)}
+.hi-icon.redeemed svg{stroke:var(--gold)}
 .hi-info{flex:1;min-width:0}
 .hi-name{font-size:14px;font-weight:600;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .hi-time{font-size:11px;color:var(--text3);margin-top:2px}
 .hi-pts{font-family:'Playfair Display',Georgia,serif;font-size:16px;font-weight:600;color:var(--emerald);flex-shrink:0}
+.hi-pts.spent{color:var(--red)}
 .hi-badge{display:flex;align-items:center;gap:4px}
 .hi-badge svg{width:12px;height:12px;stroke:var(--emerald);fill:none;stroke-width:2}
+.hi-badge.spent svg{stroke:var(--red)}
 
 /* Bottom Nav */
 .nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:430px;height:72px;background:rgba(5,5,8,.92);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border-top:1px solid var(--border);display:flex;align-items:center;z-index:100}
@@ -104,14 +115,57 @@ html,body{height:100%;background:var(--bg);font-family:'Inter',-apple-system,Bli
 
 /* Rewards Tab */
 .rewards-grid{padding:0 20px;display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.reward{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:20px 16px;text-align:center;transition:.3s cubic-bezier(.16,1,.3,1)}
+.reward{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:20px 16px;text-align:center;cursor:pointer;transition:.3s cubic-bezier(.16,1,.3,1);position:relative;overflow:hidden}
 .reward:active{transform:scale(.97)}
 .reward-icon{width:48px;height:48px;border-radius:14px;margin:0 auto 12px;display:flex;align-items:center;justify-content:center;font-size:24px}
 .reward-icon.gold-bg{background:linear-gradient(135deg,var(--gold-dim),rgba(219,182,104,.04));border:1px solid rgba(219,182,104,.12)}
+.reward-icon svg{width:22px;height:22px;stroke:var(--gold);fill:none;stroke-width:1.8}
 .reward-name{font-size:13px;font-weight:600;color:var(--text);margin-bottom:4px}
 .reward-cost{font-size:11px;color:var(--gold);font-weight:600}
-.reward.locked{opacity:.45}
+.reward.locked{opacity:.45;cursor:default}
 .reward.locked .reward-cost{color:var(--text3)}
+.reward.redeemable{border-color:rgba(219,182,104,.2)}
+.reward.redeemable:hover{border-color:rgba(219,182,104,.35);background:rgba(219,182,104,.04)}
+
+/* Redeemed Section */
+.redeemed-section{padding:20px 20px 0}
+.redeemed-title{font-size:14px;font-weight:600;color:var(--text);margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.redeemed-title .count{font-size:11px;color:var(--gold);background:var(--gold-dim);padding:2px 8px;border-radius:10px;font-weight:600}
+.redeemed-list{display:flex;flex-direction:column;gap:8px;padding-bottom:20px}
+.redeemed-item{background:var(--surface);border:1px solid rgba(219,182,104,.1);border-radius:14px;padding:14px 16px;display:flex;align-items:center;gap:14px}
+.redeemed-item .ri-icon{width:40px;height:40px;border-radius:12px;background:rgba(219,182,104,.06);border:1px solid rgba(219,182,104,.12);display:flex;align-items:center;justify-content:center}
+.redeemed-item .ri-icon svg{width:18px;height:18px;stroke:var(--gold);fill:none;stroke-width:1.8}
+.redeemed-item .ri-info{flex:1}
+.redeemed-item .ri-name{font-size:13px;font-weight:600;color:var(--text)}
+.redeemed-item .ri-time{font-size:11px;color:var(--text3);margin-top:2px}
+.redeemed-item .ri-status{font-size:11px;font-weight:600;color:var(--emerald);background:var(--emerald-dim);padding:4px 10px;border-radius:10px;border:1px solid rgba(74,222,128,.12)}
+
+/* Modal Overlay */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);z-index:500;display:none;align-items:center;justify-content:center;padding:20px}
+.modal-overlay.show{display:flex}
+.modal{background:var(--card);border:1px solid var(--border2);border-radius:20px;padding:32px 24px;max-width:340px;width:100%;text-align:center;animation:modalIn .35s cubic-bezier(.16,1,.3,1)}
+@keyframes modalIn{from{opacity:0;transform:scale(.9) translateY(20px)}to{opacity:1;transform:scale(1) translateY(0)}}
+.modal-icon{width:64px;height:64px;border-radius:50%;margin:0 auto 20px;display:flex;align-items:center;justify-content:center}
+.modal-icon.confirm{background:linear-gradient(135deg,var(--gold-dim),rgba(219,182,104,.04));border:2px solid rgba(219,182,104,.2)}
+.modal-icon.confirm svg{width:28px;height:28px;stroke:var(--gold);fill:none;stroke-width:1.8}
+.modal-icon.success{background:linear-gradient(135deg,var(--emerald-dim),rgba(74,222,128,.04));border:2px solid rgba(74,222,128,.2)}
+.modal-icon.success svg{width:28px;height:28px;stroke:var(--emerald);fill:none;stroke-width:2}
+.modal h2{font-family:'Playfair Display',serif;font-size:22px;font-weight:600;margin-bottom:8px;color:var(--text)}
+.modal p{font-size:13px;color:var(--text3);line-height:1.5;margin-bottom:24px}
+.modal p strong{color:var(--text);font-weight:600}
+.modal-cost{font-family:'Playfair Display',serif;font-size:32px;font-weight:700;color:var(--gold);margin-bottom:4px}
+.modal-balance{font-size:12px;color:var(--text3);margin-bottom:24px}
+.modal-btns{display:flex;gap:10px}
+.modal-btn{flex:1;padding:14px;border-radius:12px;font-size:14px;font-weight:700;cursor:pointer;transition:.2s;border:none;font-family:'Inter',sans-serif}
+.modal-btn:active{transform:scale(.97)}
+.modal-btn.cancel{background:var(--surface2);color:var(--text2);border:1px solid var(--border)}
+.modal-btn.redeem{background:linear-gradient(135deg,var(--gold),#C9A84C);color:#1a1500;box-shadow:0 4px 16px rgba(219,182,104,.2)}
+.modal-btn.done{background:linear-gradient(135deg,var(--emerald),#22C55E);color:#052e16;box-shadow:0 4px 16px rgba(74,222,128,.2);width:100%}
+
+/* History Tab with toggle */
+.tab-toggle{display:flex;margin:0 20px 20px;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:4px}
+.tab-toggle-btn{flex:1;padding:10px;text-align:center;font-size:12px;font-weight:600;color:var(--text3);border-radius:9px;cursor:pointer;transition:.2s}
+.tab-toggle-btn.active{background:var(--surface2);color:var(--text);border:1px solid var(--border)}
 
 /* Responsive */
 @media(min-width:431px){
@@ -122,6 +176,11 @@ html,body{height:100%;background:var(--bg);font-family:'Inter',-apple-system,Bli
 <body>
 <div class="app" id="app">
   <div class="toast" id="toast"><span class="toast-icon"><svg viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></span><span id="toastMsg"></span></div>
+
+  <!-- Modal -->
+  <div class="modal-overlay" id="modalOverlay" onclick="if(event.target===this)closeModal()">
+    <div class="modal" id="modal"></div>
+  </div>
 
   <!-- Header -->
   <div class="header">
@@ -141,56 +200,44 @@ html,body{height:100%;background:var(--bg);font-family:'Inter',-apple-system,Bli
     </div>
   </div>
 
-  <!-- Tab Content -->
+  <!-- HOME TAB -->
   <div id="homeTab">
-    <!-- Hero -->
     <div class="hero">
       <div class="hero-label">Your SealPoints</div>
       <div class="hero-pts" id="pts">35<span class="unit">pts</span></div>
       <div class="hero-sub">Verified <span id="weekCount">7</span> deliveries this week</div>
     </div>
-
-    <!-- Progress -->
     <div class="progress-card">
       <div class="prog-top">
         <span class="prog-label">Next milestone</span>
         <span class="prog-badge" id="milestone">50 pts</span>
       </div>
       <div class="prog-bar"><div class="prog-fill" id="pf"></div></div>
-      <div class="prog-nums"><span>0</span><span id="pp">70%</span><span>50</span></div>
+      <div class="prog-nums"><span>0</span><span id="pp">70%</span><span id="milestoneMax">50</span></div>
     </div>
-
-    <!-- Stats -->
     <div class="stats">
       <div class="stat">
-        <div class="stat-icon green">
-          <svg viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-        </div>
+        <div class="stat-icon green"><svg viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div>
         <div class="stat-val" id="sc">7</div>
         <div class="stat-lbl">Verified This Week</div>
       </div>
       <div class="stat">
-        <div class="stat-icon gold">
-          <svg viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
-        </div>
+        <div class="stat-icon gold"><svg viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg></div>
         <div class="stat-val">4</div>
         <div class="stat-lbl">Day Streak</div>
       </div>
     </div>
-
-    <!-- Scan Button -->
     <div class="scan-btn" onclick="simulateScan()">
       <div class="scan-btn-inner">
         <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h3v3h-3zM20 14v3h-3M14 20h3M20 20"/></svg>
         <span>Scan QR Code</span>
       </div>
     </div>
-
-    <!-- Recent Activity -->
     <div class="section-title"><h3>Recent Activity</h3><a href="#" onclick="event.preventDefault();switchTab('history')">See all</a></div>
     <div class="history" id="hist"></div>
   </div>
 
+  <!-- SCANS TAB -->
   <div id="scansTab" style="display:none">
     <div class="hero">
       <div class="hero-label">Scan History</div>
@@ -206,15 +253,33 @@ html,body{height:100%;background:var(--bg);font-family:'Inter',-apple-system,Bli
     <div class="history" id="scanHist"></div>
   </div>
 
+  <!-- REWARDS TAB -->
   <div id="rewardsTab" style="display:none">
     <div class="hero">
       <div class="hero-label">Rewards Store</div>
       <div class="hero-pts" id="rewardPts">35<span class="unit">pts</span></div>
-      <div class="hero-sub">Redeem your SealPoints for rewards</div>
+      <div class="hero-sub">Tap a reward to redeem your SealPoints</div>
     </div>
     <div class="rewards-grid" id="rewardsGrid"></div>
+    <div id="redeemedSection"></div>
   </div>
 
+  <!-- HISTORY TAB -->
+  <div id="historyTab" style="display:none">
+    <div class="hero">
+      <div class="hero-label">Activity Log</div>
+      <div class="hero-pts" id="histTotal">35<span class="unit">pts</span></div>
+      <div class="hero-sub">Points earned &amp; spent</div>
+    </div>
+    <div class="tab-toggle">
+      <div class="tab-toggle-btn active" id="togAll" onclick="setHistFilter('all')">All</div>
+      <div class="tab-toggle-btn" id="togEarned" onclick="setHistFilter('earned')">Earned</div>
+      <div class="tab-toggle-btn" id="togSpent" onclick="setHistFilter('spent')">Redeemed</div>
+    </div>
+    <div class="history" id="fullHist"></div>
+  </div>
+
+  <!-- PROFILE TAB -->
   <div id="profileTab" style="display:none">
     <div class="hero" style="padding-top:40px">
       <div style="width:72px;height:72px;border-radius:50%;background:linear-gradient(135deg,var(--gold),#B8860D);display:flex;align-items:center;justify-content:center;margin:0 auto 16px;font-family:'Playfair Display',serif;font-size:28px;font-weight:700;color:#1a1500">M</div>
@@ -222,10 +287,10 @@ html,body{height:100%;background:var(--bg);font-family:'Inter',-apple-system,Bli
       <div class="hero-sub" style="margin-top:6px">Member since March 2026</div>
     </div>
     <div class="stats" style="padding-top:20px">
-      <div class="stat"><div class="stat-icon green"><svg viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div><div class="stat-val">42</div><div class="stat-lbl">Total Verifications</div></div>
+      <div class="stat"><div class="stat-icon green"><svg viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div><div class="stat-val" id="profScans">42</div><div class="stat-lbl">Total Verifications</div></div>
       <div class="stat"><div class="stat-icon gold"><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div><div class="stat-val">Gold</div><div class="stat-lbl">Member Tier</div></div>
       <div class="stat"><div class="stat-icon green"><svg viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg></div><div class="stat-val">12</div><div class="stat-lbl">Best Day Streak</div></div>
-      <div class="stat"><div class="stat-icon gold"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div><div class="stat-val">3</div><div class="stat-lbl">Rewards Redeemed</div></div>
+      <div class="stat"><div class="stat-icon gold"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg></div><div class="stat-val" id="profRedeemed">0</div><div class="stat-lbl">Rewards Redeemed</div></div>
     </div>
   </div>
 
@@ -243,113 +308,275 @@ html,body{height:100%;background:var(--bg);font-family:'Inter',-apple-system,Bli
       <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>
       <span>Rewards</span>
     </div>
-    <div class="nav-item" onclick="switchTab('profile')" data-tab="profile">
-      <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-      <span>Profile</span>
+    <div class="nav-item" onclick="switchTab('history')" data-tab="history">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+      <span>History</span>
     </div>
   </div>
 </div>
 
 <script>
-var p=35,sc=7;
-var merchants=[
-  {n:"Bella Napoli Pizza",t:"2 hours ago"},
-  {n:"Chipotle Mexican Grill",t:"Yesterday"},
-  {n:"Blue Bottle Coffee",t:"Yesterday"},
-  {n:"Sweetgreen",t:"2 days ago"},
-  {n:"Shake Shack",t:"2 days ago"},
-  {n:"Tender Greens",t:"3 days ago"},
-  {n:"Philz Coffee",t:"3 days ago"}
-];
-var allMerch=["Bella Napoli Pizza","Chipotle Mexican Grill","Blue Bottle Coffee","Sweetgreen","Shake Shack","Tender Greens","Philz Coffee","The Halal Guys","Pressed Juicery","True Food Kitchen"];
-var rewards=[
-  {name:"Free Delivery",cost:25,icon:"truck"},
-  {name:"$5 Off Order",cost:50,icon:"tag"},
-  {name:"Priority Seal",cost:75,icon:"shield"},
-  {name:"Mystery Box",cost:100,icon:"gift"},
-  {name:"$15 Credit",cost:150,icon:"credit"},
-  {name:"VIP Status",cost:200,icon:"star"}
+// === STATE ===
+var p = 35;
+var sc = 7;
+var totalScans = 42;
+var redeemedRewards = [];
+var histFilter = "all";
+
+var merchants = [
+  {n:"Bella Napoli Pizza",t:"2 hours ago",type:"earn",pts:5},
+  {n:"Chipotle Mexican Grill",t:"Yesterday",type:"earn",pts:5},
+  {n:"Blue Bottle Coffee",t:"Yesterday",type:"earn",pts:5},
+  {n:"Sweetgreen",t:"2 days ago",type:"earn",pts:5},
+  {n:"Shake Shack",t:"2 days ago",type:"earn",pts:5},
+  {n:"Tender Greens",t:"3 days ago",type:"earn",pts:5},
+  {n:"Philz Coffee",t:"3 days ago",type:"earn",pts:5}
 ];
 
-function svgIcon(type){
-  var icons={
+var allMerch = ["Bella Napoli Pizza","Chipotle Mexican Grill","Blue Bottle Coffee","Sweetgreen","Shake Shack","Tender Greens","Philz Coffee","The Halal Guys","Pressed Juicery","True Food Kitchen","Erewhon Market","Urth Caffe"];
+
+var rewards = [
+  {id:1,name:"Free Delivery",cost:25,icon:"truck",desc:"Free delivery on your next verified order"},
+  {id:2,name:"$5 Off Order",cost:50,icon:"tag",desc:"$5 discount applied to your next purchase"},
+  {id:3,name:"Priority Seal",cost:75,icon:"shield",desc:"Priority verification badge for 7 days"},
+  {id:4,name:"Mystery Box",cost:100,icon:"gift",desc:"Surprise reward package worth up to $25"},
+  {id:5,name:"$15 Credit",cost:150,icon:"credit",desc:"$15 SealTrust credit for any partner"},
+  {id:6,name:"VIP Status",cost:200,icon:"star",desc:"VIP member status for 30 days"}
+];
+
+// === SVG ICONS ===
+function svgIcon(type) {
+  var icons = {
     check:'<svg viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>',
     shield:'<svg viewBox="0 0 24 24"><path d="M12 2L3 7v6c0 5.25 3.75 10.13 9 11.25C17.25 23.13 21 18.25 21 13V7l-9-5z"/></svg>',
     truck:'<svg viewBox="0 0 24 24"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>',
     tag:'<svg viewBox="0 0 24 24"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>',
     gift:'<svg viewBox="0 0 24 24"><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><line x1="12" y1="22" x2="12" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg>',
     credit:'<svg viewBox="0 0 24 24"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>',
-    star:'<svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>'
+    star:'<svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>',
+    medal:'<svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>',
+    clock:'<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>'
   };
-  return icons[type]||icons.check;
+  return icons[type] || icons.check;
 }
 
-function ui(){
-  document.getElementById("pts").innerHTML=p+'<span class="unit">pts</span>';
-  document.getElementById("rewardPts").innerHTML=p+'<span class="unit">pts</span>';
-  document.getElementById("scanTotal").innerHTML=sc+'<span class="unit">scans</span>';
-  var pct=Math.min((p/50)*100,100);
-  document.getElementById("pf").style.width=pct+"%";
-  document.getElementById("pp").textContent=Math.round(pct)+"%";
-  document.getElementById("sc").textContent=sc;
-  document.getElementById("weekCount").textContent=sc;
-  if(p>=50){document.getElementById("milestone").textContent="100 pts";document.getElementById("pf").style.width=Math.min((p/100)*100,100)+"%";document.getElementById("pp").textContent=Math.round(Math.min((p/100)*100,100))+"%"}
+// === MILESTONE CALC ===
+function getMilestone() {
+  var milestones = [50, 100, 150, 200, 300, 500];
+  for (var i = 0; i < milestones.length; i++) {
+    if (p < milestones[i]) return milestones[i];
+  }
+  return milestones[milestones.length - 1];
+}
+
+// === UI UPDATE ===
+function ui() {
+  document.getElementById("pts").innerHTML = p + '<span class="unit">pts</span>';
+  document.getElementById("rewardPts").innerHTML = p + '<span class="unit">pts</span>';
+  document.getElementById("histTotal").innerHTML = p + '<span class="unit">pts</span>';
+  document.getElementById("scanTotal").innerHTML = sc + '<span class="unit">scans</span>';
+
+  var ms = getMilestone();
+  var pct = Math.min((p / ms) * 100, 100);
+  document.getElementById("pf").style.width = pct + "%";
+  document.getElementById("pp").textContent = Math.round(pct) + "%";
+  document.getElementById("milestone").textContent = ms + " pts";
+  document.getElementById("milestoneMax").textContent = ms;
+  document.getElementById("sc").textContent = sc;
+  document.getElementById("weekCount").textContent = sc;
+  document.getElementById("profScans").textContent = totalScans;
+  document.getElementById("profRedeemed").textContent = redeemedRewards.length;
+
   renderHistory();
   renderRewards();
+  renderRedeemedSection();
+  renderFullHistory();
 }
 
-function renderHistory(){
-  var h="";
-  merchants.slice(0,6).forEach(function(i){
-    h+='<div class="hi"><div class="hi-icon"><svg viewBox="0 0 24 24"><path d="M12 2L3 7v6c0 5.25 3.75 10.13 9 11.25C17.25 23.13 21 18.25 21 13V7l-9-5z"/><path d="M9 12l2 2 4-4" stroke-width="1.8"/></svg></div><div class="hi-info"><div class="hi-name">'+i.n+'</div><div class="hi-time">'+i.t+'</div></div><div class="hi-badge"><svg viewBox="0 0 24 24"><polyline points="22 4 12 14.01 9 11.01"/></svg><span class="hi-pts">+5</span></div></div>';
+// === HISTORY ===
+function renderHistory() {
+  var h = "";
+  merchants.slice(0, 6).forEach(function(i) {
+    var isRedeem = i.type === "redeem";
+    h += '<div class="hi"><div class="hi-icon' + (isRedeem ? ' redeemed' : '') + '">' +
+      (isRedeem ? svgIcon(i.icon || 'medal') : '<svg viewBox="0 0 24 24"><path d="M12 2L3 7v6c0 5.25 3.75 10.13 9 11.25C17.25 23.13 21 18.25 21 13V7l-9-5z"/><path d="M9 12l2 2 4-4" stroke-width="1.8"/></svg>') +
+      '</div><div class="hi-info"><div class="hi-name">' + i.n + '</div><div class="hi-time">' + i.t +
+      '</div></div><div class="hi-badge' + (isRedeem ? ' spent' : '') + '"><svg viewBox="0 0 24 24">' +
+      (isRedeem ? '<path d="M5 12h14"/><path d="M12 5l-7 7 7 7"/>' : '<polyline points="22 4 12 14.01 9 11.01"/>') +
+      '</svg><span class="hi-pts' + (isRedeem ? ' spent' : '') + '">' + (isRedeem ? '-' + i.pts : '+' + i.pts) + '</span></div></div>';
   });
-  document.getElementById("hist").innerHTML=h;
-  document.getElementById("scanHist").innerHTML=h;
+  document.getElementById("hist").innerHTML = h;
+  document.getElementById("scanHist").innerHTML = h;
 }
 
-function renderRewards(){
-  var g="";
-  rewards.forEach(function(r){
-    var locked=p<r.cost;
-    g+='<div class="reward'+(locked?" locked":"")+'" onclick="'+(locked?"showToast(\'Need "+r.cost+" pts to unlock\')":"showToast(\'"+r.name+" redeemed!\')")+'"><div class="reward-icon gold-bg">'+svgIcon(r.icon)+'</div><div class="reward-name">'+r.name+'</div><div class="reward-cost">'+(locked?r.cost+" pts needed":"Redeem")+'</div></div>';
+// === FULL HISTORY ===
+function renderFullHistory() {
+  var items = merchants;
+  if (histFilter === "earned") items = merchants.filter(function(i) { return i.type === "earn"; });
+  if (histFilter === "spent") items = merchants.filter(function(i) { return i.type === "redeem"; });
+
+  var h = "";
+  items.forEach(function(i) {
+    var isRedeem = i.type === "redeem";
+    h += '<div class="hi"><div class="hi-icon' + (isRedeem ? ' redeemed' : '') + '">' +
+      (isRedeem ? svgIcon(i.icon || 'medal') : '<svg viewBox="0 0 24 24"><path d="M12 2L3 7v6c0 5.25 3.75 10.13 9 11.25C17.25 23.13 21 18.25 21 13V7l-9-5z"/><path d="M9 12l2 2 4-4" stroke-width="1.8"/></svg>') +
+      '</div><div class="hi-info"><div class="hi-name">' + i.n + '</div><div class="hi-time">' + i.t +
+      '</div></div><div class="hi-badge' + (isRedeem ? ' spent' : '') + '"><svg viewBox="0 0 24 24">' +
+      (isRedeem ? '<path d="M5 12h14"/><path d="M12 5l-7 7 7 7"/>' : '<polyline points="22 4 12 14.01 9 11.01"/>') +
+      '</svg><span class="hi-pts' + (isRedeem ? ' spent' : '') + '">' + (isRedeem ? '-' + i.pts : '+' + i.pts) + '</span></div></div>';
   });
-  document.getElementById("rewardsGrid").innerHTML=g;
+  if (items.length === 0) {
+    h = '<div style="text-align:center;padding:40px 20px;color:var(--text3);font-size:13px">No activity yet</div>';
+  }
+  document.getElementById("fullHist").innerHTML = h;
 }
 
-function switchTab(tab){
-  ["home","scans","rewards","profile"].forEach(function(t){
-    document.getElementById(t+"Tab").style.display=t===tab?"block":"none";
-    document.querySelector('[data-tab="'+t+'"]').classList.toggle("active",t===tab);
+function setHistFilter(f) {
+  histFilter = f;
+  document.getElementById("togAll").className = "tab-toggle-btn" + (f === "all" ? " active" : "");
+  document.getElementById("togEarned").className = "tab-toggle-btn" + (f === "earned" ? " active" : "");
+  document.getElementById("togSpent").className = "tab-toggle-btn" + (f === "spent" ? " active" : "");
+  renderFullHistory();
+}
+
+// === REWARDS ===
+function renderRewards() {
+  var g = "";
+  rewards.forEach(function(r) {
+    var locked = p < r.cost;
+    var cls = locked ? " locked" : " redeemable";
+    g += '<div class="reward' + cls + '" onclick="' + (locked ? "showToast('Need " + r.cost + " pts to unlock')" : "confirmRedeem(" + r.id + ")") + '">' +
+      '<div class="reward-icon gold-bg">' + svgIcon(r.icon) + '</div>' +
+      '<div class="reward-name">' + r.name + '</div>' +
+      '<div class="reward-cost">' + (locked ? r.cost + " pts needed" : "Redeem \u00b7 " + r.cost + " pts") + '</div></div>';
   });
-  window.scrollTo({top:0,behavior:"smooth"});
+  document.getElementById("rewardsGrid").innerHTML = g;
 }
 
-function simulateScan(){
-  sc++;p+=5;
-  var m=allMerch[Math.floor(Math.random()*allMerch.length)];
-  merchants.unshift({n:m,t:"Just now"});
-  confetti();ui();
-  showToast("+5 pts from "+m);
+function renderRedeemedSection() {
+  if (redeemedRewards.length === 0) {
+    document.getElementById("redeemedSection").innerHTML = "";
+    return;
+  }
+  var h = '<div class="redeemed-section"><div class="redeemed-title">Your Rewards <span class="count">' + redeemedRewards.length + '</span></div><div class="redeemed-list">';
+  redeemedRewards.forEach(function(r) {
+    h += '<div class="redeemed-item"><div class="ri-icon">' + svgIcon(r.icon) + '</div><div class="ri-info"><div class="ri-name">' + r.name + '</div><div class="ri-time">' + r.time + '</div></div><div class="ri-status">Active</div></div>';
+  });
+  h += '</div></div>';
+  document.getElementById("redeemedSection").innerHTML = h;
 }
 
-function showToast(m){
-  var t=document.getElementById("toast");
-  document.getElementById("toastMsg").textContent=m;
+// === REDEEM FLOW ===
+function confirmRedeem(id) {
+  var r = rewards.find(function(x) { return x.id === id; });
+  if (!r || p < r.cost) return;
+
+  var remaining = p - r.cost;
+  var html = '<div class="modal-icon confirm">' + svgIcon(r.icon) + '</div>' +
+    '<h2>Redeem ' + r.name + '?</h2>' +
+    '<p>' + r.desc + '</p>' +
+    '<div class="modal-cost">' + r.cost + ' pts</div>' +
+    '<div class="modal-balance">Balance after: <strong>' + remaining + ' pts</strong></div>' +
+    '<div class="modal-btns">' +
+    '<div class="modal-btn cancel" onclick="closeModal()">Cancel</div>' +
+    '<div class="modal-btn redeem" onclick="executeRedeem(' + r.id + ')">Redeem</div>' +
+    '</div>';
+  document.getElementById("modal").innerHTML = html;
+  document.getElementById("modalOverlay").classList.add("show");
+}
+
+function executeRedeem(id) {
+  var r = rewards.find(function(x) { return x.id === id; });
+  if (!r || p < r.cost) return;
+
+  // Deduct points
+  p -= r.cost;
+
+  // Track redemption
+  redeemedRewards.unshift({ name: r.name, icon: r.icon, cost: r.cost, time: "Just now" });
+
+  // Add to activity history
+  merchants.unshift({ n: "Redeemed: " + r.name, t: "Just now", type: "redeem", pts: r.cost, icon: r.icon });
+
+  // Show success modal
+  var html = '<div class="modal-icon success"><svg viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div>' +
+    '<h2>Reward Claimed!</h2>' +
+    '<p>You\u2019ve redeemed <strong>' + r.name + '</strong>. Check your rewards below.</p>' +
+    '<div style="font-family:Playfair Display,serif;font-size:24px;color:var(--gold);margin-bottom:4px">-' + r.cost + ' pts</div>' +
+    '<div class="modal-balance">New balance: <strong>' + p + ' pts</strong></div>' +
+    '<div class="modal-btns"><div class="modal-btn done" onclick="closeModal()">Done</div></div>';
+  document.getElementById("modal").innerHTML = html;
+
+  // Confetti + update
+  confetti();
+  ui();
+
+  // Floating pts deduction
+  showPtsAnimation("-" + r.cost, true);
+}
+
+function closeModal() {
+  document.getElementById("modalOverlay").classList.remove("show");
+}
+
+// === SCAN ===
+function simulateScan() {
+  sc++;
+  totalScans++;
+  p += 5;
+  var m = allMerch[Math.floor(Math.random() * allMerch.length)];
+  merchants.unshift({ n: m, t: "Just now", type: "earn", pts: 5 });
+  confetti();
+  ui();
+  showToast("+5 pts from " + m);
+  showPtsAnimation("+5", false);
+}
+
+// === FLOATING POINTS ANIMATION ===
+function showPtsAnimation(text, isDeduct) {
+  var el = document.createElement("div");
+  el.className = "pts-pop" + (isDeduct ? " pts-deduct" : "");
+  el.textContent = text;
+  el.style.left = "50%";
+  el.style.top = "140px";
+  el.style.marginLeft = "-30px";
+  document.getElementById("app").appendChild(el);
+  setTimeout(function() { el.remove(); }, 1300);
+}
+
+// === NAV ===
+function switchTab(tab) {
+  ["home","scans","rewards","history","profile"].forEach(function(t) {
+    document.getElementById(t + "Tab").style.display = t === tab ? "block" : "none";
+    var navEl = document.querySelector('[data-tab="' + t + '"]');
+    if (navEl) navEl.classList.toggle("active", t === tab);
+  });
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+// === TOAST ===
+function showToast(m) {
+  var t = document.getElementById("toast");
+  document.getElementById("toastMsg").textContent = m;
   t.classList.add("show");
-  setTimeout(function(){t.classList.remove("show")},2800);
+  setTimeout(function() { t.classList.remove("show"); }, 2800);
 }
 
-function confetti(){
-  var a=document.getElementById("app"),c=["#DBB668","#4ADE80","#7DD3FC","#C4B5FD","#F5D88A"];
-  for(var i=0;i<20;i++){
-    var d=document.createElement("div");d.className="confetti";
-    d.style.cssText="left:"+(15+Math.random()*70)+"%;top:60px;background:"+c[Math.floor(Math.random()*c.length)]+";animation-delay:"+Math.random()*.35+"s;animation-duration:"+(1+Math.random()*.6)+"s;width:"+(4+Math.random()*4)+"px;height:"+(4+Math.random()*4)+"px";
-    a.appendChild(d);setTimeout(function(el){el.remove()},1800,d);
+// === CONFETTI ===
+function confetti() {
+  var a = document.getElementById("app"), c = ["#DBB668","#4ADE80","#7DD3FC","#C4B5FD","#F5D88A"];
+  for (var i = 0; i < 20; i++) {
+    var d = document.createElement("div");
+    d.className = "confetti";
+    d.style.cssText = "left:" + (15 + Math.random() * 70) + "%;top:60px;background:" + c[Math.floor(Math.random() * c.length)] + ";animation-delay:" + Math.random() * .35 + "s;animation-duration:" + (1 + Math.random() * .6) + "s;width:" + (4 + Math.random() * 4) + "px;height:" + (4 + Math.random() * 4) + "px";
+    a.appendChild(d);
+    setTimeout(function(el) { el.remove(); }, 1800, d);
   }
 }
 
+// === INIT ===
 ui();
-setTimeout(function(){document.getElementById("pf").style.width="70%"},300);
+setTimeout(function() { document.getElementById("pf").style.width = (Math.min((p / getMilestone()) * 100, 100)) + "%"; }, 300);
 </script>
 </body>
 </html>
