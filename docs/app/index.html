@@ -167,6 +167,43 @@ html,body{height:100%;background:var(--bg);font-family:'Inter',-apple-system,Bli
 .tab-toggle-btn{flex:1;padding:10px;text-align:center;font-size:12px;font-weight:600;color:var(--text3);border-radius:9px;cursor:pointer;transition:.2s}
 .tab-toggle-btn.active{background:var(--surface2);color:var(--text);border:1px solid var(--border)}
 
+/* Mystery Box Show */
+.mystery-stage{display:flex;flex-direction:column;align-items:center;padding:10px 0}
+.box-wrap{position:relative;width:120px;height:120px;margin:0 auto 20px}
+.box-body{position:absolute;bottom:0;width:120px;height:80px;background:linear-gradient(135deg,#8B6914,#C9A84C,#8B6914);border-radius:8px;box-shadow:0 8px 32px rgba(219,182,104,.3),inset 0 -4px 12px rgba(0,0,0,.3)}
+.box-band{position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:28px;height:80px;background:linear-gradient(180deg,#DBB668,#F5D88A,#DBB668);border-radius:2px}
+.box-lid{position:absolute;top:0;width:130px;left:-5px;height:36px;background:linear-gradient(135deg,#A07818,#DBB668,#A07818);border-radius:8px 8px 4px 4px;box-shadow:0 4px 16px rgba(219,182,104,.25);transform-origin:bottom center;transition:transform .6s cubic-bezier(.34,1.56,.64,1)}
+.box-lid-band{position:absolute;top:0;left:50%;transform:translateX(-50%);width:28px;height:36px;background:linear-gradient(180deg,#F5D88A,#DBB668);border-radius:2px}
+.box-lock{position:absolute;bottom:-8px;left:50%;transform:translateX(-50%);width:20px;height:16px;background:#DBB668;border-radius:3px;display:flex;align-items:center;justify-content:center}
+.box-lock::after{content:"";width:8px;height:8px;border:2px solid #1a1500;border-radius:50%}
+.box-glow{position:absolute;top:30px;left:50%;transform:translateX(-50%);width:0;height:0;background:radial-gradient(circle,rgba(219,182,104,.5) 0%,rgba(219,182,104,0) 70%);border-radius:50%;opacity:0;transition:all .8s ease}
+.box-wrap.shaking .box-body,.box-wrap.shaking .box-lid{animation:boxShake .6s cubic-bezier(.36,.07,.19,.97) both}
+@keyframes boxShake{0%,100%{transform:translateX(0) rotate(0)}10%{transform:translateX(-4px) rotate(-2deg)}20%{transform:translateX(4px) rotate(2deg)}30%{transform:translateX(-6px) rotate(-3deg)}40%{transform:translateX(6px) rotate(3deg)}50%{transform:translateX(-4px) rotate(-2deg)}60%{transform:translateX(4px) rotate(2deg)}70%{transform:translateX(-2px) rotate(-1deg)}80%{transform:translateX(2px) rotate(1deg)}90%{transform:translateX(-1px)}100%{transform:translateX(0)}}
+.box-wrap.opening .box-lid{transform:rotate(-110deg) translateY(-10px);transition:transform .6s cubic-bezier(.34,1.56,.64,1)}
+.box-wrap.opening .box-lock{opacity:0;transition:opacity .2s}
+.box-wrap.opening .box-glow{width:200px;height:200px;top:-40px;opacity:1}
+.prize-reveal{opacity:0;transform:translateY(30px) scale(.5);transition:all .6s cubic-bezier(.34,1.56,.64,1)}
+.prize-reveal.show{opacity:1;transform:translateY(0) scale(1)}
+.prize-icon-big{width:72px;height:72px;border-radius:50%;background:linear-gradient(135deg,var(--gold-dim),rgba(219,182,104,.15));border:2px solid rgba(219,182,104,.25);display:flex;align-items:center;justify-content:center;margin:0 auto 16px;animation:prizeFloat 2s ease-in-out infinite}
+.prize-icon-big svg{width:32px;height:32px;stroke:var(--gold);fill:none;stroke-width:1.8}
+@keyframes prizeFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+.prize-name{font-family:'Playfair Display',serif;font-size:24px;font-weight:600;color:var(--gold);margin-bottom:6px}
+.prize-desc{font-size:13px;color:var(--text3);line-height:1.5;margin-bottom:20px}
+.prize-value{font-size:11px;font-weight:600;color:var(--emerald);background:var(--emerald-dim);padding:4px 12px;border-radius:10px;border:1px solid rgba(74,222,128,.12);display:inline-block;margin-bottom:20px}
+.sparkle{position:absolute;width:6px;height:6px;border-radius:50%;pointer-events:none;animation:sparkleAnim 1s ease forwards}
+@keyframes sparkleAnim{0%{opacity:1;transform:translate(0,0) scale(1)}100%{opacity:0;transform:translate(var(--sx),var(--sy)) scale(0)}}
+.mystery-particles{position:absolute;top:50%;left:50%;width:0;height:0;pointer-events:none}
+
+/* Spin Wheel */
+.wheel-container{position:relative;width:260px;height:260px;margin:0 auto 18px}
+.wheel-pointer{position:absolute;top:-10px;left:50%;transform:translateX(-50%);width:0;height:0;border-left:12px solid transparent;border-right:12px solid transparent;border-top:24px solid var(--gold);z-index:10;filter:drop-shadow(0 2px 8px rgba(219,182,104,.5))}
+.wheel-pointer::after{content:"";position:absolute;top:-24px;left:-5px;width:10px;height:10px;background:var(--gold);border-radius:50%}
+#wheelCanvas{width:260px;height:260px;border-radius:50%;box-shadow:0 0 0 5px rgba(219,182,104,.3),0 0 0 9px rgba(219,182,104,.1),0 8px 32px rgba(0,0,0,.4)}
+.spin-btn-wrap{margin-bottom:14px}
+.spin-btn{display:inline-block;padding:12px 40px;background:linear-gradient(135deg,#B8860D,#DBB668);color:#1a1500;font-weight:700;font-size:15px;border-radius:30px;cursor:pointer;letter-spacing:2px;box-shadow:0 4px 20px rgba(219,182,104,.3);transition:all .2s;user-select:none}
+.spin-btn:hover{transform:translateY(-1px);box-shadow:0 6px 28px rgba(219,182,104,.4)}
+.spin-btn.disabled{opacity:.4;pointer-events:none}
+
 /* Responsive */
 @media(min-width:431px){
   .app{border-left:1px solid var(--border);border-right:1px solid var(--border)}
@@ -341,7 +378,8 @@ var rewards = [
   {id:3,name:"Priority Seal",cost:75,icon:"shield",desc:"Priority verification badge for 7 days"},
   {id:4,name:"Mystery Box",cost:100,icon:"gift",desc:"Surprise reward package worth up to $25"},
   {id:5,name:"$15 Credit",cost:150,icon:"credit",desc:"$15 SealTrust credit for any partner"},
-  {id:6,name:"VIP Status",cost:200,icon:"star",desc:"VIP member status for 30 days"}
+  {id:6,name:"VIP Status",cost:200,icon:"star",desc:"VIP member status for 30 days"},
+  {id:7,name:"Spin the Wheel",cost:50,icon:"medal",desc:"Spin the prize wheel for a chance to win big!"}
 ];
 
 // === SVG ICONS ===
@@ -498,6 +536,22 @@ function executeRedeem(id) {
   // Add to activity history
   merchants.unshift({ n: "Redeemed: " + r.name, t: "Just now", type: "redeem", pts: r.cost, icon: r.icon });
 
+  // Mystery Box gets special treatment
+  if (r.id === 4) {
+    mysteryBoxShow();
+    ui();
+    showPtsAnimation("-" + r.cost, true);
+    return;
+  }
+
+  // Spin the Wheel
+  if (r.id === 7) {
+    spinWheelShow();
+    ui();
+    showPtsAnimation("-" + r.cost, true);
+    return;
+  }
+
   // Show success modal
   var html = '<div class="modal-icon success"><svg viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div>' +
     '<h2>Reward Claimed!</h2>' +
@@ -513,6 +567,82 @@ function executeRedeem(id) {
 
   // Floating pts deduction
   showPtsAnimation("-" + r.cost, true);
+}
+
+// === MYSTERY BOX ===
+var mysteryPrizes = [
+  {name:"$10 Credit",desc:"$10 SealTrust credit for any partner merchant. Valid for 30 days.",value:"$10 Value",icon:"credit"},
+  {name:"Double Points Day",desc:"Earn 2x SealPoints on every scan for the next 24 hours!",value:"2X Multiplier",icon:"star"},
+  {name:"Free Delivery Pack",desc:"3 free deliveries on verified orders. Use within 14 days.",value:"$15 Value",icon:"truck"},
+  {name:"$25 Gift Card",desc:"Premium gift card for any SealTrust partner. The grand prize!",value:"$25 Value",icon:"gift"},
+  {name:"Priority Seal",desc:"Priority verification badge with gold trim for 14 days.",value:"14-Day Badge",icon:"shield"},
+  {name:"Bonus 50 Points",desc:"50 bonus SealPoints added directly to your balance!",value:"+50 pts",icon:"medal"}
+];
+
+function mysteryBoxShow() {
+  var prize = mysteryPrizes[Math.floor(Math.random() * mysteryPrizes.length)];
+  if (prize.icon === "medal" && prize.value === "+50 pts") { p += 50; }
+
+  var html = '<div class="mystery-stage">' +
+    '<h2 style="font-family:Playfair Display,serif;color:var(--gold);margin-bottom:6px;font-size:20px">Mystery Box</h2>' +
+    '<p style="color:var(--text3);font-size:13px;margin-bottom:18px">Tap the box to reveal your prize!</p>' +
+    '<div class="box-wrap" id="mysteryBox" onclick="openMysteryBox()">' +
+      '<div class="box-glow"></div>' +
+      '<div class="box-body"><div class="box-band"></div></div>' +
+      '<div class="box-lid"><div class="box-lid-band"></div><div class="box-lock"></div></div>' +
+      '<div class="mystery-particles" id="mysteryParticles"></div>' +
+    '</div>' +
+    '<div class="prize-reveal" id="prizeReveal">' +
+      '<div class="prize-icon-big">' + svgIcon(prize.icon) + '</div>' +
+      '<div class="prize-name">' + prize.name + '</div>' +
+      '<div class="prize-desc">' + prize.desc + '</div>' +
+      '<div class="prize-value">' + prize.value + '</div>' +
+    '</div>' +
+    '<div class="modal-btns" id="prizeBtns" style="display:none"><div class="modal-btn done" onclick="closeModal()">Collect Prize</div></div>' +
+  '</div>';
+  document.getElementById("modal").innerHTML = html;
+  document.getElementById("modalOverlay").classList.add("show");
+}
+
+function openMysteryBox() {
+  var box = document.getElementById("mysteryBox");
+  if (box.classList.contains("shaking") || box.classList.contains("opening")) return;
+
+  // Stage 1: Shake
+  box.classList.add("shaking");
+  box.style.cursor = "default";
+
+  // Stage 2: Open after shake
+  setTimeout(function() {
+    box.classList.remove("shaking");
+    box.classList.add("opening");
+    spawnSparkles();
+  }, 700);
+
+  // Stage 3: Reveal prize
+  setTimeout(function() {
+    document.getElementById("prizeReveal").classList.add("show");
+    document.getElementById("prizeBtns").style.display = "";
+    confetti();
+  }, 1400);
+}
+
+function spawnSparkles() {
+  var container = document.getElementById("mysteryParticles");
+  if (!container) return;
+  var colors = ["#DBB668","#F5D88A","#4ADE80","#7DD3FC","#C4B5FD","#fff"];
+  for (var i = 0; i < 16; i++) {
+    var s = document.createElement("div");
+    s.className = "sparkle";
+    s.style.background = colors[Math.floor(Math.random() * colors.length)];
+    s.style.setProperty("--sx", (Math.random() * 120 - 60) + "px");
+    s.style.setProperty("--sy", (Math.random() * 120 - 60) + "px");
+    s.style.left = "0px";
+    s.style.top = "0px";
+    s.style.animationDelay = (Math.random() * 0.3) + "s";
+    container.appendChild(s);
+    setTimeout(function(el) { el.remove(); }, 1400, s);
+  }
 }
 
 function closeModal() {
@@ -572,6 +702,139 @@ function confetti() {
     a.appendChild(d);
     setTimeout(function(el) { el.remove(); }, 1800, d);
   }
+}
+
+// === SPIN WHEEL (Modal) ===
+var wheelPrizes = [
+  {name:"+10 Points",color:"#8B6914",text:"#F5D88A",action:"pts",val:10,icon:"star"},
+  {name:"Free Delivery",color:"#1a3a1a",text:"#4ADE80",action:"reward",val:"Free delivery on next order",icon:"truck"},
+  {name:"Try Again",color:"#1a1a2e",text:"#7DD3FC",action:"none",val:0,icon:"clock"},
+  {name:"$5 Off",color:"#2d1a00",text:"#DBB668",action:"reward",val:"$5 discount code",icon:"tag"},
+  {name:"+25 Points",color:"#0a2a0a",text:"#4ADE80",action:"pts",val:25,icon:"star"},
+  {name:"Mystery Gift",color:"#2a1a3a",text:"#C4B5FD",action:"reward",val:"Surprise gift package!",icon:"gift"},
+  {name:"+5 Points",color:"#1a1a00",text:"#F5D88A",action:"pts",val:5,icon:"star"},
+  {name:"2X Next Scan",color:"#002a2a",text:"#7DD3FC",action:"reward",val:"Double points on next scan",icon:"shield"}
+];
+var wheelSpinning = false;
+var wheelAngle = 0;
+
+function spinWheelShow() {
+  var html = '<div class="mystery-stage">' +
+    '<h2 style="font-family:Playfair Display,serif;color:var(--gold);margin-bottom:6px;font-size:20px">Spin the Wheel</h2>' +
+    '<p style="color:var(--text3);font-size:13px;margin-bottom:14px">Tap SPIN to win a prize!</p>' +
+    '<div class="wheel-container">' +
+      '<div class="wheel-pointer"></div>' +
+      '<canvas id="wheelCanvas" width="300" height="300"></canvas>' +
+    '</div>' +
+    '<div class="spin-btn-wrap">' +
+      '<div class="spin-btn" id="spinBtn" onclick="doSpin()">SPIN</div>' +
+    '</div>' +
+    '<div id="spinResult"></div>' +
+  '</div>';
+  document.getElementById("modal").innerHTML = html;
+  document.getElementById("modalOverlay").classList.add("show");
+  setTimeout(function() { drawWheel(); }, 50);
+}
+
+function drawWheel() {
+  var canvas = document.getElementById("wheelCanvas");
+  if (!canvas) return;
+  var ctx = canvas.getContext("2d");
+  var cx = 150, cy = 150, r = 140;
+  var n = wheelPrizes.length;
+  var arc = (2 * Math.PI) / n;
+  ctx.clearRect(0, 0, 300, 300);
+  for (var i = 0; i < n; i++) {
+    var angle = wheelAngle + i * arc;
+    ctx.beginPath();
+    ctx.moveTo(cx, cy);
+    ctx.arc(cx, cy, r, angle, angle + arc);
+    ctx.closePath();
+    ctx.fillStyle = wheelPrizes[i].color;
+    ctx.fill();
+    ctx.strokeStyle = "rgba(219,182,104,.3)";
+    ctx.lineWidth = 1.5;
+    ctx.stroke();
+    ctx.save();
+    ctx.translate(cx, cy);
+    ctx.rotate(angle + arc / 2);
+    ctx.fillStyle = wheelPrizes[i].text;
+    ctx.font = "bold 11px Inter,sans-serif";
+    ctx.textAlign = "center";
+    ctx.fillText(wheelPrizes[i].name, r * 0.62, 4);
+    ctx.restore();
+  }
+  ctx.beginPath();
+  ctx.arc(cx, cy, 22, 0, 2 * Math.PI);
+  ctx.fillStyle = "#0a0a0f";
+  ctx.fill();
+  ctx.strokeStyle = "rgba(219,182,104,.5)";
+  ctx.lineWidth = 2;
+  ctx.stroke();
+  ctx.fillStyle = "#DBB668";
+  ctx.font = "bold 10px Inter,sans-serif";
+  ctx.textAlign = "center";
+  ctx.fillText("SEAL", 150, 148);
+  ctx.fillText("TRUST", 150, 159);
+}
+
+function doSpin() {
+  if (wheelSpinning) return;
+  wheelSpinning = true;
+  document.getElementById("spinBtn").classList.add("disabled");
+  document.getElementById("spinResult").innerHTML = "";
+
+  var n = wheelPrizes.length;
+  var arc = (2 * Math.PI) / n;
+  var winIdx = Math.floor(Math.random() * n);
+  var targetSegCenter = winIdx * arc + arc / 2;
+  var targetAngle = (3 * Math.PI / 2) - targetSegCenter;
+  var spins = 5 + Math.floor(Math.random() * 3);
+  var finalAngle = targetAngle + spins * 2 * Math.PI;
+  var startAngle = wheelAngle;
+  var startTime = null;
+  var duration = 4000;
+
+  function easeOut(t) { return 1 - Math.pow(1 - t, 3); }
+
+  function animateSpin(ts) {
+    if (!startTime) startTime = ts;
+    var elapsed = ts - startTime;
+    var progress = Math.min(elapsed / duration, 1);
+    wheelAngle = startAngle + (finalAngle - startAngle) * easeOut(progress);
+    drawWheel();
+    if (progress < 1) {
+      requestAnimationFrame(animateSpin);
+    } else {
+      wheelSpinning = false;
+      var prize = wheelPrizes[winIdx];
+      showSpinResult(prize);
+    }
+  }
+  requestAnimationFrame(animateSpin);
+}
+
+function showSpinResult(prize) {
+  if (prize.action === "pts") {
+    p += prize.val;
+    merchants.unshift({ n: "Wheel Win: " + prize.name, t: "Just now", type: "earn", pts: prize.val, icon: "star" });
+    ui();
+    showPtsAnimation("+" + prize.val, false);
+  }
+  var h = '<div class="prize-reveal show" style="margin-top:10px">';
+  if (prize.action === "none") {
+    h += '<div class="prize-icon-big">' + svgIcon("clock") + '</div>' +
+      '<div class="prize-name">No Luck!</div>' +
+      '<div class="prize-desc">Better luck next time!</div>';
+  } else {
+    h += '<div class="prize-icon-big">' + svgIcon(prize.icon) + '</div>' +
+      '<div class="prize-name">' + prize.name + '</div>' +
+      '<div class="prize-desc">' + (prize.action === "pts" ? "+" + prize.val + " points added to your balance!" : prize.val) + '</div>' +
+      '<div class="prize-value">' + (prize.action === "pts" ? "+" + prize.val + " pts" : "Prize Won!") + '</div>';
+    confetti();
+  }
+  h += '</div><div class="modal-btns"><div class="modal-btn done" onclick="closeModal()">Collect</div></div>';
+  document.getElementById("spinResult").innerHTML = h;
 }
 
 // === INIT ===
