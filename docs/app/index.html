@@ -167,90 +167,103 @@ html,body{height:100%;background:var(--bg);font-family:'Inter',-apple-system,Bli
 .tab-toggle-btn{flex:1;padding:10px;text-align:center;font-size:12px;font-weight:600;color:var(--text3);border-radius:9px;cursor:pointer;transition:.2s}
 .tab-toggle-btn.active{background:var(--surface2);color:var(--text);border:1px solid var(--border)}
 
-/* Mystery Box Show — 3D Treasure Chest */
+/* Mystery Box — Clean 3D Cube */
 .mystery-stage{display:flex;flex-direction:column;align-items:center;padding:10px 0}
-.chest-scene{perspective:600px;width:200px;height:200px;margin:0 auto 20px;position:relative;cursor:pointer}
-.chest-scene::after{content:"";position:absolute;bottom:-12px;left:50%;transform:translateX(-50%);width:160px;height:20px;background:radial-gradient(ellipse,rgba(219,182,104,.25) 0%,transparent 70%);border-radius:50%;filter:blur(4px);transition:all .6s}
-.chest-wrap{position:relative;width:160px;height:140px;left:20px;top:30px;transform-style:preserve-3d;transform:rotateX(12deg) rotateY(-8deg);transition:transform .6s cubic-bezier(.34,1.56,.64,1)}
+.cube-scene{perspective:800px;width:220px;height:240px;margin:0 auto 10px;position:relative;cursor:pointer}
+/* Ground shadow */
+.cube-scene::after{content:"";position:absolute;bottom:6px;left:50%;transform:translateX(-50%);width:140px;height:24px;background:radial-gradient(ellipse,rgba(0,0,0,.35) 0%,transparent 70%);border-radius:50%;filter:blur(6px);transition:all .8s}
+.cube-wrap{position:relative;width:140px;height:140px;left:40px;top:50px;transform-style:preserve-3d;transform:rotateX(-18deg) rotateY(32deg);transition:transform .6s cubic-bezier(.34,1.56,.64,1)}
 
-/* Body — 3D box with 5 visible faces */
-.ch-body{position:absolute;bottom:0;width:160px;height:90px;transform-style:preserve-3d}
-.ch-face{position:absolute;backface-visibility:hidden}
-.ch-front{width:160px;height:90px;background:linear-gradient(180deg,#C9A84C 0%,#8B6914 40%,#6B4F0E 100%);border-radius:6px 6px 4px 4px;transform:translateZ(35px);box-shadow:inset 0 2px 0 rgba(255,255,255,.2),inset 0 -3px 8px rgba(0,0,0,.4)}
-.ch-back{width:160px;height:90px;background:linear-gradient(180deg,#7A5C10,#5A420A);border-radius:6px 6px 4px 4px;transform:translateZ(-35px) rotateY(180deg)}
-.ch-left{width:70px;height:90px;background:linear-gradient(90deg,#6B4F0E,#8B6914 60%,#A07818);transform:rotateY(-90deg) translateZ(0px);left:0;border-radius:4px}
-.ch-right{width:70px;height:90px;background:linear-gradient(90deg,#A07818,#8B6914 40%,#6B4F0E);transform:rotateY(90deg) translateZ(160px);border-radius:4px}
-.ch-bottom{width:160px;height:70px;background:linear-gradient(180deg,#5A420A,#4A360A);transform:rotateX(-90deg) translateZ(90px)}
+/* Six faces of the cube */
+.cb-face{position:absolute;width:140px;height:140px;backface-visibility:hidden}
+/* Top — brightest, like the reference photo light from above */
+.cb-top{background:linear-gradient(135deg,#F5D88A 0%,#E8CC70 40%,#DBB668 100%);transform:rotateX(90deg) translateZ(70px);box-shadow:inset 0 0 30px rgba(255,255,255,.15)}
+/* Front — medium shade */
+.cb-front{background:linear-gradient(180deg,#C9A84C 0%,#B8960F 50%,#A07818 100%);transform:translateZ(70px);box-shadow:inset 0 1px 0 rgba(255,255,255,.12),inset 0 -2px 10px rgba(0,0,0,.15)}
+/* Right side — darkest shade */
+.cb-right{background:linear-gradient(180deg,#A07818 0%,#8B6914 50%,#705510 100%);transform:rotateY(90deg) translateZ(70px);box-shadow:inset 2px 0 10px rgba(0,0,0,.15)}
+/* Hidden faces for completeness */
+.cb-back{background:#705510;transform:rotateY(180deg) translateZ(70px)}
+.cb-left{background:#8B6914;transform:rotateY(-90deg) translateZ(70px)}
+.cb-bottom{background:#5A420A;transform:rotateX(-90deg) translateZ(70px)}
 
-/* Metallic trim strips on front face */
-.ch-trim{position:absolute;background:linear-gradient(90deg,#8B6914,#F5D88A 30%,#DBB668 50%,#F5D88A 70%,#8B6914);height:4px;width:140px;left:10px;border-radius:2px;box-shadow:0 1px 4px rgba(0,0,0,.3),inset 0 1px 0 rgba(255,255,255,.3);z-index:2}
-.ch-trim-top{top:8px}
-.ch-trim-bot{bottom:8px}
+/* Lid — the top face that opens */
+.cb-lid{position:absolute;width:140px;height:140px;transform-style:preserve-3d;transform-origin:0% 50%;transition:transform 1.2s cubic-bezier(.22,1,.36,1)}
+.cb-lid-top{position:absolute;width:140px;height:140px;background:linear-gradient(135deg,#F5D88A 0%,#E8CC70 40%,#DBB668 100%);transform:rotateX(90deg) translateZ(70px);box-shadow:inset 0 0 30px rgba(255,255,255,.15)}
+.cb-lid-front{position:absolute;width:140px;height:8px;background:linear-gradient(180deg,#DBB668,#C9A84C);transform:translateZ(70px) translateY(-4px)}
+.cb-lid-right{position:absolute;width:8px;height:140px;background:linear-gradient(180deg,#B8960F,#A07818);transform:rotateY(90deg) translateZ(70px)}
 
-/* Vertical band on front face */
-.ch-band-v{position:absolute;left:50%;transform:translateX(-50%);width:30px;height:100%;background:linear-gradient(90deg,#8B6914,#DBB668 20%,#F5D88A 50%,#DBB668 80%,#8B6914);z-index:1;box-shadow:inset -2px 0 4px rgba(0,0,0,.2),inset 2px 0 4px rgba(0,0,0,.2)}
+/* Gold edge line where lid meets body */
+.cb-seam{position:absolute;width:140px;height:2px;background:linear-gradient(90deg,transparent,rgba(245,216,138,.4),transparent);transform:translateZ(70.5px);top:0px;z-index:2}
 
-/* Corner studs on front face */
-.ch-stud{position:absolute;width:10px;height:10px;background:radial-gradient(circle at 35% 35%,#F5D88A,#B8860D 60%,#6B4F0E);border-radius:50%;z-index:3;box-shadow:0 1px 3px rgba(0,0,0,.5),inset 0 -1px 2px rgba(0,0,0,.3)}
-.ch-stud-tl{top:14px;left:14px}
-.ch-stud-tr{top:14px;right:14px}
-.ch-stud-bl{bottom:14px;left:14px}
-.ch-stud-br{bottom:14px;right:14px}
+/* Glow from inside when opening */
+.cb-inner-glow{position:absolute;top:-30px;left:50%;transform:translateX(-50%);width:0;height:0;background:radial-gradient(circle,rgba(245,216,138,.7) 0%,rgba(219,182,104,.3) 40%,transparent 70%);border-radius:50%;opacity:0;transition:all 1.2s ease;z-index:0;pointer-events:none}
+.cb-inner-light{position:absolute;top:0;left:0;width:140px;height:140px;background:radial-gradient(circle at center,rgba(245,216,138,.4),transparent 60%);transform:rotateX(90deg) translateZ(69px);opacity:0;transition:opacity 1s .5s}
 
-/* Lock plate on front face */
-.ch-lock{position:absolute;bottom:28px;left:50%;transform:translateX(-50%);width:24px;height:28px;z-index:4}
-.ch-lock-plate{width:24px;height:18px;background:radial-gradient(ellipse at 40% 30%,#F5D88A,#B8860D);border-radius:4px;box-shadow:0 2px 6px rgba(0,0,0,.4),inset 0 1px 0 rgba(255,255,255,.25);border:1px solid rgba(107,79,14,.6)}
-.ch-lock-hole{width:6px;height:8px;background:#1a1200;border-radius:0 0 3px 3px;margin:3px auto 0;box-shadow:inset 0 1px 2px rgba(0,0,0,.5)}
-.ch-lock-loop{width:14px;height:12px;border:3px solid #B8860D;border-bottom:none;border-radius:8px 8px 0 0;margin:-1px auto 0;box-shadow:0 -1px 3px rgba(0,0,0,.3)}
+/* Hover */
+.cube-scene:hover .cube-wrap{transform:rotateX(-18deg) rotateY(32deg) translateY(-4px)}
 
-/* Lid — 3D with hinge at back */
-.ch-lid-group{position:absolute;top:6px;left:-6px;width:172px;height:40px;transform-style:preserve-3d;transform-origin:50% 100%;transition:transform .8s cubic-bezier(.22,1,.36,1)}
-.ch-lid-top{position:absolute;width:172px;height:40px;background:linear-gradient(180deg,#DBB668 0%,#C9A84C 30%,#A07818 100%);border-radius:10px 10px 4px 4px;transform:translateZ(38px);box-shadow:0 -4px 20px rgba(219,182,104,.3),inset 0 3px 0 rgba(255,255,255,.25),inset 0 -2px 6px rgba(0,0,0,.3)}
-.ch-lid-front-edge{position:absolute;width:172px;height:8px;bottom:0;background:linear-gradient(180deg,#A07818,#7A5C10);transform:translateZ(38px)}
-.ch-lid-band{position:absolute;left:50%;transform:translateX(-50%);width:30px;height:100%;background:linear-gradient(90deg,#A07818,#F5D88A 30%,#fff 50%,#F5D88A 70%,#A07818);opacity:.7;z-index:1;border-radius:6px 6px 0 0}
-.ch-lid-trim{position:absolute;top:50%;transform:translateY(-50%);width:152px;left:10px;height:3px;background:linear-gradient(90deg,#8B6914,#F5D88A 30%,#DBB668 50%,#F5D88A 70%,#8B6914);border-radius:2px;z-index:2;box-shadow:0 1px 3px rgba(0,0,0,.3)}
-
-/* Inner glow when opening */
-.ch-glow{position:absolute;top:-20px;left:50%;transform:translateX(-50%);width:0;height:0;background:radial-gradient(circle,rgba(219,182,104,.6) 0%,rgba(245,216,138,.3) 30%,transparent 70%);border-radius:50%;opacity:0;transition:all 1s ease;z-index:0;pointer-events:none}
-.ch-inner-glow{position:absolute;top:0;left:10%;width:80%;height:20px;background:linear-gradient(180deg,rgba(245,216,138,.6),transparent);border-radius:4px 4px 0 0;opacity:0;transform:translateZ(34px);transition:opacity .6s .2s;z-index:5}
-
-/* Hover float */
-.chest-scene:hover .chest-wrap{transform:rotateX(12deg) rotateY(-8deg) translateY(-4px)}
-
-/* Shake animation */
-.chest-scene.shaking .chest-wrap{animation:chestShake3D .7s cubic-bezier(.36,.07,.19,.97) both}
-@keyframes chestShake3D{
-0%,100%{transform:rotateX(12deg) rotateY(-8deg)}
-8%{transform:rotateX(14deg) rotateY(-12deg) rotateZ(-2deg)}
-16%{transform:rotateX(10deg) rotateY(-4deg) rotateZ(2deg)}
-24%{transform:rotateX(16deg) rotateY(-14deg) rotateZ(-3deg)}
-32%{transform:rotateX(8deg) rotateY(-2deg) rotateZ(3deg)}
-40%{transform:rotateX(15deg) rotateY(-13deg) rotateZ(-2deg) translateY(-3px)}
-48%{transform:rotateX(10deg) rotateY(-4deg) rotateZ(2deg) translateY(-2px)}
-56%{transform:rotateX(14deg) rotateY(-11deg) rotateZ(-1deg)}
-64%{transform:rotateX(11deg) rotateY(-6deg) rotateZ(1deg)}
-72%{transform:rotateX(13deg) rotateY(-9deg) rotateZ(-1deg)}
-80%{transform:rotateX(12deg) rotateY(-7deg)}
-90%{transform:rotateX(12deg) rotateY(-8deg)}
+/* Suspense Phase 1: Gentle float pulse */
+.cube-scene.phase1 .cube-wrap{animation:boxFloat 1.2s ease-in-out 2}
+@keyframes boxFloat{
+0%,100%{transform:rotateX(-18deg) rotateY(32deg)}
+50%{transform:rotateX(-18deg) rotateY(32deg) translateY(-10px)}
 }
 
-/* Opening state */
-.chest-scene.opening .ch-lid-group{transform:rotateX(-120deg)}
-.chest-scene.opening .ch-glow{width:240px;height:240px;top:-60px;opacity:1}
-.chest-scene.opening .ch-inner-glow{opacity:1}
-.chest-scene.opening .ch-lock-loop,.chest-scene.opening .ch-lock-plate{opacity:0;transition:opacity .2s}
-.chest-scene.opening .chest-wrap{transform:rotateX(8deg) rotateY(-5deg) translateY(-6px);transition:transform 1s cubic-bezier(.22,1,.36,1)}
-.chest-scene.opening::after{width:180px;filter:blur(6px);opacity:.8}
+/* Suspense Phase 2: Intensifying shake + glow builds */
+.cube-scene.phase2 .cube-wrap{animation:boxShake 0.5s cubic-bezier(.36,.07,.19,.97) infinite}
+.cube-scene.phase2 .cb-inner-glow{width:180px;height:180px;top:-40px;opacity:.4}
+.cube-scene.phase2 .cb-seam{background:linear-gradient(90deg,transparent,rgba(245,216,138,.8),transparent);box-shadow:0 0 10px rgba(245,216,138,.3)}
+@keyframes boxShake{
+0%,100%{transform:rotateX(-18deg) rotateY(32deg)}
+12%{transform:rotateX(-20deg) rotateY(35deg) rotateZ(-1deg)}
+25%{transform:rotateX(-16deg) rotateY(29deg) rotateZ(1.5deg)}
+37%{transform:rotateX(-21deg) rotateY(36deg) rotateZ(-2deg) translateY(-3px)}
+50%{transform:rotateX(-15deg) rotateY(28deg) rotateZ(2deg) translateY(-2px)}
+62%{transform:rotateX(-20deg) rotateY(34deg) rotateZ(-1.5deg)}
+75%{transform:rotateX(-17deg) rotateY(30deg) rotateZ(1deg)}
+87%{transform:rotateX(-19deg) rotateY(33deg) rotateZ(-.5deg)}
+}
+
+/* Suspense Phase 3: Violent shake + bright glow + light rays start */
+.cube-scene.phase3 .cube-wrap{animation:boxShakeHard .35s cubic-bezier(.36,.07,.19,.97) infinite}
+.cube-scene.phase3 .cb-inner-glow{width:280px;height:280px;top:-80px;opacity:.8}
+.cube-scene.phase3 .cb-seam{background:rgba(245,216,138,.9);box-shadow:0 0 20px rgba(245,216,138,.6);height:4px}
+.cube-scene.phase3 .cb-inner-light{opacity:.6}
+@keyframes boxShakeHard{
+0%,100%{transform:rotateX(-18deg) rotateY(32deg)}
+10%{transform:rotateX(-23deg) rotateY(38deg) rotateZ(-3deg) translateY(-5px)}
+20%{transform:rotateX(-13deg) rotateY(26deg) rotateZ(3deg) translateY(-3px)}
+30%{transform:rotateX(-22deg) rotateY(37deg) rotateZ(-4deg) translateY(-6px)}
+40%{transform:rotateX(-14deg) rotateY(27deg) rotateZ(4deg)}
+50%{transform:rotateX(-24deg) rotateY(39deg) rotateZ(-3deg) translateY(-7px)}
+60%{transform:rotateX(-12deg) rotateY(25deg) rotateZ(3deg) translateY(-4px)}
+70%{transform:rotateX(-21deg) rotateY(36deg) rotateZ(-2deg) translateY(-5px)}
+80%{transform:rotateX(-15deg) rotateY(28deg) rotateZ(2deg)}
+90%{transform:rotateX(-20deg) rotateY(34deg) rotateZ(-1deg)}
+}
+
+/* Phase 4: Lid opens */
+.cube-scene.opening .cb-lid{transform:rotateY(-135deg)}
+.cube-scene.opening .cube-wrap{animation:none;transform:rotateX(-18deg) rotateY(32deg) translateY(-6px);transition:transform 1s cubic-bezier(.22,1,.36,1)}
+.cube-scene.opening .cb-inner-glow{width:320px;height:320px;top:-100px;opacity:1}
+.cube-scene.opening .cb-inner-light{opacity:1}
+.cube-scene.opening .cb-seam{opacity:0}
+.cube-scene.opening::after{width:180px;filter:blur(8px);opacity:.6}
+
+/* Countdown text */
+.suspense-text{font-family:'Playfair Display',serif;font-size:15px;color:var(--gold);opacity:0;transition:opacity .4s;text-align:center;min-height:24px;margin-bottom:4px}
+.suspense-text.show{opacity:1}
 
 /* Light rays from inside */
-.ch-rays{position:absolute;top:10px;left:50%;transform:translateX(-50%);width:140px;height:80px;opacity:0;transition:opacity .8s .3s;pointer-events:none;z-index:6}
-.chest-scene.opening .ch-rays{opacity:1}
-.ch-ray{position:absolute;bottom:0;left:50%;width:3px;background:linear-gradient(180deg,transparent,rgba(245,216,138,.5));transform-origin:bottom center;animation:none;border-radius:2px}
-.chest-scene.opening .ch-ray{animation:rayPulse 2s ease-in-out infinite alternate}
-@keyframes rayPulse{0%{opacity:.3;height:40px}100%{opacity:.8;height:60px}}
+.cb-rays{position:absolute;top:20px;left:50%;transform:translateX(-50%);width:140px;height:100px;opacity:0;transition:opacity .8s;pointer-events:none;z-index:6}
+.cube-scene.phase3 .cb-rays{opacity:.4}
+.cube-scene.opening .cb-rays{opacity:1}
+.cb-ray{position:absolute;bottom:0;left:50%;width:3px;background:linear-gradient(180deg,transparent,rgba(245,216,138,.6));transform-origin:bottom center;border-radius:2px;animation:rayPulse 2s ease-in-out infinite alternate}
+@keyframes rayPulse{0%{opacity:.3;height:50px}100%{opacity:.9;height:80px}}
 
 /* Prize reveal */
-.prize-reveal{opacity:0;transform:translateY(30px) scale(.5);transition:all .6s cubic-bezier(.34,1.56,.64,1)}
+.prize-reveal{opacity:0;transform:translateY(30px) scale(.5);transition:all .8s cubic-bezier(.34,1.56,.64,1)}
 .prize-reveal.show{opacity:1;transform:translateY(0) scale(1)}
 .prize-icon-big{width:72px;height:72px;border-radius:50%;background:linear-gradient(135deg,var(--gold-dim),rgba(219,182,104,.15));border:2px solid rgba(219,182,104,.25);display:flex;align-items:center;justify-content:center;margin:0 auto 16px;animation:prizeFloat 2s ease-in-out infinite}
 .prize-icon-big svg{width:32px;height:32px;stroke:var(--gold);fill:none;stroke-width:1.8}
@@ -653,46 +666,30 @@ function mysteryBoxShow() {
 
   // Build light rays HTML
   var rays = '';
-  for (var i = 0; i < 7; i++) {
-    var angle = -45 + (i * 15);
-    var h = 30 + Math.random() * 30;
+  for (var i = 0; i < 8; i++) {
+    var angle = -52 + (i * 15);
+    var h = 40 + Math.random() * 40;
     var d = (Math.random() * 1.5).toFixed(1);
-    rays += '<div class="ch-ray" style="transform:rotate(' + angle + 'deg);height:' + h + 'px;animation-delay:' + d + 's"></div>';
+    rays += '<div class="cb-ray" style="transform:rotate(' + angle + 'deg);height:' + h + 'px;animation-delay:' + d + 's"></div>';
   }
 
   var html = '<div class="mystery-stage">' +
     '<h2 style="font-family:Playfair Display,serif;color:var(--gold);margin-bottom:6px;font-size:20px">Mystery Box</h2>' +
-    '<p style="color:var(--text3);font-size:13px;margin-bottom:4px">Tap the chest to reveal your prize!</p>' +
-    '<div class="chest-scene" id="mysteryBox" onclick="openMysteryBox()">' +
-      '<div class="chest-wrap">' +
-        '<div class="ch-glow"></div>' +
-        '<!-- Body -->' +
-        '<div class="ch-body">' +
-          '<div class="ch-face ch-front">' +
-            '<div class="ch-band-v"></div>' +
-            '<div class="ch-trim ch-trim-top"></div>' +
-            '<div class="ch-trim ch-trim-bot"></div>' +
-            '<div class="ch-stud ch-stud-tl"></div>' +
-            '<div class="ch-stud ch-stud-tr"></div>' +
-            '<div class="ch-stud ch-stud-bl"></div>' +
-            '<div class="ch-stud ch-stud-br"></div>' +
-            '<div class="ch-lock"><div class="ch-lock-loop"></div><div class="ch-lock-plate"><div class="ch-lock-hole"></div></div></div>' +
-          '</div>' +
-          '<div class="ch-face ch-back"></div>' +
-          '<div class="ch-face ch-left"></div>' +
-          '<div class="ch-face ch-right"></div>' +
-          '<div class="ch-face ch-bottom"></div>' +
-          '<div class="ch-inner-glow"></div>' +
+    '<p style="color:var(--text3);font-size:13px;margin-bottom:4px">Tap the box to reveal your prize!</p>' +
+    '<div class="suspense-text" id="suspenseText"></div>' +
+    '<div class="cube-scene" id="mysteryBox" onclick="openMysteryBox()">' +
+      '<div class="cube-wrap">' +
+        '<div class="cb-inner-glow"></div>' +
+        '<div class="cb-face cb-front"><div class="cb-seam"></div></div>' +
+        '<div class="cb-face cb-back"></div>' +
+        '<div class="cb-face cb-right"></div>' +
+        '<div class="cb-face cb-left"></div>' +
+        '<div class="cb-face cb-bottom"></div>' +
+        '<div class="cb-inner-light"></div>' +
+        '<div class="cb-lid">' +
+          '<div class="cb-face cb-lid-top"></div>' +
         '</div>' +
-        '<!-- Lid -->' +
-        '<div class="ch-lid-group">' +
-          '<div class="ch-lid-top">' +
-            '<div class="ch-lid-band"></div>' +
-            '<div class="ch-lid-trim"></div>' +
-          '</div>' +
-        '</div>' +
-        '<!-- Rays -->' +
-        '<div class="ch-rays">' + rays + '</div>' +
+        '<div class="cb-rays">' + rays + '</div>' +
         '<div class="mystery-particles" id="mysteryParticles"></div>' +
       '</div>' +
     '</div>' +
@@ -710,26 +707,48 @@ function mysteryBoxShow() {
 
 function openMysteryBox() {
   var box = document.getElementById("mysteryBox");
-  if (box.classList.contains("shaking") || box.classList.contains("opening")) return;
-
-  // Stage 1: Shake with 3D rumble
-  box.classList.add("shaking");
+  if (box.classList.contains("phase1") || box.classList.contains("opening")) return;
   box.style.cursor = "default";
+  var txt = document.getElementById("suspenseText");
 
-  // Stage 2: Open lid in 3D after shake
+  // Phase 1 (0-2s): Gentle floating + suspense text
+  box.classList.add("phase1");
+  txt.textContent = "Something is stirring...";
+  txt.classList.add("show");
+  spawnSparkles();
+
+  // Phase 2 (2-3.5s): Moderate shaking + glow building
   setTimeout(function() {
-    box.classList.remove("shaking");
-    box.classList.add("opening");
+    box.classList.remove("phase1");
+    box.classList.add("phase2");
+    txt.textContent = "Energy building...";
     spawnSparkles();
-  }, 800);
+  }, 2000);
 
-  // Stage 3: Reveal prize with confetti
+  // Phase 3 (3.5-5s): Violent shaking + bright glow + rays
+  setTimeout(function() {
+    box.classList.remove("phase2");
+    box.classList.add("phase3");
+    txt.textContent = "Almost there...!";
+    spawnSparkles();
+  }, 3500);
+
+  // Phase 4 (5s): Lid opens!
+  setTimeout(function() {
+    box.classList.remove("phase3");
+    box.classList.add("opening");
+    txt.textContent = "";
+    txt.classList.remove("show");
+    spawnSparkles();
+  }, 5000);
+
+  // Phase 5 (5.8s): Reveal prize + confetti
   setTimeout(function() {
     document.getElementById("prizeReveal").classList.add("show");
     document.getElementById("prizeBtns").style.display = "";
     confetti();
-    spawnSparkles(); // second burst
-  }, 1600);
+    spawnSparkles();
+  }, 5800);
 }
 
 function spawnSparkles() {
