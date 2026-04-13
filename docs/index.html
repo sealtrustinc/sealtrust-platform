@@ -191,6 +191,29 @@ footer{position:relative;z-index:1;border-top:1px solid var(--border);padding:64
 .cta-box{padding:48px 28px}
 .footer-grid{grid-template-columns:1fr}
 }
+
+/* ── Rewards Store ────────────── */
+.rewards-hero{text-align:center;margin-bottom:64px}
+.rewards-hero .section-title{font-size:clamp(36px,4vw,56px)}
+.gold-glow{background:linear-gradient(135deg,var(--gold),var(--gold2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.rewards-tagline{display:inline-flex;align-items:center;gap:12px;padding:10px 24px;border-radius:32px;background:linear-gradient(135deg,rgba(219,182,104,.12),rgba(219,182,104,.04));border:1px solid rgba(219,182,104,.15);font-size:14px;color:var(--gold2);font-weight:600;margin-top:24px}
+.rewards-tagline i{font-size:18px}
+.rewards-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;margin-top:48px}
+.reward-card{position:relative;padding:36px 28px;border-radius:24px;background:var(--surface);border:1px solid var(--border);text-align:center;transition:all .5s var(--ease);overflow:hidden}
+.reward-card::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 0%,var(--card-glow,rgba(219,182,104,.06)),transparent 70%);opacity:0;transition:opacity .5s}
+.reward-card:hover{transform:translateY(-8px);border-color:var(--border2);box-shadow:0 32px 80px -16px rgba(0,0,0,.5)}
+.reward-card:hover::before{opacity:1}
+.reward-icon{width:72px;height:72px;border-radius:20px;margin:0 auto 20px;display:flex;align-items:center;justify-content:center;font-size:28px;position:relative}
+.reward-icon::after{content:'';position:absolute;inset:-4px;border-radius:24px;background:inherit;filter:blur(16px);opacity:.4;z-index:-1}
+.reward-card h3{font-size:18px;font-weight:700;margin-bottom:8px;position:relative}
+.reward-card p{font-size:13px;color:var(--text2);line-height:1.7;position:relative}
+.reward-cost{display:inline-flex;align-items:center;gap:6px;margin-top:16px;padding:6px 14px;border-radius:20px;font-size:12px;font-weight:700;position:relative}
+.reward-pulse{position:absolute;top:16px;right:16px;width:8px;height:8px;border-radius:50%;background:var(--emerald);animation:pulse 2s infinite}
+.rewards-banner{margin-top:56px;padding:40px 48px;border-radius:24px;background:linear-gradient(135deg,rgba(219,182,104,.1),rgba(219,182,104,.03));border:1px solid rgba(219,182,104,.12);display:flex;align-items:center;justify-content:space-between;gap:32px}
+.rewards-banner-text h3{font-family:var(--serif);font-size:24px;font-weight:700;margin-bottom:8px}
+.rewards-banner-text p{font-size:14px;color:var(--text2)}
+@media(max-width:1024px){.rewards-grid{grid-template-columns:1fr 1fr}.rewards-banner{flex-direction:column;text-align:center}}
+@media(max-width:640px){.rewards-grid{grid-template-columns:1fr}.rewards-banner{padding:28px 20px}}
 </style>
 </head>
 <body>
@@ -212,7 +235,8 @@ footer{position:relative;z-index:1;border-top:1px solid var(--border);padding:64
     <a href="#how">How It Works</a>
     <a href="#features">Features</a>
     <a href="#testimonials">Reviews</a>
-    <a href="/download" class="nav-cta" style="border-radius:8px">Get the App</a>
+    <a href="#rewards">Rewards</a>
+        <a href="/download" class="nav-cta" style="border-radius:8px">Get the App</a>
   </div>
   <button class="mobile-toggle" onclick="document.querySelector('.nav-links').style.display=document.querySelector('.nav-links').style.display==='flex'?'none':'flex'" aria-label="Menu"><i class="fas fa-bars"></i></button>
 </div>
@@ -378,6 +402,52 @@ footer{position:relative;z-index:1;border-top:1px solid var(--border);padding:64
       <blockquote>&ldquo;I love knowing my food hasn't been touched. The seal gives me peace of mind every single time. Every delivery app should require this.&rdquo;</blockquote>
     </div>
   </div>
+</div>
+</section>
+
+<!-- Rewards Store -->
+<section id="rewards" style="background:var(--bg2)">
+<div class="container">
+<div class="rewards-hero">
+<div class="section-label reveal" style="justify-content:center">Rewards Store</div>
+<h2 class="section-title reveal" style="max-width:700px;margin-left:auto;margin-right:auto">Earn Points.<br><span class="gold-glow">Win Prizes. Get Paid.</span></h2>
+<p class="section-sub reveal" style="margin-left:auto;margin-right:auto;text-align:center">Every verified delivery earns you points. Redeem them for real cash, free deliveries, mystery prizes, and exclusive perks.</p>
+<div class="rewards-tagline reveal"><i class="fas fa-fire"></i> Over $12,000 in rewards claimed this month</div>
+</div>
+<div class="rewards-grid">
+<div class="reward-card reveal" style="--card-glow:rgba(74,222,128,.08)">
+<div class="reward-pulse"></div>
+<div class="reward-icon" style="background:var(--emerald-dim);color:var(--emerald)"><i class="fas fa-money-bill-wave"></i></div>
+<h3>Cash Rewards</h3>
+<p>Convert your points directly to cash. Deposited straight to your bank account every Friday.</p>
+<div class="reward-cost" style="background:var(--emerald-dim);color:var(--emerald)"><i class="fas fa-coins"></i> From 500 pts</div>
+</div>
+<div class="reward-card reveal reveal-d1" style="--card-glow:rgba(219,182,104,.08)">
+<div class="reward-icon" style="background:var(--gold-dim);color:var(--gold)"><i class="fas fa-gift"></i></div>
+<h3>Mystery Box</h3>
+<p>Feeling lucky? Unlock mystery boxes for a chance to win gift cards, bonus cash, and premium prizes.</p>
+<div class="reward-cost" style="background:var(--gold-dim);color:var(--gold)"><i class="fas fa-coins"></i> 200 pts</div>
+</div>
+<div class="reward-card reveal reveal-d2" style="--card-glow:rgba(125,211,252,.08)">
+<div class="reward-icon" style="background:var(--blue-dim);color:var(--blue)"><i class="fas fa-truck-fast"></i></div>
+<h3>Free Deliveries</h3>
+<p>Redeem points for free delivery credits. Use them on any partner restaurant order.</p>
+<div class="reward-cost" style="background:var(--blue-dim);color:var(--blue)"><i class="fas fa-coins"></i> 300 pts</div>
+</div>
+<div class="reward-card reveal reveal-d3" style="--card-glow:rgba(196,181,253,.08)">
+<div class="reward-icon" style="background:var(--violet-dim);color:var(--violet)"><i class="fas fa-crown"></i></div>
+<h3>VIP Status</h3>
+<p>Reach VIP tier for priority support, exclusive deals, double points weekends, and early access to features.</p>
+<div class="reward-cost" style="background:var(--violet-dim);color:var(--violet)"><i class="fas fa-coins"></i> 1,000 pts</div>
+</div>
+</div>
+<div class="rewards-banner reveal">
+<div class="rewards-banner-text">
+<h3 class="serif">Start earning with your first scan <span class="gold">today</span></h3>
+<p>Download the app, verify a delivery, and watch your points grow. It's that simple.</p>
+</div>
+<a href="/app" class="btn btn-primary"><i class="fas fa-rocket"></i> Open Rewards Store</a>
+</div>
 </div>
 </section>
 
