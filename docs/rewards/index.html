@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Rewards Store — SealTrust</title>
+<meta name="description" content="Redeem your SealTrust points for cash, gift cards, and exclusive partner rewards. Earn points with every verified delivery.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+--bg:#050508;--bg2:#0a0a12;--surface:rgba(255,255,255,.03);--surface2:rgba(255,255,255,.05);
+--border:rgba(255,255,255,.06);--border2:rgba(255,255,255,.1);
+--text:#f4f4f8;--text2:#9d9db5;--text3:#5a5a72;
+--gold:#dbb668;--gold2:#f5d88a;--gold-dim:rgba(219,182,104,.08);--gold-glow:rgba(219,182,104,.15);
+--emerald:#4ade80;--emerald-dim:rgba(74,222,128,.07);
+--blue:#7dd3fc;--blue-dim:rgba(125,211,252,.07);
+--violet:#c4b5fd;--violet-dim:rgba(196,181,253,.07);
+--red:#fb7185;--red-dim:rgba(251,113,133,.07);
+--orange:#f8712e;--orange-dim:rgba(248,113,46,.07);
+--serif:'Playfair Display',Georgia,serif;--sans:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;
+--ease:cubic-bezier(.16,1,.3,1);
+}
+html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
+body{font-family:var(--sans);background:var(--bg);color:var(--text);overflow-x:hidden;line-height:1.6}
+.container{max-width:1200px;margin:0 auto;padding:0 32px}
+.serif{font-family:var(--serif)}
+.gold{color:var(--gold2)}
+.text2{color:var(--text2)}
+
+/* ── Background ─────────────── */
+.bg-grid{position:fixed;inset:0;z-index:0;pointer-events:none;
+background-image:linear-gradient(rgba(255,255,255,.02) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.02) 1px,transparent 1px);
+background-size:72px 72px;mask-image:radial-gradient(ellipse 60% 50% at 50% 0%,#000 30%,transparent 100%)}
+.orb{position:fixed;border-radius:50%;filter:blur(120px);pointer-events:none;z-index:0}
+.orb-1{width:600px;height:600px;top:-200px;left:-100px;background:rgba(219,182,104,.06);animation:drift1 25s ease-in-out infinite}
+.orb-2{width:500px;height:500px;bottom:-200px;right:-100px;background:rgba(74,222,128,.04);animation:drift2 30s ease-in-out infinite}
+@keyframes drift1{0%,100%{transform:translate(0,0)}50%{transform:translate(80px,60px)}}
+@keyframes drift2{0%,100%{transform:translate(0,0)}50%{transform:translate(-60px,-80px)}}
+
+/* ── Nav ────────────────────── */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:20px 0;background:rgba(5,5,8,.85);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border-bottom:1px solid var(--border)}
+.nav-inner{display:flex;align-items:center;justify-content:space-between}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--text)}
+.logo-icon{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,var(--gold),#b8860d);display:flex;align-items:center;justify-content:center;font-size:16px;color:#1a1500;box-shadow:0 4px 20px rgba(219,182,104,.25)}
+.logo-text{font-family:var(--serif);font-size:20px;font-weight:600}
+.nav-links{display:flex;gap:8px;align-items:center}
+.nav-links a{color:var(--text2);text-decoration:none;font-size:13px;font-weight:500;padding:8px 16px;border-radius:8px;transition:all .25s}
+.nav-links a:hover{color:var(--text);background:var(--surface2)}
+.nav-cta{background:linear-gradient(135deg,var(--gold),#c9a84c)!important;color:#1a1500!important;font-weight:600!important;box-shadow:0 4px 24px rgba(219,182,104,.2)}
+.mobile-toggle{display:none;background:none;border:none;color:var(--text);font-size:22px;cursor:pointer}
+
+/* ── Buttons ────────────────── */
+.btn{display:inline-flex;align-items:center;gap:10px;padding:14px 28px;border-radius:12px;font-size:14px;font-weight:600;cursor:pointer;border:none;transition:all .35s var(--ease);text-decoration:none;position:relative;overflow:hidden}
+.btn::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(255,255,255,.12),transparent);pointer-events:none}
+.btn-primary{background:linear-gradient(135deg,var(--gold),#c9a84c);color:#1a1500;box-shadow:0 8px 32px rgba(219,182,104,.2)}
+.btn-primary:hover{box-shadow:0 12px 48px rgba(219,182,104,.35);transform:translateY(-2px)}
+.btn-ghost{background:var(--surface2);color:var(--text);border:1px solid var(--border2)}
+.btn-ghost:hover{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.18);transform:translateY(-2px)}
+.btn-sm{padding:10px 20px;font-size:13px;border-radius:10px}
+
+/* ── Section ────────────────── */
+section{position:relative;z-index:1;padding:100px 0}
+.section-label{display:inline-flex;align-items:center;gap:8px;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.14em;color:var(--gold);margin-bottom:16px}
+.section-label::before{content:'';width:20px;height:1px;background:var(--gold)}
+.section-title{font-family:var(--serif);font-size:clamp(32px,3.5vw,48px);font-weight:700;line-height:1.12;letter-spacing:-.025em;margin-bottom:20px}
+.section-sub{font-size:16px;color:var(--text2);line-height:1.7;max-width:560px}
+
+/* ── Hero ───────────────────── */
+.store-hero{padding:140px 0 80px;text-align:center;position:relative;z-index:1}
+.store-hero .section-label{justify-content:center}
+.store-hero h1{font-family:var(--serif);font-size:clamp(40px,5vw,64px);font-weight:700;line-height:1.08;letter-spacing:-.03em;margin-bottom:20px}
+.store-hero h1 em{font-style:italic;background:linear-gradient(135deg,var(--gold),var(--gold2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.store-hero p{font-size:17px;color:var(--text2);max-width:560px;margin:0 auto 32px;line-height:1.7}
+
+/* Points banner */
+.points-banner{display:inline-flex;align-items:center;gap:20px;padding:16px 32px;border-radius:20px;background:linear-gradient(135deg,rgba(219,182,104,.1),rgba(219,182,104,.03));border:1px solid rgba(219,182,104,.15);margin-bottom:40px}
+.points-display{text-align:left}
+.points-display .label{font-size:11px;text-transform:uppercase;letter-spacing:.1em;color:var(--text3);font-weight:600}
+.points-display .value{font-family:var(--serif);font-size:36px;font-weight:700;color:var(--gold2);line-height:1.1}
+.points-divider{width:1px;height:40px;background:rgba(219,182,104,.2)}
+.points-display .sub{font-size:12px;color:var(--text2);margin-top:2px}
+
+/* ── Stats row ──────────────── */
+.stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:48px;max-width:700px;margin-left:auto;margin-right:auto}
+.stat-card{padding:24px;border-radius:16px;background:var(--surface);border:1px solid var(--border);text-align:center}
+.stat-card .num{font-family:var(--serif);font-size:28px;font-weight:700;color:var(--gold2)}
+.stat-card .lbl{font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:.1em;margin-top:4px}
+
+/* ── Cash Redeem ────────────── */
+.cash-section{background:var(--bg2)}
+.cash-grid{display:grid;grid-template-columns:1fr 1fr;gap:32px;margin-top:48px}
+.cash-card{padding:40px 36px;border-radius:24px;background:var(--surface);border:1px solid var(--border);transition:all .5s var(--ease);position:relative;overflow:hidden}
+.cash-card:hover{border-color:var(--border2);transform:translateY(-4px);box-shadow:0 24px 64px -16px rgba(0,0,0,.4)}
+.cash-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--card-accent,var(--gold)),transparent)}
+.cash-icon{width:64px;height:64px;border-radius:18px;display:flex;align-items:center;justify-content:center;font-size:24px;margin-bottom:20px;position:relative}
+.cash-icon::after{content:'';position:absolute;inset:-4px;border-radius:22px;background:inherit;filter:blur(16px);opacity:.3;z-index:-1}
+.cash-card h3{font-size:20px;font-weight:700;margin-bottom:8px}
+.cash-card p{font-size:14px;color:var(--text2);line-height:1.7;margin-bottom:20px}
+.cash-tiers{display:flex;flex-direction:column;gap:10px}
+.tier{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border-radius:12px;background:rgba(255,255,255,.02);border:1px solid var(--border)}
+.tier-left{display:flex;align-items:center;gap:10px}
+.tier-pts{font-size:13px;font-weight:700;color:var(--gold2)}
+.tier-arrow{color:var(--text3);font-size:10px}
+.tier-val{font-size:14px;font-weight:700}
+.tier-bonus{font-size:10px;padding:3px 8px;border-radius:6px;background:rgba(74,222,128,.1);color:var(--emerald);font-weight:600}
+
+/* ── Partner Cards ──────────── */
+.partners-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:48px}
+.partner-card{padding:28px;border-radius:20px;background:var(--surface);border:1px solid var(--border);transition:all .5s var(--ease);text-align:center;position:relative;overflow:hidden}
+.partner-card:hover{border-color:var(--border2);transform:translateY(-6px);box-shadow:0 24px 64px -16px rgba(0,0,0,.4)}
+.partner-card::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 0%,var(--card-glow,rgba(255,255,255,.03)),transparent 70%);opacity:0;transition:opacity .5s}
+.partner-card:hover::before{opacity:1}
+.partner-logo{width:80px;height:80px;border-radius:20px;margin:0 auto 16px;display:flex;align-items:center;justify-content:center;font-size:32px;position:relative}
+.partner-card h3{font-size:16px;font-weight:700;margin-bottom:4px;position:relative}
+.partner-card .cat{font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:12px;position:relative}
+.partner-card .desc{font-size:13px;color:var(--text2);line-height:1.6;margin-bottom:16px;position:relative}
+.partner-amt{display:flex;align-items:center;justify-content:center;gap:16px;position:relative}
+.partner-amt .from{font-size:12px;color:var(--text3)}
+.partner-amt .price{font-size:18px;font-weight:700;color:var(--gold2)}
+.partner-tag{position:absolute;top:16px;right:16px;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;padding:4px 10px;border-radius:6px;z-index:2}
+
+/* ── How to Earn ────────────── */
+.earn-section{background:var(--bg2)}
+.earn-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:48px}
+.earn-card{padding:32px 28px;border-radius:20px;background:var(--surface);border:1px solid var(--border);text-align:center;transition:all .4s var(--ease)}
+.earn-card:hover{background:var(--surface2);transform:translateY(-4px)}
+.earn-icon{width:56px;height:56px;border-radius:16px;margin:0 auto 16px;display:flex;align-items:center;justify-content:center;font-size:22px}
+.earn-card h3{font-size:16px;font-weight:700;margin-bottom:8px}
+.earn-card p{font-size:13px;color:var(--text2);line-height:1.7}
+.earn-pts{font-family:var(--serif);font-size:24px;font-weight:700;color:var(--gold2);margin-top:12px}
+
+/* ── CTA ────────────────────── */
+.cta-section{text-align:center}
+.cta-box{padding:80px 60px;border-radius:28px;background:linear-gradient(165deg,rgba(219,182,104,.06) 0%,rgba(219,182,104,.02) 50%,var(--surface) 100%);border:1px solid rgba(219,182,104,.1);position:relative;overflow:hidden}
+.cta-box::before{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:radial-gradient(ellipse at center,rgba(219,182,104,.04) 0%,transparent 60%);pointer-events:none}
+.cta-box h2{font-family:var(--serif);font-size:clamp(28px,3vw,42px);font-weight:700;line-height:1.15;margin-bottom:16px;position:relative}
+.cta-box p{font-size:16px;color:var(--text2);margin-bottom:36px;max-width:480px;margin-left:auto;margin-right:auto;position:relative}
+.cta-actions{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;position:relative}
+
+/* ── Footer ─────────────────── */
+footer{position:relative;z-index:1;border-top:1px solid var(--border);padding:40px 0}
+.footer-inner{display:flex;justify-content:space-between;align-items:center}
+.footer-inner span{font-size:12px;color:var(--text3)}
+.footer-social{display:flex;gap:16px}
+.footer-social a{color:var(--text3);font-size:16px;transition:color .2s;text-decoration:none}
+.footer-social a:hover{color:var(--gold)}
+
+/* ── Animations ─────────────── */
+.reveal{opacity:0;transform:translateY(32px);transition:opacity .8s var(--ease),transform .8s var(--ease)}
+.reveal.visible{opacity:1;transform:translateY(0)}
+.reveal-d1{transition-delay:.1s}.reveal-d2{transition-delay:.2s}.reveal-d3{transition-delay:.3s}.reveal-d4{transition-delay:.4s}.reveal-d5{transition-delay:.5s}
+
+/* ── Responsive ─────────────── */
+@media(max-width:1024px){
+.cash-grid{grid-template-columns:1fr}
+.partners-grid{grid-template-columns:1fr 1fr}
+.earn-grid{grid-template-columns:1fr}
+.stats-row{grid-template-columns:1fr 1fr 1fr}
+}
+@media(max-width:640px){
+.container{padding:0 20px}
+.nav-links{display:none}
+.mobile-toggle{display:block}
+.partners-grid{grid-template-columns:1fr}
+.stats-row{grid-template-columns:1fr}
+.cta-box{padding:48px 28px}
+.points-banner{flex-direction:column;gap:12px;padding:20px 24px}
+.points-divider{width:100%;height:1px}
+}
+</style>
+</head>
+<body>
+<div class="bg-grid"></div>
+<div class="orb orb-1"></div>
+<div class="orb orb-2"></div>
+
+<!-- Nav -->
+<nav>
+<div class="container nav-inner">
+<a href="/" class="logo">
+<div class="logo-icon"><i class="fas fa-shield-halved"></i></div>
+<span class="logo-text serif">SealTrust</span>
+</a>
+<div class="nav-links">
+<a href="/">Home</a>
+<a href="/#features">Features</a>
+<a href="/rewards" style="color:var(--gold2)">Rewards</a>
+<a href="/app" class="nav-cta" style="border-radius:8px">Open App</a>
+</div>
+<button class="mobile-toggle" onclick="document.querySelector('.nav-links').style.display=document.querySelector('.nav-links').style.display==='flex'?'none':'flex'" aria-label="Menu"><i class="fas fa-bars"></i></button>
+</div>
+</nav>
+
+<!-- Hero -->
+<section class="store-hero">
+<div class="container">
+<div class="section-label reveal">Rewards Store</div>
+<h1 class="reveal">Your Points.<br><em>Real Rewards.</em></h1>
+<p class="reveal">Turn every verified delivery into cash, gift cards, and exclusive partner perks. The more you scan, the more you earn.</p>
+
+<div class="points-banner reveal">
+<div class="points-display">
+<div class="label">Your Balance</div>
+<div class="value">1,250</div>
+</div>
+<div class="points-divider"></div>
+<div class="points-display">
+<div class="label">Lifetime Earned</div>
+<div class="value" style="color:var(--emerald)">4,800</div>
+<div class="sub">Top 12% of all users</div>
+</div>
+</div>
+
+<div class="stats-row">
+<div class="stat-card reveal">
+<div class="num" style="color:var(--emerald)">$42K+</div>
+<div class="lbl">Cash Paid Out</div>
+</div>
+<div class="stat-card reveal reveal-d1">
+<div class="num" style="color:var(--gold2)">18K+</div>
+<div class="lbl">Gift Cards Redeemed</div>
+</div>
+<div class="stat-card reveal reveal-d2">
+<div class="num" style="color:var(--blue)">12</div>
+<div class="lbl">Partner Brands</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- Cash Redeem -->
+<section class="cash-section" id="cash">
+<div class="container">
+<div class="section-label reveal">Cash Out</div>
+<h2 class="section-title reveal">Turn points into<br>real money.</h2>
+<p class="section-sub reveal">No gift card gymnastics. Get paid directly to your bank account or PayPal. The more points you redeem, the better the bonus.</p>
+
+<div class="cash-grid">
+<div class="cash-card reveal" style="--card-accent:var(--emerald)">
+<div class="cash-icon" style="background:var(--emerald-dim);color:var(--emerald)"><i class="fas fa-building-columns"></i></div>
+<h3>Bank Transfer</h3>
+<p>Direct deposit to your checking or savings account. Transfers process within 1-2 business days via ACH.</p>
+<div class="cash-tiers">
+<div class="tier">
+<div class="tier-left"><span class="tier-pts">500 pts</span><span class="tier-arrow"><i class="fas fa-arrow-right"></i></span><span class="tier-val">$5.00</span></div>
+</div>
+<div class="tier">
+<div class="tier-left"><span class="tier-pts">1,000 pts</span><span class="tier-arrow"><i class="fas fa-arrow-right"></i></span><span class="tier-val">$10.50</span></div>
+<span class="tier-bonus">+5% bonus</span>
+</div>
+<div class="tier">
+<div class="tier-left"><span class="tier-pts">2,500 pts</span><span class="tier-arrow"><i class="fas fa-arrow-right"></i></span><span class="tier-val">$27.50</span></div>
+<span class="tier-bonus">+10% bonus</span>
+</div>
+<div class="tier">
+<div class="tier-left"><span class="tier-pts">5,000 pts</span><span class="tier-arrow"><i class="fas fa-arrow-right"></i></span><span class="tier-val">$60.00</span></div>
+<span class="tier-bonus">+20% bonus</span>
+</div>
+</div>
+</div>
+
+<div class="cash-card reveal reveal-d1" style="--card-accent:var(--blue)">
+<div class="cash-icon" style="background:var(--blue-dim);color:var(--blue)"><i class="fab fa-paypal"></i></div>
+<h3>PayPal Instant</h3>
+<p>Get cash in your PayPal wallet within minutes. Perfect for quick access to your earnings.</p>
+<div class="cash-tiers">
+<div class="tier">
+<div class="tier-left"><span class="tier-pts">500 pts</span><span class="tier-arrow"><i class="fas fa-arrow-right"></i></span><span class="tier-val">$5.00</span></div>
+</div>
+<div class="tier">
+<div class="tier-left"><span class="tier-pts">1,000 pts</span><span class="tier-arrow"><i class="fas fa-arrow-right"></i></span><span class="tier-val">$10.50</span></div>
+<span class="tier-bonus">+5% bonus</span>
+</div>
+<div class="tier">
+<div class="tier-left"><span class="tier-pts">2,500 pts</span><span class="tier-arrow"><i class="fas fa-arrow-right"></i></span><span class="tier-val">$27.50</span></div>
+<span class="tier-bonus">+10% bonus</span>
+</div>
+<div class="tier">
+<div class="tier-left"><span class="tier-pts">5,000 pts</span><span class="tier-arrow"><i class="fas fa-arrow-right"></i></span><span class="tier-val">$60.00</span></div>
+<span class="tier-bonus">+20% bonus</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- Partner Gift Cards -->
+<section id="partners">
+<div class="container">
+<div class="section-label reveal">Partner Rewards</div>
+<h2 class="section-title reveal">Gift cards from brands<br>you already love.</h2>
+<p class="section-sub reveal">Redeem your points for gift cards at top restaurants, retailers, and delivery platforms. Delivered instantly to your email.</p>
+
+<div class="partners-grid">
+<!-- Food & Delivery -->
+<div class="partner-card reveal" style="--card-glow:rgba(255,69,0,.06)">
+<div class="partner-tag" style="background:var(--red-dim);color:var(--red)">Popular</div>
+<div class="partner-logo" style="background:linear-gradient(135deg,#ff4500,#e03e00);color:white;border-radius:20px"><i class="fas fa-motorcycle"></i></div>
+<h3>DoorDash</h3>
+<div class="cat">Food Delivery</div>
+<div class="desc">Credits for your next DoorDash order. Works on any restaurant.</div>
+<div class="partner-amt"><span class="from">From</span><span class="price">300 pts = $5</span></div>
+</div>
+
+<div class="partner-card reveal reveal-d1" style="--card-glow:rgba(6,148,59,.06)">
+<div class="partner-logo" style="background:linear-gradient(135deg,#06943b,#058230);color:white;border-radius:20px"><i class="fas fa-car"></i></div>
+<h3>Uber Eats</h3>
+<div class="cat">Food Delivery</div>
+<div class="desc">Order from local favorites. Uber Eats credits never expire.</div>
+<div class="partner-amt"><span class="from">From</span><span class="price">300 pts = $5</span></div>
+</div>
+
+<div class="partner-card reveal reveal-d2" style="--card-glow:rgba(248,113,46,.06)">
+<div class="partner-logo" style="background:linear-gradient(135deg,#f8712e,#e06420);color:white;border-radius:20px"><i class="fas fa-utensils"></i></div>
+<h3>Grubhub</h3>
+<div class="cat">Food Delivery</div>
+<div class="desc">Discover new spots or reorder your go-to meals with Grubhub credits.</div>
+<div class="partner-amt"><span class="from">From</span><span class="price">300 pts = $5</span></div>
+</div>
+
+<div class="partner-card reveal" style="--card-glow:rgba(0,112,74,.06)">
+<div class="partner-tag" style="background:var(--emerald-dim);color:var(--emerald)">New</div>
+<div class="partner-logo" style="background:linear-gradient(135deg,#00704a,#005c3e);color:white;border-radius:20px"><i class="fas fa-mug-hot"></i></div>
+<h3>Starbucks</h3>
+<div class="cat">Coffee &amp; Food</div>
+<div class="desc">Fuel up with Starbucks gift cards. Loaded directly to your Starbucks app.</div>
+<div class="partner-amt"><span class="from">From</span><span class="price">250 pts = $5</span></div>
+</div>
+
+<div class="partner-card reveal reveal-d1" style="--card-glow:rgba(146,43,33,.06)">
+<div class="partner-logo" style="background:linear-gradient(135deg,#a0171a,#8b1215);color:white;border-radius:20px"><i class="fas fa-pepper-hot"></i></div>
+<h3>Chipotle</h3>
+<div class="cat">Restaurant</div>
+<div class="desc">Burritos, bowls, and more. Chipotle gift cards for quick meals.</div>
+<div class="partner-amt"><span class="from">From</span><span class="price">250 pts = $5</span></div>
+</div>
+
+<div class="partner-card reveal reveal-d2" style="--card-glow:rgba(255,153,0,.06)">
+<div class="partner-tag" style="background:var(--gold-dim);color:var(--gold)">Best Value</div>
+<div class="partner-logo" style="background:linear-gradient(135deg,#ff9900,#e68a00);color:white;border-radius:20px"><i class="fab fa-amazon"></i></div>
+<h3>Amazon</h3>
+<div class="cat">Retail</div>
+<div class="desc">Shop millions of products. The most versatile gift card in the store.</div>
+<div class="partner-amt"><span class="from">From</span><span class="price">500 pts = $10</span></div>
+</div>
+
+<!-- Retail -->
+<div class="partner-card reveal" style="--card-glow:rgba(204,0,0,.06)">
+<div class="partner-logo" style="background:linear-gradient(135deg,#cc0000,#aa0000);color:white;border-radius:20px"><i class="fas fa-bullseye"></i></div>
+<h3>Target</h3>
+<div class="cat">Retail</div>
+<div class="desc">From groceries to home goods. Use Target gift cards in-store or online.</div>
+<div class="partner-amt"><span class="from">From</span><span class="price">500 pts = $10</span></div>
+</div>
+
+<div class="partner-card reveal reveal-d1" style="--card-glow:rgba(0,113,206,.06)">
+<div class="partner-logo" style="background:linear-gradient(135deg,#0071ce,#005fa3);color:white;border-radius:20px"><i class="fas fa-store"></i></div>
+<h3>Walmart</h3>
+<div class="cat">Retail</div>
+<div class="desc">Everything you need under one roof. Walmart gift cards for any purchase.</div>
+<div class="partner-amt"><span class="from">From</span><span class="price">500 pts = $10</span></div>
+</div>
+
+<div class="partner-card reveal reveal-d2" style="--card-glow:rgba(26,53,93,.06)">
+<div class="partner-tag" style="background:var(--blue-dim);color:var(--blue)">Flexible</div>
+<div class="partner-logo" style="background:linear-gradient(135deg,#1a355d,#142a4a);color:var(--gold);border-radius:20px"><i class="fas fa-credit-card"></i></div>
+<h3>Visa Prepaid</h3>
+<div class="cat">Universal</div>
+<div class="desc">Works everywhere Visa is accepted. The ultimate flexibility in rewards.</div>
+<div class="partner-amt"><span class="from">From</span><span class="price">1,000 pts = $15</span></div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- How to Earn -->
+<section class="earn-section" id="earn">
+<div class="container">
+<div class="section-label reveal" style="justify-content:center">How to Earn</div>
+<h2 class="section-title reveal" style="text-align:center">Stack points fast.<br>Here's how.</h2>
+<p class="section-sub reveal" style="text-align:center;margin-left:auto;margin-right:auto">Every interaction with SealTrust earns you points. Here are the fastest ways to build your balance.</p>
+
+<div class="earn-grid">
+<div class="earn-card reveal">
+<div class="earn-icon" style="background:var(--gold-dim);color:var(--gold)"><i class="fas fa-qrcode"></i></div>
+<h3>Verify a Delivery</h3>
+<p>Scan a seal at pickup or delivery to confirm the order is intact and earn points instantly.</p>
+<div class="earn-pts">+5 pts</div>
+</div>
+<div class="earn-card reveal reveal-d1">
+<div class="earn-icon" style="background:var(--emerald-dim);color:var(--emerald)"><i class="fas fa-calendar-check"></i></div>
+<h3>Daily Streak</h3>
+<p>Verify deliveries on consecutive days. Your streak multiplier grows each day for bonus points.</p>
+<div class="earn-pts">+2x pts</div>
+</div>
+<div class="earn-card reveal reveal-d2">
+<div class="earn-icon" style="background:var(--blue-dim);color:var(--blue)"><i class="fas fa-user-plus"></i></div>
+<h3>Refer a Friend</h3>
+<p>Share your referral code. When they verify their first delivery, you both earn bonus points.</p>
+<div class="earn-pts">+100 pts</div>
+</div>
+<div class="earn-card reveal">
+<div class="earn-icon" style="background:var(--violet-dim);color:var(--violet)"><i class="fas fa-flag-checkered"></i></div>
+<h3>Weekly Challenges</h3>
+<p>Complete special weekly tasks like verifying 10 deliveries or scanning at 3 new restaurants.</p>
+<div class="earn-pts">+50 pts</div>
+</div>
+<div class="earn-card reveal reveal-d1">
+<div class="earn-icon" style="background:var(--red-dim);color:var(--red)"><i class="fas fa-exclamation-triangle"></i></div>
+<h3>Report Tampering</h3>
+<p>Found a broken seal? Report it to help keep the community safe and earn trust points.</p>
+<div class="earn-pts">+25 pts</div>
+</div>
+<div class="earn-card reveal reveal-d2">
+<div class="earn-icon" style="background:var(--orange-dim);color:var(--orange)"><i class="fas fa-star"></i></div>
+<h3>Leave a Review</h3>
+<p>Rate your delivery experience after verification. Quick reviews keep the platform honest.</p>
+<div class="earn-pts">+10 pts</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+<div class="container">
+<div class="cta-box reveal">
+<div class="section-label" style="justify-content:center">Start Earning</div>
+<h2 class="serif">Ready to turn scans<br>into <span class="gold">real rewards?</span></h2>
+<p>Download the SealTrust app, verify your first delivery, and start building your points balance today.</p>
+<div class="cta-actions">
+<a href="/app" class="btn btn-primary" style="padding:16px 36px;font-size:15px"><i class="fas fa-rocket"></i> Open Rewards App</a>
+<a href="/" class="btn btn-ghost" style="padding:16px 36px;font-size:15px"><i class="fas fa-arrow-left"></i> Back to Home</a>
+</div>
+</div>
+</div>
+</section>
+
+<!-- Footer -->
+<footer>
+<div class="container footer-inner">
+<span>&copy; 2026 SealTrust Inc. All rights reserved.</span>
+<div class="footer-social">
+<a href="#" aria-label="Twitter"><i class="fab fa-x-twitter"></i></a>
+<a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+<a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+</div>
+</div>
+</footer>
+
+<script>
+const reveals=document.querySelectorAll('.reveal');
+const observer=new IntersectionObserver((entries)=>{
+entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');observer.unobserve(e.target)}})
+},{threshold:0.1,rootMargin:'0px 0px -20px 0px'});
+reveals.forEach(el=>observer.observe(el));
+document.querySelectorAll('a[href^="#"]').forEach(a=>{
+a.addEventListener('click',e=>{e.preventDefault();const t=document.querySelector(a.getAttribute('href'));if(t)t.scrollIntoView({behavior:'smooth',block:'start'})});
+});
+</script>
+</body>
+</html>
